@@ -10,6 +10,13 @@ void replace_all(string& text, const string& fnd, const string& rep);
 string convertText(string Text);
 void exit_on_error(const std::string &Errormessage);
 
+#ifdef DEBUG
+#include "Logfile.hpp"
+
+CLog ErrLog("data/Logfile.txt");
+
+#endif // DEBUG
+
 int main()
 {
     const int Screenwidth = 640;
@@ -145,9 +152,15 @@ int main()
     allegro_init();
 
     set_color_depth(Screendepth);
-    int screenError = set_gfx_mode(GFX_AUTODETECT_FULLSCREEN, Screenwidth, Screenheight, 0, 0);
+    int screenError = set_gfx_mode(GFX_AUTODETECT_WINDOWED, Screenwidth, Screenheight, 0, 0);
     if(screenError)
     {
+        #ifdef DEBUG
+            ErrLog.TimeStamp();
+            ErrLog << "(" << ErrLog.MEMORY_FAILURE << ") Fail to open Screen " << Screenwidth << "x" << Screenheight << " Depth: " << Screendepth;
+
+        #endif // DEBUG
+
         allegro_message(allegro_error);
         allegro_exit();
 
@@ -173,9 +186,21 @@ int main()
 
     Allegro_Input MyInput;
 
+    #ifdef DEBUG
+        ErrLog.TimeStamp();
+        ErrLog << "(" << ErrLog.ALLOK << ") Programmstart.";
+
+    #endif // DEBUG
+
     BITMAP* VirtualScreen = create_bitmap(SCREEN_W, SCREEN_H);
     if(!VirtualScreen)
     {
+        #ifdef DEBUG
+            ErrLog.TimeStamp();
+            ErrLog << "(" << ErrLog.MEMORY_FAILURE << ") Fail to open virtual Screen.";
+
+        #endif // DEBUG
+
         exit_on_error("Konnte keinen Speicher für Bildschrim reservieren.");
 
     } // if !VirtualScreen
@@ -185,6 +210,13 @@ int main()
     {
         std::string DataError = "Konnte Datei <%s> nicht laden.";
         replace_all(DataError, "%s", Datafilename);
+
+        #ifdef DEBUG
+            ErrLog.TimeStamp();
+            ErrLog << "(" << ErrLog.FILE_NOT_FOUND << ") " << DataError.c_str();
+
+        #endif // DEBUG
+
         exit_on_error(DataError);
     } // if !Pictures
 
@@ -205,6 +237,11 @@ int main()
 
     font = (FONT*) Pictures[fnt_Font].dat;
 
+    #ifdef DEBUG
+        ErrLog.TimeStamp();
+        ErrLog << "(" << ErrLog.ALLOK << ") Files loaded, all ok.";
+
+    #endif // DEBUG
     clear_bitmap(VirtualScreen);
 
     for (int y = Playfield_y; y < Playfieldrows; ++y)
@@ -249,6 +286,11 @@ int main()
 
     destroy_bitmap(VirtualScreen);
 
+    #ifdef DEBUG
+        ErrLog.TimeStamp();
+        ErrLog << "(" << ErrLog.ALLOK << ") Programm exited, all ok.";
+
+    #endif // DEBUG
     return 0;
 } // main
 END_OF_MAIN()
@@ -282,3 +324,4 @@ void exit_on_error(const std::string &Errormessage)
     allegro_exit();
 
 } // exit_on_error
+
