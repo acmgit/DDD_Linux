@@ -11,9 +11,10 @@ string convertText(string Text);
 void exit_on_error(const std::string &Errormessage);
 
 #ifdef DEBUG
-#include "Logfile.hpp"
 
-CLog ErrLog("data/Logfile.txt");
+#include "Logfile.h"
+
+CLog ErrorLog("data/Logfile.txt");
 
 #endif // DEBUG
 
@@ -155,11 +156,9 @@ int main()
     int screenError = set_gfx_mode(GFX_AUTODETECT_WINDOWED, Screenwidth, Screenheight, 0, 0);
     if(screenError)
     {
-        #ifdef DEBUG
-            ErrLog.TimeStamp();
-            ErrLog << "(" << ErrLog.MEMORY_FAILURE << ") Fail to open Screen " << Screenwidth << "x" << Screenheight << " Depth: " << Screendepth;
-
-        #endif // DEBUG
+#ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Screen " << Screenwidth << "x" << Screenheight << " Depth: " << Screendepth)
+#endif // DEBUG
 
         allegro_message(allegro_error);
         allegro_exit();
@@ -186,24 +185,25 @@ int main()
 
     Allegro_Input MyInput;
 
-    #ifdef DEBUG
-        ErrLog.TimeStamp();
-        ErrLog << "(" << ErrLog.ALLOK << ") Programmstart.";
-
-    #endif // DEBUG
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Programmstart.")
+#endif // DEBUG
 
     BITMAP* VirtualScreen = create_bitmap(SCREEN_W, SCREEN_H);
     if(!VirtualScreen)
     {
-        #ifdef DEBUG
-            ErrLog.TimeStamp();
-            ErrLog << "(" << ErrLog.MEMORY_FAILURE << ") Fail to open virtual Screen.";
-
-        #endif // DEBUG
+#ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open virtual Screen.")
+#endif // DEBUG
 
         exit_on_error("Konnte keinen Speicher für Bildschrim reservieren.");
 
     } // if !VirtualScreen
+
+    textprintf(screen, font, 10, SCREEN_H / 2, DDD_lightgrey, "Loading %s", Datafilename.c_str());
+#ifdef DEBUG
+    Log("Loading " << Datafilename.c_str() << ".")
+#endif // DEBUG
 
     DATAFILE* Pictures = load_datafile(Datafilename.c_str());
     if(!Pictures)
@@ -211,37 +211,25 @@ int main()
         std::string DataError = "Konnte Datei <%s> nicht laden.";
         replace_all(DataError, "%s", Datafilename);
 
-        #ifdef DEBUG
-            ErrLog.TimeStamp();
-            ErrLog << "(" << ErrLog.FILE_NOT_FOUND << ") " << DataError.c_str();
-
-        #endif // DEBUG
+#ifdef DEBUG
+        Log("(" << ErrorLog.FILE_NOT_FOUND << ") " << DataError.c_str())
+#endif // DEBUG
 
         exit_on_error(DataError);
     } // if !Pictures
 
-    BITMAP* Frame = create_bitmap(SCREEN_W, SCREEN_H);
-    Frame = (BITMAP*) Pictures[bmp_Frame].dat;
-
-    BITMAP* Tiles = create_bitmap(WorldTilewidth, Tileheight);
-    Tiles = (BITMAP*) Pictures[bmp_TilesWorld].dat;
-
-    BITMAP* Hero = create_bitmap(HeroTilewidth, Tileheight);
-    Hero = (BITMAP*) Pictures[bmp_Hero].dat;
-
-    BITMAP* Enemy = create_bitmap(EnemyTilewidth, Tileheight);
-    Enemy = (BITMAP*) Pictures[bmp_Enemy].dat;
-
-    BITMAP* Town = create_bitmap(TownTilewidth, Tileheight);
-    Town = (BITMAP*) Pictures[bmp_TilesTown].dat;
+    BITMAP *Frame = (BITMAP*) Pictures[bmp_Frame].dat;
+    BITMAP *Tiles = (BITMAP*) Pictures[bmp_TilesWorld].dat;
+    BITMAP *Hero = (BITMAP*) Pictures[bmp_Hero].dat;
+    BITMAP *Enemy = (BITMAP*) Pictures[bmp_Enemy].dat;
+    BITMAP *Town = (BITMAP*) Pictures[bmp_TilesTown].dat;
 
     font = (FONT*) Pictures[fnt_Font].dat;
 
-    #ifdef DEBUG
-        ErrLog.TimeStamp();
-        ErrLog << "(" << ErrLog.ALLOK << ") Files loaded, all ok.";
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Files loaded.")
+#endif // DEBUG
 
-    #endif // DEBUG
     clear_bitmap(VirtualScreen);
 
     for (int y = Playfield_y; y < Playfieldrows; ++y)
@@ -280,30 +268,30 @@ int main()
 
     do
     {
-    }while(!MyInput.readKey());
+    }
+    while(!MyInput.readKey());
 
     unload_datafile(Pictures);
 
     destroy_bitmap(VirtualScreen);
 
-    #ifdef DEBUG
-        ErrLog.TimeStamp();
-        ErrLog << "(" << ErrLog.ALLOK << ") Programm exited, all ok.";
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Programm exited.")
+#endif // DEBUG
 
-    #endif // DEBUG
     return 0;
 } // main
 END_OF_MAIN()
 
 void replace_all(std::string& text,const std::string& fnd,const std::string& rep)
 {
-  size_t pos = text.find(fnd);
-  while(pos != std::string::npos)
-  {
-    text.replace(pos, fnd.length(), rep);
-    pos = text.find(fnd, pos+rep.length());
+    size_t pos = text.find(fnd);
+    while(pos != std::string::npos)
+    {
+        text.replace(pos, fnd.length(), rep);
+        pos = text.find(fnd, pos+rep.length());
 
-  } // while(pos)
+    } // while(pos)
 } // replace_all
 
 std::string convertText(std::string Text)
@@ -320,6 +308,10 @@ std::string convertText(std::string Text)
 
 void exit_on_error(const std::string &Errormessage)
 {
+#ifdef DEBUG
+    Log("(AE " << *allegro_errno << ") " << Errormessage.c_str())
+#endif // DEBUG
+
     allegro_message("%d - %s", *allegro_errno, Errormessage.c_str());
     allegro_exit();
 

@@ -6,6 +6,12 @@
 #include <string>
 #include <time.h>
 
+class CLog;
+extern CLog ErrorLog;
+
+#define Log(Message) ErrorLog.TimeStamp(); \
+    ErrorLog << Message; \
+
 // --------------------------------------------------------------------------------
 class CLog
 {
