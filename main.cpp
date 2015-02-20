@@ -3,6 +3,7 @@
 #include <string>
 
 #include "include/Allegro_Input.h"
+#include "include/Allegro_Output.h"
 
 using namespace std;
 
@@ -182,7 +183,7 @@ int main()
     const int DDD_lightgrey = makecol(200,  200,  200);
     const int DDD_silver    = makecol(150,  150,  150);
     const int DDD_darkgrey  = makecol(100,  100,  100);
-
+    const int DDD_black     = makecol(  0,    0,    0);
     Allegro_Input MyInput;
 
 #ifdef DEBUG
@@ -200,7 +201,22 @@ int main()
 
     } // if !VirtualScreen
 
-    textprintf(screen, font, 10, SCREEN_H / 2, DDD_lightgrey, "Loading %s", Datafilename.c_str());
+    Allegro_Output MyOutput(VirtualScreen, screen, Screenwidth, Screenheight);
+
+    Allegro_Output::gfx_Text renderText;
+    Allegro_Output::gfx_Object renderTile;
+
+    renderText.Foregroundcolor = DDD_yellow;
+    renderText.Backgroundcolor = DDD_black;
+    renderText.Font = font;
+    renderText.Pos_x = 10;
+    renderText.Pos_y = Screenheight / 2;
+    renderText.Text = "Loading %s";
+    replace_all(renderText.Text, "%s", Datafilename);
+
+    MyOutput.writeOnScreen(&renderText);
+    MyOutput.renderScreen();
+    //textprintf(screen, font, 10, SCREEN_H / 2, DDD_lightgrey, "Loading %s", Datafilename.c_str());
 #ifdef DEBUG
     Log("Loading " << Datafilename.c_str() << ".")
 #endif // DEBUG
@@ -232,39 +248,86 @@ int main()
 
     clear_bitmap(VirtualScreen);
 
+    renderTile.Source = Tiles;
+    renderTile.transparency = true;
+    renderTile.Sourcepos_y = 0;
+    renderTile.Width = Tilewidth;
+    renderTile.Height = Tileheight;
+    renderTile.Sourcepos_x = Shrubbery;
+
     for (int y = Playfield_y; y < Playfieldrows; ++y)
     {
         for(int x = Playfield_x; x < Playfieldcolumns; ++x)
         {
-            blit(Tiles, VirtualScreen,  Gras, 0, x * Tilewidth, y * Tilewidth, Tilewidth, Tileheight);
+            renderTile.Destinationpos_x = x * Tilewidth;
+            renderTile.Destinationpos_y = y * Tileheight;
+            MyOutput.renderObject(&renderTile);
+            //blit(Tiles, VirtualScreen,  Shrubbery, 0, x * Tilewidth, y * Tileheight, Tilewidth, Tileheight);
 
         } // for x
 
     } // for y
 
-    masked_blit(Enemy,  VirtualScreen, Skeleton,   0, 7 * Tilewidth,   4 * Tileheight, Tilewidth,  Tileheight);
-    masked_blit(Enemy,  VirtualScreen, Ghoul,      0, 6 * Tilewidth,   4 * Tileheight, Tilewidth,  Tileheight);
-    masked_blit(Enemy,  VirtualScreen, Zombie,     0, 5 * Tilewidth,   4 * Tileheight, Tilewidth,  Tileheight);
-    masked_blit(Hero,   VirtualScreen, Sword,      0, 6 * Tilewidth,   5 * Tileheight, Tilewidth,  Tileheight);
-    masked_blit(Town,   VirtualScreen, Druidshack, 0, 3 * Tilewidth,   2 * Tileheight, Tilewidth,  Tileheight);
-    masked_blit(Frame,  VirtualScreen, 0,          0, 0,               0,              640,        480);
+    renderTile.Source = Enemy;
+    renderTile.Sourcepos_x = Skeleton;
+    renderTile.Destinationpos_x = 7 * Tilewidth;
+    renderTile.Destinationpos_y = 4 * Tileheight;
+    MyOutput.renderObject(&renderTile);
+
+    renderTile.Sourcepos_x = Ghoul;
+    renderTile.Destinationpos_x = 6 * Tilewidth;
+    MyOutput.renderObject(&renderTile);
+
+    renderTile.Sourcepos_x = Zombie;
+    renderTile.Destinationpos_x = 5 * Tilewidth;
+    MyOutput.renderObject(&renderTile);
+
+    renderTile.Source = Hero;
+    renderTile.Sourcepos_x = Sword;
+    renderTile.Destinationpos_x = 6 * Tilewidth;
+    renderTile.Destinationpos_y = 5 * Tileheight;
+    MyOutput.renderObject(&renderTile);
+
+    renderTile.Source = Town;
+    renderTile.Sourcepos_x = Druidshack;
+    renderTile.Destinationpos_x = 3 * Tilewidth;
+    renderTile.Destinationpos_y = 2 * Tileheight;
+    MyOutput.renderObject(&renderTile);
+
+    renderTile.Source = Frame;
+    renderTile.Sourcepos_x = 0;
+    renderTile.Sourcepos_y = 0;
+    renderTile.Destinationpos_x = 0;
+    renderTile.Destinationpos_y = 0;
+    renderTile.Width = Screenwidth;
+    renderTile.Height = Screenheight;
+    MyOutput.renderObject(&renderTile);
+
+    renderText.Foregroundcolor = DDD_cyan;
+    renderText.Pos_x = Consoletext_x;
+    renderText.Text = convertText("15 Zeilen. Konsolentext");
 
     for(int Consoleline = 0; Consoleline < 15; ++Consoleline)
     {
-        textout_ex(VirtualScreen, font, convertText("15 Zeilen: Konsolentext.").c_str(), Consoletext_x, Consoletext_y + (Consoleline * Textheight),DDD_cyan, 0);
+        renderText.Pos_y = Consoletext_y + (Consoleline * Textheight);
+        MyOutput.writeOnScreen(&renderText);
 
     } // for i
 
     string Text = "30 Zeilen: Statustext.";
-    Text = convertText(Text);
+
+    renderText.Text = convertText(Text);
+    renderText.Pos_x = Statustext_x;
+    renderText.Foregroundcolor = DDD_gold;
 
     for(int Statusline = 0; Statusline < 30; ++Statusline)
     {
-        textout_ex(VirtualScreen, font, Text.c_str(), Statustext_x, Statustext_y + (Statusline * Textheight), DDD_gold, 0);
+        renderText.Pos_y = Statustext_y + (Statusline * Textheight);
+        MyOutput.writeOnScreen(&renderText);
 
     } // for i
 
-    blit(VirtualScreen, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+    MyOutput.renderScreen();
 
     do
     {
