@@ -30,6 +30,9 @@ int main()
     const int EnemyTilesheetwidth = 1248;
     const int TownTilesheetwidth = 416;
 
+    const int Logowidth = 240;
+    const int Logoheight = 151;
+
     const int Playfield_x = 0;
     const int Playfield_y = 0;
     const int Playfieldcolumns = 12;                // Tiles
@@ -51,9 +54,10 @@ int main()
         fnt_Font = 0,
         bmp_Frame,
         bmp_Hero,
-        bmp_Enemy,
+        bmp_Logo,
         bmp_TilesTown,
-        bmp_TilesWorld
+        bmp_TilesWorld,
+        bmp_Enemy
     }; // Datafileindex
 
     enum Worldtile
@@ -154,24 +158,25 @@ int main()
     Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
     Allegro_Input MyInput;
 
-    const int DDD_red       = makecol(255,  50,    50);
-    const int DDD_orange    = makecol(255,  100,    0);
+    const int DDD_red           = makecol(255,  50,    50);
+    const int DDD_orange        = makecol(255,  100,    0);
 
-    const int DDD_blue      = makecol(50,   50,   255);
-    const int DDD_purple    = makecol(255,  50,   255);
+    const int DDD_blue          = makecol(50,   50,   255);
+    const int DDD_purple        = makecol(255,  50,   255);
 
-    const int DDD_green     = makecol(50,   255,   50);
-    const int DDD_cyan      = makecol(50,   255,  255);
+    const int DDD_green         = makecol(50,   255,   50);
+    const int DDD_cyan          = makecol(50,   255,  255);
 
-    const int DDD_yellow    = makecol(255,  255,   50);
-    const int DDD_gold      = makecol(255,  200,   50);
-    const int DDD_brown     = makecol(200,  100,    0);
+    const int DDD_yellow        = makecol(255,  255,   50);
+    const int DDD_gold          = makecol(255,  200,   50);
+    const int DDD_brown         = makecol(200,  100,    0);
 
-    const int DDD_white     = makecol(250,  250,  250);
-    const int DDD_lightgrey = makecol(200,  200,  200);
-    const int DDD_silver    = makecol(150,  150,  150);
-    const int DDD_darkgrey  = makecol(100,  100,  100);
-    const int DDD_black     = makecol(  0,    0,    0);
+    const int DDD_white         = makecol(250,  250,  250);
+    const int DDD_lightgrey     = makecol(200,  200,  200);
+    const int DDD_silver        = makecol(150,  150,  150);
+    const int DDD_darkgrey      = makecol(100,  100,  100);
+    const int DDD_black         = makecol(  0,    0,    0);
+    const int DDD_transparent   = -1;
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
@@ -209,18 +214,66 @@ int main()
         exit_on_error(DataError);
     } // if !Pictures
 
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Files loaded.")
+#endif // DEBUG
+
     BITMAP *Frame = (BITMAP*) Pictures[bmp_Frame].dat;
     BITMAP *Tiles = (BITMAP*) Pictures[bmp_TilesWorld].dat;
     BITMAP *Hero = (BITMAP*) Pictures[bmp_Hero].dat;
     BITMAP *Enemy = (BITMAP*) Pictures[bmp_Enemy].dat;
     BITMAP *Town = (BITMAP*) Pictures[bmp_TilesTown].dat;
+    BITMAP *Logo = (BITMAP*) Pictures[bmp_Logo].dat;
 
     font = (FONT*) Pictures[fnt_Font].dat;
     MyOutput.setFont(font);
 
-#ifdef DEBUG
-    Log("(" << ErrorLog.ALLOK << ") Files loaded.")
-#endif // DEBUG
+    MyOutput.clearScreen(true);
+
+    // Set up the Logo
+    renderTile.Sheet = Logo;
+    renderTile.Sheetpos_x = 0;
+    renderTile.Sheetpos_y = 0;
+    renderTile.Width = Logowidth;                              // starting Height of the Logo
+    renderTile.Height = Logoheight;
+    renderTile.Destinationpos_y = 0;
+    renderTile.Destinationpos_x = (MyOutput.getScreenWidth() / 2) - (renderTile.Width / 2);
+    renderTile.transparency = false;
+
+    MyOutput.renderObject(&renderTile);
+    MyOutput.writeOnScreen(&renderText);
+    MyOutput.renderScreen();
+    MyOutput.clearScreen(true);
+    renderTile.Height = 0;
+
+    for(int Logomove_y = 0; Logomove_y < 150; ++Logomove_y)
+    {
+        renderTile.Height = Logomove_y * 10;
+
+        if(renderTile.Height > Logoheight)
+        {
+            renderTile.Height = Logoheight;
+
+        } // if renderTile.Height
+
+        renderTile.Destinationpos_y = Logomove_y;
+
+        MyOutput.renderObject(&renderTile);                 // and render it
+        MyOutput.writeOnScreen(&renderText);                // write the Loading-Screen
+        MyOutput.renderScreen();
+
+        MyOutput.clearScreen(true);                         // Clear the vitual Bitmap
+        rest(10);
+
+    } // for Logomove_y
+
+    renderText.Backgroundcolor = DDD_transparent;
+    renderText.Text = "Hit any Key to continue ....";
+    MyOutput.renderObject(&renderTile);
+    MyOutput.writeOnScreen(&renderText);
+    MyOutput.renderScreen();
+
+    MyInput.getKey();
 
     MyOutput.clearScreen(true);
 
