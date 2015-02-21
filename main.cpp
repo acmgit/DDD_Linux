@@ -25,10 +25,10 @@ int main()
 
     const int Tilewidth = 32;
     const int Tileheight = 32;
-    const int WorldTilewidth = 416;
-    const int HeroTilewidth = 288;
-    const int EnemyTilewidth = 1248;
-    const int TownTilewidth = 416;
+    const int WorldTilesheetwidth = 416;
+    const int HeroTilesheetwidth = 288;
+    const int EnemyTilesheetwidth = 1248;
+    const int TownTilesheetwidth = 416;
 
     const int Playfield_x = 0;
     const int Playfield_y = 0;
@@ -152,6 +152,7 @@ int main()
     allegro_init();
 
     Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
+    Allegro_Input MyInput;
 
     const int DDD_red       = makecol(255,  50,    50);
     const int DDD_orange    = makecol(255,  100,    0);
@@ -171,8 +172,6 @@ int main()
     const int DDD_silver    = makecol(150,  150,  150);
     const int DDD_darkgrey  = makecol(100,  100,  100);
     const int DDD_black     = makecol(  0,    0,    0);
-
-    Allegro_Input MyInput;
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
@@ -202,7 +201,6 @@ int main()
     {
         std::string DataError = "Konnte Datei ";
         DataError = DataError + Datafilename + " nicht laden.";
-        //replace_all(DataError, "%s", Datafilename);
 
 #ifdef DEBUG
         Log("(" << ErrorLog.FILE_NOT_FOUND << ") " << DataError.c_str())
@@ -226,14 +224,13 @@ int main()
 
     MyOutput.clearScreen(true);
 
-    //clear_bitmap(VirtualScreen);
-
-    renderTile.Source = Tiles;
+    renderTile.Sheet = Tiles;
+    renderTile.Sheetpos_x = Shrubbery;
+    renderTile.Sheetpos_y = 0;
     renderTile.transparency = true;
-    renderTile.Sourcepos_y = 0;
     renderTile.Width = Tilewidth;
     renderTile.Height = Tileheight;
-    renderTile.Sourcepos_x = Shrubbery;
+
 
     for (int y = Playfield_y; y < Playfieldrows; ++y)
     {
@@ -247,39 +244,39 @@ int main()
 
     } // for y
 
-    renderTile.Source = Enemy;
-    renderTile.Sourcepos_x = Skeleton;
+    renderTile.Sheet = Enemy;
+    renderTile.Sheetpos_x = Skeleton;
     renderTile.Destinationpos_x = 7 * Tilewidth;
     renderTile.Destinationpos_y = 4 * Tileheight;
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sourcepos_x = Ghoul;
+    renderTile.Sheetpos_x = Ghoul;
     renderTile.Destinationpos_x = 6 * Tilewidth;
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sourcepos_x = Zombie;
+    renderTile.Sheetpos_x = Zombie;
     renderTile.Destinationpos_x = 5 * Tilewidth;
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Source = Hero;
-    renderTile.Sourcepos_x = Sword;
+    renderTile.Sheet = Hero;
+    renderTile.Sheetpos_x = Sword;
     renderTile.Destinationpos_x = 6 * Tilewidth;
     renderTile.Destinationpos_y = 5 * Tileheight;
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Source = Town;
-    renderTile.Sourcepos_x = Druidshack;
+    renderTile.Sheet = Town;
+    renderTile.Sheetpos_x = Druidshack;
     renderTile.Destinationpos_x = 3 * Tilewidth;
     renderTile.Destinationpos_y = 2 * Tileheight;
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Source = Frame;
-    renderTile.Sourcepos_x = 0;
-    renderTile.Sourcepos_y = 0;
+    renderTile.Sheet = Frame;
+    renderTile.Sheetpos_x = 0;
+    renderTile.Sheetpos_y = 0;
     renderTile.Destinationpos_x = 0;
     renderTile.Destinationpos_y = 0;
-    renderTile.Width = Screenwidth;
-    renderTile.Height = Screenheight;
+    renderTile.Width = MyOutput.getScreenWidth();
+    renderTile.Height = MyOutput.getScreenHeight();
     MyOutput.renderObject(&renderTile);
 
     renderText.Foregroundcolor = DDD_cyan;

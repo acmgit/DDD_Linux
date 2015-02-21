@@ -11,17 +11,16 @@ class Allegro_Output: public Screeninterface
 {
     public:
 
-
         struct gfx_Object
         {
-            int Sourcepos_x;
-            int Sourcepos_y;
+            int Sheetpos_x;
+            int Sheetpos_y;
             int Destinationpos_x;
             int Destinationpos_y;
             int Width;
             int Height;
             bool transparency;
-            BITMAP *Source;
+            BITMAP *Sheet;
         };
 
         struct gfx_Text
@@ -41,9 +40,12 @@ class Allegro_Output: public Screeninterface
         void writeOnScreen(void *Text);                              // Writes the Text to the virtual Screen
         void renderObject(void *Object);                             // Renders the Object to the virtual Screen
 
-        void clearScreen(bool Virtual);
+        void clearScreen(bool Virtual);                              // Clears the Virtual Screen if true, else the Display
         void setFont(FONT *newFont);
 
+        int getScreenWidth();
+        int getScreenHeight();
+        int getScreenDepth();
 
     private:
 

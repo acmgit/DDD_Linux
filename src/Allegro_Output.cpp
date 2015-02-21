@@ -10,11 +10,8 @@
 #endif // DEBUG
 Allegro_Output::Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscreen)
 {
-
-    Screenwidth = Width;
-    Screenheight = Height;
-
     set_color_depth(Scrdepth);
+    Screendepth = Scrdepth;
 
     int screenError;
     if(Fullscreen)
@@ -24,14 +21,14 @@ Allegro_Output::Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscr
     }
     else
     {
-        screenError = set_gfx_mode(GFX_AUTODETECT_WINDOWED, Screenwidth, Screenheight, 0, 0);
+        screenError = set_gfx_mode(GFX_AUTODETECT_WINDOWED, Width, Height, 0, 0);
 
     } // if Fullscreen
 
     if(screenError)
     {
 #ifdef DEBUG
-        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Screen " << Screenwidth << "x" << Screenheight << " Depth: " << Screendepth)
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Screen " << Width << "x" << Height << " Depth: " << Screendepth)
 #endif // DEBUG
 
         allegro_message(allegro_error);
@@ -40,12 +37,15 @@ Allegro_Output::Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscr
     } // if screenError
 
     Display = screen;
+    Screenheight = SCREEN_H;
+    Screenwidth = SCREEN_W;
+    currFont = font;
 
-    VirtualScreen = create_bitmap(SCREEN_W, SCREEN_H);
+    VirtualScreen = create_bitmap(Screenwidth, Screenheight);
     if(!VirtualScreen)
     {
 #ifdef DEBUG
-        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open virtual Screen.")
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open virtual Screen with " << Screenheight << " x " << Screenwidth << " x " << Screendepth << ".")
 #endif // DEBUG
 
         //exit_on_error("Konnte keinen Speicher für Bildschrim reservieren.");
@@ -53,9 +53,8 @@ Allegro_Output::Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscr
         allegro_exit();
     } // if !VirtualScreen
 
-    currFont = font;
 #ifdef DEBUG
-    Log("Allegro_Output geöffnet.")
+    Log("Allegro_Output opened with Screen " << Screenwidth << " x " << Screenheight << " x " << Screendepth << ".")
 #endif // DEBUG
 
 } // Allegro_Output
@@ -99,12 +98,12 @@ void Allegro_Output::renderObject(void *Object)
     gfx_Object* currObject = (gfx_Object*) Object;
     if(currObject->transparency)
     {
-        masked_blit(currObject->Source, VirtualScreen, currObject->Sourcepos_x, currObject->Sourcepos_y, currObject->Destinationpos_x, currObject->Destinationpos_y, currObject->Width, currObject->Height);
+        masked_blit(currObject->Sheet, VirtualScreen, currObject->Sheetpos_x, currObject->Sheetpos_y, currObject->Destinationpos_x, currObject->Destinationpos_y, currObject->Width, currObject->Height);
 
     }
     else
     {
-        blit(currObject->Source, VirtualScreen, currObject->Sourcepos_x, currObject->Sourcepos_y, currObject->Destinationpos_x, currObject->Destinationpos_y, currObject->Width, currObject->Height);
+        blit(currObject->Sheet, VirtualScreen, currObject->Sheetpos_x, currObject->Sheetpos_y, currObject->Destinationpos_x, currObject->Destinationpos_y, currObject->Width, currObject->Height);
 
     } // if transparency
 
@@ -151,3 +150,21 @@ std::string Allegro_Output::convertText(std::string Text)
 
     return Text;
 } // convertText
+
+int Allegro_Output::getScreenHeight()
+{
+    return Screenheight;
+
+} // getScreenHeight
+
+int Allegro_Output::getScreenWidth()
+{
+    return Screenwidth;
+
+} // getScreenHeight
+
+int Allegro_Output::getScreenDepth()
+{
+    return Screendepth;
+
+} // getScreenDepth
