@@ -28,6 +28,8 @@ class Allegro_Datafile: public Datafileinterface
 
     private:
 
+    void generateIndex();
+
     std::string Filename;
     DATAFILE* Data;
 
