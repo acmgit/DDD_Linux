@@ -10,6 +10,19 @@ m_strFileName( pszFileName )
 {
 m_clStream.close();
 timestamp[0] = ' ';
+
+m_clStream.open(m_strFileName.c_str(), std::ios::out | std::ios::app );
+m_clStream << "Logfile Errorcodes:" << std::endl;
+m_clStream << "----------------------------" << std::endl;
+m_clStream << "All ok           = " << ALLOK << std::endl;
+m_clStream << "File not found   = " << FILE_NOT_FOUND << std::endl;
+m_clStream << "File corrupted   = " << FILE_CORRUPT << std::endl;
+m_clStream << "Memory failure   = " << MEMORY_FAILURE << std::endl;
+m_clStream << "Illegal access   = " << ILLEGAL_ACCESS << std::endl;
+m_clStream << "Wrong function   = " << WRONG_FUNCTION << std::endl;
+m_clStream << "---------------------------" << std::endl;
+m_clStream.close();
+
 }
 
 //------------------------------------------------------------------------------

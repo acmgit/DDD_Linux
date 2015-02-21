@@ -21,7 +21,7 @@ int main()
 {
     const int Screenwidth = 640;
     const int Screenheight = 480;
-    const int Screendepth = 32;
+    const int Screendepth = 16;
 
     const int Tilewidth = 32;
     const int Tileheight = 32;
@@ -155,6 +155,7 @@ int main()
 
     allegro_init();
 
+    //Allegro_Output MyOutput;
     Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
     Allegro_Input MyInput;
 

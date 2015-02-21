@@ -23,7 +23,8 @@ enum LogNumber
     FILE_NOT_FOUND,
     FILE_CORRUPT,
     MEMORY_FAILURE,
-    ILLEGAL_ACCESS
+    ILLEGAL_ACCESS,
+    WRONG_FUNCTION
 
 }; // LogNumber
 

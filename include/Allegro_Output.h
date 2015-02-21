@@ -34,11 +34,17 @@ class Allegro_Output: public Screeninterface
         };
 
         Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscreen);
+        Allegro_Output():Allegro_Output(640, 480, 16, false){};     // delegated Constructor
+
         ~Allegro_Output();
 
         void renderScreen();                                         // Renders the whole virtual Screen to Display
+
         void writeOnScreen(void *Text);                              // Writes the Text to the virtual Screen
+        void writeOnScreen(gfx_Text *Text);
+
         void renderObject(void *Object);                             // Renders the Object to the virtual Screen
+        void renderObject(gfx_Object *Object);
 
         void clearScreen(bool Virtual);                              // Clears the Virtual Screen if true, else the Display
         void setFont(FONT *newFont);

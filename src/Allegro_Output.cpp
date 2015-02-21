@@ -8,6 +8,7 @@
 #include "Logfile.h"
 
 #endif // DEBUG
+
 Allegro_Output::Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscreen)
 {
     set_color_depth(Scrdepth);
@@ -48,7 +49,6 @@ Allegro_Output::Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscr
         Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open virtual Screen with " << Screenheight << " x " << Screenwidth << " x " << Screendepth << ".")
 #endif // DEBUG
 
-        //exit_on_error("Konnte keinen Speicher für Bildschrim reservieren.");
         allegro_message("Konnte keinen Speicher für Bildschrim reservieren.");
         allegro_exit();
     } // if !VirtualScreen
@@ -61,7 +61,6 @@ Allegro_Output::Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscr
 
 Allegro_Output::~Allegro_Output()
 {
-
     destroy_bitmap(VirtualScreen);
 #ifdef DEBUG
     Log("Virtual Screen destroyed.")
@@ -77,42 +76,61 @@ void Allegro_Output::renderScreen()
 
 void Allegro_Output::writeOnScreen(void *Text)
 {
-    gfx_Text* currText = (gfx_Text*) Text;
+#ifdef DEBUG
+    Log("(" << ErrorLog.WRONG_FUNCTION << ") Attention, void* called")
+#endif // DEBUG
+    writeOnScreen((gfx_Text*) Text);
 
-    if(currText->toConvert)
+} // writeOnScreen(void*)
+
+void Allegro_Output::writeOnScreen(gfx_Text *Text)
+{
+    if(Text->toConvert)
     {
-        textout_ex(VirtualScreen, currFont, convertText(currText->Text).c_str(), currText->Pos_x, currText->Pos_y, currText->Foregroundcolor, currText->Backgroundcolor);
+        textout_ex(VirtualScreen, currFont, convertText(Text->Text).c_str(), Text->Pos_x, Text->Pos_y, Text->Foregroundcolor, Text->Backgroundcolor);
 
     }
     else
     {
-        textout_ex(VirtualScreen, currFont, currText->Text.c_str(), currText->Pos_x, currText->Pos_y, currText->Foregroundcolor, currText->Backgroundcolor);
+        textout_ex(VirtualScreen, currFont, Text->Text.c_str(), Text->Pos_x, Text->Pos_y, Text->Foregroundcolor, Text->Backgroundcolor);
 
-    } // if toConvert
+    } // if Textconvert
 
-
-} // writeOnScreen
+} // writeOnScreen(gfx_Text *Text)
 
 void Allegro_Output::renderObject(void *Object)
 {
-    gfx_Object* currObject = (gfx_Object*) Object;
-    if(currObject->transparency)
+
+#ifdef DEBUG
+    Log("(" << ErrorLog.WRONG_FUNCTION << ") Attention, void* called")
+#endif // DEBUG
+
+    renderObject((gfx_Object*) Object);
+
+} // drawObject(void *Object)
+
+void Allegro_Output::renderObject(gfx_Object *Object)
+{
+    if(Object->transparency)
     {
-        masked_blit(currObject->Sheet, VirtualScreen, currObject->Sheetpos_x, currObject->Sheetpos_y, currObject->Destinationpos_x, currObject->Destinationpos_y, currObject->Width, currObject->Height);
+        masked_blit(Object->Sheet, VirtualScreen, Object->Sheetpos_x, Object->Sheetpos_y, Object->Destinationpos_x, Object->Destinationpos_y, Object->Width, Object->Height);
 
     }
     else
     {
-        blit(currObject->Sheet, VirtualScreen, currObject->Sheetpos_x, currObject->Sheetpos_y, currObject->Destinationpos_x, currObject->Destinationpos_y, currObject->Width, currObject->Height);
+        blit(Object->Sheet, VirtualScreen, Object->Sheetpos_x, Object->Sheetpos_y, Object->Destinationpos_x, Object->Destinationpos_y, Object->Width, Object->Height);
 
     } // if transparency
 
-} // drawObject()
+} // drawObject(gfx_Object *Object)
+
 
 void Allegro_Output::setFont(FONT *newFont)
 {
     currFont = newFont;
-}
+
+} // setFont
+
 void Allegro_Output::clearScreen(bool Virtual)
 {
     if(Virtual)
@@ -125,6 +143,7 @@ void Allegro_Output::clearScreen(bool Virtual)
         clear_bitmap(Display);
 
     } // if Virtual
+
 } // clearScreen
 
 void Allegro_Output::replace_all(std::string &text,const std::string &fnd,const std::string &rep)
@@ -149,6 +168,7 @@ std::string Allegro_Output::convertText(std::string Text)
     replace_all(Text, "Ü", ">");
 
     return Text;
+
 } // convertText
 
 int Allegro_Output::getScreenHeight()
