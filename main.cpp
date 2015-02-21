@@ -7,8 +7,6 @@
 
 using namespace std;
 
-void replace_all(string& text, const string& fnd, const string& rep);
-string convertText(string Text);
 void exit_on_error(const std::string &Errormessage);
 
 #ifdef DEBUG
@@ -153,18 +151,7 @@ int main()
 
     allegro_init();
 
-    set_color_depth(Screendepth);
-    int screenError = set_gfx_mode(GFX_AUTODETECT_WINDOWED, Screenwidth, Screenheight, 0, 0);
-    if(screenError)
-    {
-#ifdef DEBUG
-        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Screen " << Screenwidth << "x" << Screenheight << " Depth: " << Screendepth)
-#endif // DEBUG
-
-        allegro_message(allegro_error);
-        allegro_exit();
-
-    } // if screenError
+    Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
 
     const int DDD_red       = makecol(255,  50,    50);
     const int DDD_orange    = makecol(255,  100,    0);
@@ -173,7 +160,7 @@ int main()
     const int DDD_purple    = makecol(255,  50,   255);
 
     const int DDD_green     = makecol(50,   255,   50);
-    const int DDD_cyan      = makecol(255,  255,   50);
+    const int DDD_cyan      = makecol(50,   255,  255);
 
     const int DDD_yellow    = makecol(255,  255,   50);
     const int DDD_gold      = makecol(255,  200,   50);
@@ -184,48 +171,38 @@ int main()
     const int DDD_silver    = makecol(150,  150,  150);
     const int DDD_darkgrey  = makecol(100,  100,  100);
     const int DDD_black     = makecol(  0,    0,    0);
+
     Allegro_Input MyInput;
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
 #endif // DEBUG
 
-    BITMAP* VirtualScreen = create_bitmap(SCREEN_W, SCREEN_H);
-    if(!VirtualScreen)
-    {
-#ifdef DEBUG
-        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open virtual Screen.")
-#endif // DEBUG
-
-        exit_on_error("Konnte keinen Speicher für Bildschrim reservieren.");
-
-    } // if !VirtualScreen
-
-    Allegro_Output MyOutput(VirtualScreen, screen, Screenwidth, Screenheight);
-
     Allegro_Output::gfx_Text renderText;
     Allegro_Output::gfx_Object renderTile;
 
-    renderText.Foregroundcolor = DDD_yellow;
+    renderText.Foregroundcolor = DDD_white;
     renderText.Backgroundcolor = DDD_black;
-    renderText.Font = font;
     renderText.Pos_x = 10;
     renderText.Pos_y = Screenheight / 2;
-    renderText.Text = "Loading %s";
-    replace_all(renderText.Text, "%s", Datafilename);
+    renderText.Text = "Loading ";
+    renderText.Text = renderText.Text + Datafilename;
+    renderText.Text = renderText.Text + ".";
+    renderText.toConvert = false;
 
     MyOutput.writeOnScreen(&renderText);
     MyOutput.renderScreen();
-    //textprintf(screen, font, 10, SCREEN_H / 2, DDD_lightgrey, "Loading %s", Datafilename.c_str());
+
 #ifdef DEBUG
-    Log("Loading " << Datafilename.c_str() << ".")
+    Log(renderText.Text.c_str())
 #endif // DEBUG
 
     DATAFILE* Pictures = load_datafile(Datafilename.c_str());
     if(!Pictures)
     {
-        std::string DataError = "Konnte Datei <%s> nicht laden.";
-        replace_all(DataError, "%s", Datafilename);
+        std::string DataError = "Konnte Datei ";
+        DataError = DataError + Datafilename + " nicht laden.";
+        //replace_all(DataError, "%s", Datafilename);
 
 #ifdef DEBUG
         Log("(" << ErrorLog.FILE_NOT_FOUND << ") " << DataError.c_str())
@@ -241,12 +218,15 @@ int main()
     BITMAP *Town = (BITMAP*) Pictures[bmp_TilesTown].dat;
 
     font = (FONT*) Pictures[fnt_Font].dat;
+    MyOutput.setFont(font);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Files loaded.")
 #endif // DEBUG
 
-    clear_bitmap(VirtualScreen);
+    MyOutput.clearScreen(true);
+
+    //clear_bitmap(VirtualScreen);
 
     renderTile.Source = Tiles;
     renderTile.transparency = true;
@@ -262,7 +242,6 @@ int main()
             renderTile.Destinationpos_x = x * Tilewidth;
             renderTile.Destinationpos_y = y * Tileheight;
             MyOutput.renderObject(&renderTile);
-            //blit(Tiles, VirtualScreen,  Shrubbery, 0, x * Tilewidth, y * Tileheight, Tilewidth, Tileheight);
 
         } // for x
 
@@ -305,7 +284,8 @@ int main()
 
     renderText.Foregroundcolor = DDD_cyan;
     renderText.Pos_x = Consoletext_x;
-    renderText.Text = convertText("15 Zeilen. Konsolentext");
+    renderText.Text = "15 Zeilen. Konsolentext äöü ÄÖÜ";
+    renderText.toConvert = true;
 
     for(int Consoleline = 0; Consoleline < 15; ++Consoleline)
     {
@@ -314,9 +294,7 @@ int main()
 
     } // for i
 
-    string Text = "30 Zeilen: Statustext.";
-
-    renderText.Text = convertText(Text);
+    renderText.Text = "30 Zeilen: Statustext.";
     renderText.Pos_x = Statustext_x;
     renderText.Foregroundcolor = DDD_gold;
 
@@ -336,8 +314,6 @@ int main()
 
     unload_datafile(Pictures);
 
-    destroy_bitmap(VirtualScreen);
-
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programm exited.")
 #endif // DEBUG
@@ -346,28 +322,6 @@ int main()
 } // main
 END_OF_MAIN()
 
-void replace_all(std::string& text,const std::string& fnd,const std::string& rep)
-{
-    size_t pos = text.find(fnd);
-    while(pos != std::string::npos)
-    {
-        text.replace(pos, fnd.length(), rep);
-        pos = text.find(fnd, pos+rep.length());
-
-    } // while(pos)
-} // replace_all
-
-std::string convertText(std::string Text)
-{
-    replace_all(Text, "ä", "{");
-    replace_all(Text, "ö", "|");
-    replace_all(Text, "ü", "}");
-    replace_all(Text, "Ä", "<");
-    replace_all(Text, "Ö", "=");
-    replace_all(Text, "Ü", ">");
-
-    return Text;
-} // convertText
 
 void exit_on_error(const std::string &Errormessage)
 {

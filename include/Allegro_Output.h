@@ -31,23 +31,32 @@ class Allegro_Output: public Screeninterface
             int Foregroundcolor;
             int Backgroundcolor;
             std::string Text;
-            FONT *Font;
+            bool toConvert;
         };
 
-        Allegro_Output(BITMAP *Source, BITMAP *Destination, int Width, int Height);
+        Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscreen);
         ~Allegro_Output();
 
         void renderScreen();                                         // Renders the whole virtual Screen to Display
         void writeOnScreen(void *Text);                              // Writes the Text to the virtual Screen
         void renderObject(void *Object);                             // Renders the Object to the virtual Screen
 
+        void clearScreen(bool Virtual);
+        void setFont(FONT *newFont);
+
+
     private:
+
+        void replace_all(std::string& text, const std::string& fnd, const std::string& rep);
+        std::string convertText(std::string Text);
 
         BITMAP *Display;
         BITMAP *VirtualScreen;
+        FONT *currFont;
 
         int Screenwidth;
         int Screenheight;
+        int Screendepth;
 
 }; // Allegro_Output
 
