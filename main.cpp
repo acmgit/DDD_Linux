@@ -4,6 +4,7 @@
 
 #include "include/Allegro_Input.h"
 #include "include/Allegro_Output.h"
+#include "Allegro_Datafile.h"
 
 using namespace std;
 
@@ -158,6 +159,7 @@ int main()
     //Allegro_Output MyOutput;
     Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
     Allegro_Input MyInput;
+    Allegro_Datafile MyData(Datafilename);
 
     const int DDD_red           = makecol(255,  50,    50);
     const int DDD_orange        = makecol(255,  100,    0);
@@ -183,6 +185,40 @@ int main()
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
 #endif // DEBUG
 
+    Allegro_Datafile::Index MyIndex;
+
+    MyIndex.Name = "Sheet_Font";
+    MyIndex.Number = fnt_Font;
+    MyData.addIndex(MyIndex);
+
+    MyIndex.Name = "Sheet_Frame";
+    MyIndex.Number = bmp_Frame;
+    MyData.addIndex(MyIndex);
+
+    MyIndex.Name = "Sheet_Hero";
+    MyIndex.Number = bmp_Hero;
+    MyData.addIndex(MyIndex);
+
+    MyIndex.Name = "Sheet_Logo";
+    MyIndex.Number = bmp_Logo;
+    MyData.addIndex(MyIndex);
+
+    MyIndex.Name = "Sheet_Towntiles";
+    MyIndex.Number = bmp_TilesTown;
+    MyData.addIndex(MyIndex);
+
+    MyIndex.Name = "Sheet_Worldtiles";
+    MyIndex.Number = bmp_TilesWorld;
+    MyData.addIndex(MyIndex);
+
+    MyIndex.Name = "Sheet_Worldenemys";
+    MyIndex.Number = bmp_Enemy;
+    MyData.addIndex(MyIndex);
+
+#ifdef DEBUG
+    Log("Index for Datafile created.")
+#endif // DEBUG
+
     Allegro_Output::gfx_Text renderText;
     Allegro_Output::gfx_Object renderTile;
 
@@ -202,31 +238,21 @@ int main()
     Log(renderText.Text.c_str())
 #endif // DEBUG
 
-    DATAFILE* Pictures = load_datafile(Datafilename.c_str());
-    if(!Pictures)
-    {
-        std::string DataError = "Konnte Datei ";
-        DataError = DataError + Datafilename + " nicht laden.";
-
-#ifdef DEBUG
-        Log("(" << ErrorLog.FILE_NOT_FOUND << ") " << DataError.c_str())
-#endif // DEBUG
-
-        exit_on_error(DataError);
-    } // if !Pictures
-
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Files loaded.")
 #endif // DEBUG
 
-    BITMAP *Frame = (BITMAP*) Pictures[bmp_Frame].dat;
-    BITMAP *Tiles = (BITMAP*) Pictures[bmp_TilesWorld].dat;
-    BITMAP *Hero = (BITMAP*) Pictures[bmp_Hero].dat;
-    BITMAP *Enemy = (BITMAP*) Pictures[bmp_Enemy].dat;
-    BITMAP *Town = (BITMAP*) Pictures[bmp_TilesTown].dat;
-    BITMAP *Logo = (BITMAP*) Pictures[bmp_Logo].dat;
+    DATAFILE* Pictures = MyData.getDatafile();
 
-    font = (FONT*) Pictures[fnt_Font].dat;
+
+    BITMAP *Frame = (BITMAP*) Pictures[MyData.findIndex("Sheet_Frame").Number].dat;
+    BITMAP *Tiles = (BITMAP*) Pictures[MyData.findIndex("Sheet_Worldtiles").Number].dat;
+    BITMAP *Hero = (BITMAP*) Pictures[MyData.findIndex("Sheet_Hero").Number].dat;
+    BITMAP *Enemy = (BITMAP*) Pictures[MyData.findIndex("Sheet_Worldenemys").Number].dat;
+    BITMAP *Town = (BITMAP*) Pictures[MyData.findIndex("Sheet_Towntiles").Number].dat;
+    BITMAP *Logo = (BITMAP*) Pictures[MyData.findIndex("Sheet_Logo").Number].dat;
+
+    font = (FONT*) Pictures[MyData.findIndex("Sheet_Font").Number].dat;
     MyOutput.setFont(font);
 
     MyOutput.clearScreen(true);
@@ -362,8 +388,6 @@ int main()
     {
     }
     while(!MyInput.readKey());
-
-    unload_datafile(Pictures);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programm exited.")
