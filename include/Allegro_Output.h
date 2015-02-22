@@ -3,6 +3,7 @@
 
 #include "Screeninterface.h"
 #include <allegro/gfx.h>
+#include <allegro/graphics.h>
 #include <allegro/font.h>
 
 #include <string>
@@ -47,7 +48,9 @@ class Allegro_Output: public Screeninterface
         void renderObject(gfx_Object *Object);
 
         void clearScreen(bool Virtual);                              // Clears the Virtual Screen if true, else the Display
+
         void setFont(FONT *newFont);
+        void setFont(FONT *newFont, PALETTE newPalette);
 
         int getScreenWidth();
         int getScreenHeight();

@@ -129,7 +129,14 @@ void Allegro_Output::setFont(FONT *newFont)
 {
     currFont = newFont;
 
-} // setFont
+} // setFont(FONT)
+
+void Allegro_Output::setFont(FONT *newFont, PALETTE newPalette)
+{
+    currFont = newFont;
+    set_palette(newPalette);
+
+} // setFont(FONT, PALETTE)
 
 void Allegro_Output::clearScreen(bool Virtual)
 {

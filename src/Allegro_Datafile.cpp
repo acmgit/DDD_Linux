@@ -1,10 +1,10 @@
 #include "Allegro_Datafile.h"
 #include <allegro/system.h>
+#include <allegro/graphics.h>
 
 #ifdef DEBUG
 #include "Logfile.h"
 #include <allegro/system.h>
-#include <allegro/graphics.h>
 
 #endif // DEBUG
 #include <string>
@@ -127,6 +127,15 @@ void Allegro_Datafile::generateIndex()
     MyIndex.Name = "SHE_Worldenemys";
     MyIndex.Number = 6;
     addIndex(MyIndex);
+
+    MyIndex.Name = "SHE_Font_colored";
+    MyIndex.Number = 7;
+    addIndex(MyIndex);
+
+    MyIndex.Name = "SHE_Font_Palette";
+    MyIndex.Number = 8;
+    addIndex(MyIndex);
+
 
 /*  Index of Colors in DDD
     -------------------------------------------------

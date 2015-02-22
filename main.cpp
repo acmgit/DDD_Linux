@@ -71,7 +71,7 @@ int main()
     Allegro_Output::gfx_Object renderTile;
 
     renderText.Foregroundcolor = MyData.findIndex("COL_yellow").Number;
-    renderText.Backgroundcolor = MyData.findIndex("COL_black").Number;
+    renderText.Backgroundcolor = MyData.findIndex("COL_transparent").Number;
     renderText.Pos_x = 10;
     renderText.Pos_y = Screenheight / 2;
     renderText.Text = "Loading ";
@@ -92,7 +92,6 @@ int main()
 
     DATAFILE* Pictures = MyData.getDatafile();
 
-
     BITMAP *Frame = (BITMAP*) Pictures[MyData.findIndex("SHE_Frame").Number].dat;
     BITMAP *Tiles = (BITMAP*) Pictures[MyData.findIndex("SHE_Worldtiles").Number].dat;
     BITMAP *Hero = (BITMAP*) Pictures[MyData.findIndex("SHE_Hero").Number].dat;
@@ -100,9 +99,13 @@ int main()
     BITMAP *Town = (BITMAP*) Pictures[MyData.findIndex("SHE_Towntiles").Number].dat;
     BITMAP *Logo = (BITMAP*) Pictures[MyData.findIndex("SHE_Logo").Number].dat;
 
-    font = (FONT*) Pictures[MyData.findIndex("SHE_Font").Number].dat;
-    MyOutput.setFont(font);
+    char *names[]={"008_Font_colored", "009_Palette_008"};
+    PALETTE Font2_Palette;
+    FONT *Font2 = load_dat_font(Datafilename.c_str(), Font2_Palette, names);
 
+    font = (FONT*) Pictures[MyData.findIndex("SHE_Font").Number].dat;
+
+    MyOutput.setFont(Font2, Font2_Palette);;
     MyOutput.clearScreen(true);
 
     // Set up the Logo
@@ -142,7 +145,8 @@ int main()
 
     } // for Logomove_y
 
-    renderText.Backgroundcolor = MyData.findIndex("COL_transparent").Number;
+    renderText.Foregroundcolor = MyData.findIndex("COL_transparent").Number;
+    //renderText.Backgroundcolor = MyData.findIndex("COL_transparent").Number;
     renderText.Text = "Hit any Key to continue ....";
     MyOutput.renderObject(&renderTile);
     MyOutput.writeOnScreen(&renderText);
@@ -151,6 +155,8 @@ int main()
     MyInput.getKey();
 
     MyOutput.clearScreen(true);
+
+    MyOutput.setFont(font);
 
     renderTile.Sheet = Tiles;
     renderTile.Sheetpos_x = MyData.findIndex("WTI_Gras").Number;
