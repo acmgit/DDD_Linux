@@ -49,12 +49,15 @@ int main()
 
     const std::string Datafilename = "data/gfx.dat";
     const std::string Indexfilename = "data/gfx.idx";
+    const std::string German = "data/DDD_deutsch.txt";
+    const std::string English = "data/DDD_english.txt";
 
     allegro_init();
 
     Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
     Allegro_Input MyInput;
     Allegro_Datafile MyData(Datafilename, Indexfilename);
+    UniText Translator(German);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
@@ -74,10 +77,10 @@ int main()
     renderText.Backgroundcolor = MyData.findIndex("[COL_transparent]").Number;
     renderText.Pos_x = 10;
     renderText.Pos_y = Screenheight / 2;
-    renderText.Text = "Loading ";
+    renderText.Text = Translator.Print("[Loading]");
     renderText.Text = renderText.Text + Datafilename;
     renderText.Text = renderText.Text + ".";
-    renderText.toConvert = false;
+    renderText.toConvert = true;
 
     MyOutput.writeOnScreen(&renderText);
     MyOutput.renderScreen();
@@ -134,7 +137,7 @@ int main()
     } // for Logomove_y
 
     renderText.Foregroundcolor = MyData.findIndex("[COL_transparent]").Number;
-    renderText.Text = "Hit any Key to continue ....";
+    renderText.Text = Translator.Print("[Presskey]");
     MyOutput.renderObject(&renderTile);
     MyOutput.writeOnScreen(&renderText);
     MyOutput.renderScreen();
@@ -202,7 +205,7 @@ int main()
 
     renderText.Foregroundcolor = MyData.findIndex("[COL_purple]").Number;
     renderText.Pos_x = Consoletext_x;
-    renderText.Text = "15 Zeilen. Konsolentext äöü ÄÖÜ";
+    renderText.Text = Translator.Print("[Consoletesttext]");
     renderText.toConvert = true;
 
     for(int Consoleline = 0; Consoleline < 15; ++Consoleline)
@@ -212,7 +215,7 @@ int main()
 
     } // for i
 
-    renderText.Text = "30 Zeilen: Statustext.";
+    renderText.Text = Translator.Print("[Statustesttext]");
     renderText.Pos_x = Statustext_x;
     renderText.Foregroundcolor = MyData.findIndex("[COL_gold]").Number;
 

@@ -4,6 +4,11 @@
 #include <string>
 #include <stdexcept>
 
+#ifdef DEBUG
+
+#include "Logfile.h"
+
+#endif // DEBUG
 // Opens the Languagefile and initalise the Map
 UniText::UniText(const std::string &Textfile)
 {
@@ -32,6 +37,12 @@ void UniText::LoadNewText(const std::string &Textfile)
 std::string UniText::Print(const std::string &Key)
 {
     std::map<std::string, std::string>::iterator i;
+
+    i = Translate.begin();
+
+#ifdef DEBUG
+    Log("Print " << Key.c_str())
+#endif // DEBUG
 
     i = Translate.find(Key.c_str());
 
@@ -65,6 +76,12 @@ void UniText::ReadFile(const std::string &Textfile)
             {
                 std::getline(File, TransText);
                 Translate.insert(std::pair<std::string, std::string>(KeyText, TransText));
+
+#ifdef DEBUG
+                Log("Add Key:")
+                Log(KeyText.c_str())
+                Log(TransText.c_str())
+#endif // DEBUG
             }
         }
 

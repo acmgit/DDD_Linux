@@ -5,3 +5,14 @@
 # %x is a Dummy for a variable Text or Value.
 #
 
+[Presskey]
+Hit any Key to continue ...
+
+[Loading]
+Loading File 
+
+[Consoletesttext]
+15 Columns. Consoletext äöü ÄÖÜ
+
+[Statustesttext]
+30 Columns: Statustext.

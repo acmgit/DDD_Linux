@@ -4,3 +4,15 @@
 # In der einzelnen Zeile unter dem Schlüssel ist dann der Text, welcher ausgegeben werden soll.
 # %. ist ein Platzhalter für einen beliebigen Text oder Wert.
 # 
+
+[Presskey]
+Drücke eine Taste für weiter ...
+
+[Loading]
+Lade Date
+
+[Consoletesttext]
+15 Zeilen. Konsolentext äöü ÄÖÜ
+
+[Statustesttext]
+30 Zeilen: Statustext.
