@@ -1,0 +1,6 @@
+# Transfile.
+# Ein Schlüssel muß mit einem [ beginnen
+# und in der gleichen Zeile mit ] enden.
+# In der einzelnen Zeile unter dem Schlüssel ist dann der Text, welcher ausgegeben werden soll.
+# %. ist ein Platzhalter für einen beliebigen Text oder Wert.
+# 

@@ -1,0 +1,7 @@
+# Transfile.
+# A Key must begin with [
+# and end with a ] and must be in a single line.
+# In the single Line below the Key is the Text, which will be printed.
+# %x is a Dummy for a variable Text or Value.
+#
+

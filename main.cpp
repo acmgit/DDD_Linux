@@ -5,6 +5,7 @@
 #include "include/Allegro_Input.h"
 #include "include/Allegro_Output.h"
 #include "Allegro_Datafile.h"
+#include "UniText.h"
 
 using namespace std;
 
@@ -24,8 +25,6 @@ int main()
     const int Screenheight = 480;
     const int Screendepth = 16;
 
-    //const int Tilewidth = 32;
-    //const int Tileheight = 32;
     const int WorldTilesheetwidth = 416;
     const int HeroTilesheetwidth = 288;
     const int EnemyTilesheetwidth = 1248;
@@ -49,12 +48,13 @@ int main()
     const int Statustext_y = 12;
 
     const std::string Datafilename = "data/gfx.dat";
+    const std::string Indexfilename = "data/gfx.idx";
 
     allegro_init();
 
     Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
     Allegro_Input MyInput;
-    Allegro_Datafile MyData(Datafilename);
+    Allegro_Datafile MyData(Datafilename, Indexfilename);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
@@ -70,8 +70,8 @@ int main()
     Allegro_Output::gfx_Text renderText;
     Allegro_Output::gfx_Object renderTile;
 
-    renderText.Foregroundcolor = MyData.findIndex("COL_yellow").Number;
-    renderText.Backgroundcolor = MyData.findIndex("COL_transparent").Number;
+    renderText.Foregroundcolor = MyData.findIndex("[COL_yellow]").Number;
+    renderText.Backgroundcolor = MyData.findIndex("[COL_transparent]").Number;
     renderText.Pos_x = 10;
     renderText.Pos_y = Screenheight / 2;
     renderText.Text = "Loading ";
@@ -91,13 +91,13 @@ int main()
 #endif // DEBUG
 
 
-    MyOutput.setFont(MyData.getFont("FNT_Title"));
-    MyOutput.setPalette(MyData.getPalette("PAL_Font_Title"));
+    MyOutput.setFont(MyData.getFont("[FNT_Title]"));
+    MyOutput.setPalette(MyData.getPalette("[PAL_Font_Title]"));
 
     MyOutput.clearScreen(true);
 
     // Set up the Logo
-    renderTile.Sheet = MyData.getBitmap("SHE_Logo");
+    renderTile.Sheet = MyData.getBitmap("[SHE_Logo]");
     renderTile.Sheetpos_x = 0;
     renderTile.Sheetpos_y = 0;
     renderTile.Width = Logowidth;                              // starting Height of the Logo
@@ -133,8 +133,7 @@ int main()
 
     } // for Logomove_y
 
-    renderText.Foregroundcolor = MyData.findIndex("COL_transparent").Number;
-    //renderText.Backgroundcolor = MyData.findIndex("COL_transparent").Number;
+    renderText.Foregroundcolor = MyData.findIndex("[COL_transparent]").Number;
     renderText.Text = "Hit any Key to continue ....";
     MyOutput.renderObject(&renderTile);
     MyOutput.writeOnScreen(&renderText);
@@ -144,10 +143,10 @@ int main()
 
     MyOutput.clearScreen(true);
 
-    MyOutput.setFont(MyData.getFont("FNT_Game"));
+    MyOutput.setFont(MyData.getFont("[FNT_Game]"));
 
-    renderTile.Sheet = MyData.getBitmap("SHE_Worldtile");
-    renderTile.Sheetpos_x = MyData.findIndex("WTI_Gras").Number;
+    renderTile.Sheet = MyData.getBitmap("[SHE_Worldtile]");
+    renderTile.Sheetpos_x = MyData.findIndex("[WTI_Gras]").Number;
     renderTile.Sheetpos_y = 0;
     renderTile.transparency = true;
     renderTile.Width = MyData.getTilewidth();
@@ -166,33 +165,33 @@ int main()
 
     } // for y
 
-    renderTile.Sheet = MyData.getBitmap("SHE_Worldenemy");
-    renderTile.Sheetpos_x = MyData.findIndex("WEN_Skeleton").Number;
+    renderTile.Sheet = MyData.getBitmap("[SHE_Worldenemy]");
+    renderTile.Sheetpos_x = MyData.findIndex("[WEN_Skeleton]").Number;
     renderTile.Destinationpos_x = 7 * MyData.getTilewidth();
     renderTile.Destinationpos_y = 4 * MyData.getTileheight();
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sheetpos_x = MyData.findIndex("WEN_Ghoul").Number;
+    renderTile.Sheetpos_x = MyData.findIndex("[WEN_Ghoul]").Number;
     renderTile.Destinationpos_x = 6 * MyData.getTilewidth();
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sheetpos_x = MyData.findIndex("WEN_Zombie").Number;
+    renderTile.Sheetpos_x = MyData.findIndex("[WEN_Zombie]").Number;
     renderTile.Destinationpos_x = 5 * MyData.getTilewidth();
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sheet = MyData.getBitmap("SHE_Hero");
-    renderTile.Sheetpos_x = MyData.findIndex("HER_Sword").Number;
+    renderTile.Sheet = MyData.getBitmap("[SHE_Hero]");
+    renderTile.Sheetpos_x = MyData.findIndex("[HER_Sword]").Number;
     renderTile.Destinationpos_x = 6 * MyData.getTilewidth();
     renderTile.Destinationpos_y = 5 * MyData.getTileheight();
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sheet = MyData.getBitmap("SHE_Towntile");
-    renderTile.Sheetpos_x = MyData.findIndex("TWN_Mubrak").Number;
+    renderTile.Sheet = MyData.getBitmap("[SHE_Towntile]");
+    renderTile.Sheetpos_x = MyData.findIndex("[TWN_Mubrak]").Number;
     renderTile.Destinationpos_x = 3 * MyData.getTilewidth();
     renderTile.Destinationpos_y = 2 * MyData.getTileheight();
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sheet = MyData.getBitmap("SHE_Frame");
+    renderTile.Sheet = MyData.getBitmap("[SHE_Frame]");
     renderTile.Sheetpos_x = 0;
     renderTile.Sheetpos_y = 0;
     renderTile.Destinationpos_x = 0;
@@ -201,7 +200,7 @@ int main()
     renderTile.Height = MyOutput.getScreenHeight();
     MyOutput.renderObject(&renderTile);
 
-    renderText.Foregroundcolor = MyData.findIndex("COL_purple").Number;
+    renderText.Foregroundcolor = MyData.findIndex("[COL_purple]").Number;
     renderText.Pos_x = Consoletext_x;
     renderText.Text = "15 Zeilen. Konsolentext äöü ÄÖÜ";
     renderText.toConvert = true;
@@ -215,7 +214,7 @@ int main()
 
     renderText.Text = "30 Zeilen: Statustext.";
     renderText.Pos_x = Statustext_x;
-    renderText.Foregroundcolor = MyData.findIndex("COL_gold").Number;
+    renderText.Foregroundcolor = MyData.findIndex("[COL_gold]").Number;
 
     for(int Statusline = 0; Statusline < 30; ++Statusline)
     {

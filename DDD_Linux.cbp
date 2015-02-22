@@ -50,12 +50,14 @@
 		<Unit filename="include/Logfile.h" />
 		<Unit filename="include/Mouseinterface.h" />
 		<Unit filename="include/Screeninterface.h" />
+		<Unit filename="include/UniText.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Allegro_Datafile.cpp" />
 		<Unit filename="src/Allegro_Input.cpp" />
 		<Unit filename="src/Allegro_Output.cpp" />
 		<Unit filename="src/Inputinterface.cpp" />
 		<Unit filename="src/Logfile.cpp" />
+		<Unit filename="src/UniText.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

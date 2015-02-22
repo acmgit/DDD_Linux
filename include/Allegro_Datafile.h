@@ -9,6 +9,9 @@
 #include <allegro/gfx.h>
 #include <allegro/font.h>
 #include <allegro/graphics.h>
+#include <sstream>
+#include <iostream>
+
 
 class Allegro_Datafile: public Datafileinterface
 {
@@ -25,7 +28,7 @@ class Allegro_Datafile: public Datafileinterface
             PALETTE *Palette;
         };
 
-        Allegro_Datafile(const std::string File);
+        Allegro_Datafile(const std::string File, const std::string Indexfile);
         ~Allegro_Datafile();
 
         DATAFILE* getDatafile();
@@ -42,17 +45,20 @@ class Allegro_Datafile: public Datafileinterface
         int getTilewidth();
         int getTileheight();
 
+        int strtoint(std::string Value);
+        std::string inttostr(int Value);
+
     private:
 
-    void generateIndex();
+        void loadIndex(std::string Configfile);
 
-    std::string Filename;
-    DATAFILE* Data;
+        std::string Filename;
+        DATAFILE* Data;
 
-    std::map<std::string, int> Dataindex;
+        std::map<std::string, int> Dataindex;
 
-    int Tilewidth;
-    int Tileheight;
+        int Tilewidth;
+        int Tileheight;
 
 };
 
