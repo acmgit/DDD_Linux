@@ -6,6 +6,9 @@
 
 #include "Datafileinterface.h"
 #include <allegro/datafile.h>
+#include <allegro/gfx.h>
+#include <allegro/font.h>
+#include <allegro/graphics.h>
 
 class Allegro_Datafile: public Datafileinterface
 {
@@ -16,6 +19,12 @@ class Allegro_Datafile: public Datafileinterface
             int Number;
         };
 
+        struct Colorfont
+        {
+            FONT *Font;
+            PALETTE *Palette;
+        };
+
         Allegro_Datafile(const std::string File);
         ~Allegro_Datafile();
 
@@ -23,8 +32,15 @@ class Allegro_Datafile: public Datafileinterface
         const std::string getFilename();
 
         void addIndex(Index newEntry);
-        Index findIndex(std::string Keyname);
+        Index findIndex(const std::string Keyname);
         void removeIndex(Index Entry);
+
+        BITMAP* getBitmap(const std::string Bitmapname);
+        FONT* getFont(const std::string Fontname);
+        PALETTE* getPalette(const std::string Palettename);
+
+        int getTilewidth();
+        int getTileheight();
 
     private:
 
@@ -34,6 +50,10 @@ class Allegro_Datafile: public Datafileinterface
     DATAFILE* Data;
 
     std::map<std::string, int> Dataindex;
+
+    int Tilewidth;
+    int Tileheight;
+
 };
 
 #endif // DATAFILE_H

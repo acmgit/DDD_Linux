@@ -1,6 +1,8 @@
 #include "Allegro_Datafile.h"
 #include <allegro/system.h>
 #include <allegro/graphics.h>
+#include <allegro/gfx.h>
+#include <allegro/font.h>
 
 #ifdef DEBUG
 #include "Logfile.h"
@@ -34,6 +36,8 @@ Allegro_Datafile::Allegro_Datafile(const std::string File)
     } // if !Pictures
 
     Filename = File;
+    Tilewidth = 32;
+    Tileheight = 32;
 
     generateIndex();
 
@@ -55,7 +59,7 @@ DATAFILE* Allegro_Datafile::getDatafile()
 {
     return Data;
 
-}
+} // getDatafile
 
 void Allegro_Datafile::addIndex(Index newEntry)
 {
@@ -71,11 +75,12 @@ void Allegro_Datafile::removeIndex(Index Entry)
     if(delEntry != Dataindex.end())
     {
         //*delEntry.erase();
+
     } // if delEntry != end()
 
 } // removeIndex
 
-Allegro_Datafile::Index Allegro_Datafile::findIndex(std::string Keyname)
+Allegro_Datafile::Index Allegro_Datafile::findIndex(const std::string Keyname)
 {
     std::map<std::string, int>::iterator Entry;
     Entry = Dataindex.find(Keyname);
@@ -86,11 +91,80 @@ Allegro_Datafile::Index Allegro_Datafile::findIndex(std::string Keyname)
         foundEntry.Name = (*Entry).first;
         foundEntry.Number = (*Entry).second;
 
+    }
+    else
+    {
+        foundEntry.Name = "";
+        foundEntry.Number = -1;
+
     } // if delEntry != end()
 
     return foundEntry;
 
 } // findIndex
+
+BITMAP* Allegro_Datafile::getBitmap(const std::string Bitname)
+{
+    Index Entry;
+    BITMAP *Dataentry = nullptr;
+
+    Entry = findIndex(Bitname);
+
+    if(Entry.Number != -1)
+    {
+        Dataentry = (BITMAP*) Data[Entry.Number].dat;
+
+    } // if Entry.Number
+
+    return Dataentry;
+
+} // getBitmap
+
+FONT* Allegro_Datafile::getFont(const std::string Fontname)
+{
+    Index Entry;
+    FONT *Dataentry = nullptr;
+
+    Entry = findIndex(Fontname);
+
+    if(Entry.Number != -1)
+    {
+        Dataentry = (FONT*) Data[Entry.Number].dat;
+
+    } // if Entry.Number
+
+    return Dataentry;
+
+} // getFont
+
+PALETTE* Allegro_Datafile::getPalette(const std::string Palettename)
+{
+    Index Entry;
+    PALETTE *Dataentry = nullptr;
+
+    Entry = findIndex(Palettename);
+
+    if(Entry.Number != -1)
+    {
+        Dataentry = (PALETTE*) Data[Entry.Number].dat;
+
+    } // if Entry.Number
+
+    return Dataentry;
+
+} // getPalette
+
+int Allegro_Datafile::getTilewidth()
+{
+    return Tilewidth;
+
+} // getTilewidth
+
+int Allegro_Datafile::getTileheight()
+{
+    return Tileheight;
+
+} // getTileheight
 
 void Allegro_Datafile::generateIndex()
 {
@@ -98,11 +172,6 @@ void Allegro_Datafile::generateIndex()
     -------------------------------------------------
 */
     Index MyIndex;
-    int Tilewidth = 32;
-
-    MyIndex.Name = "SHE_Font";
-    MyIndex.Number = 0;
-    addIndex(MyIndex);
 
     MyIndex.Name = "SHE_Frame";
     MyIndex.Number = 1;
@@ -116,23 +185,33 @@ void Allegro_Datafile::generateIndex()
     MyIndex.Number = 3;
     addIndex(MyIndex);
 
-    MyIndex.Name = "SHE_Towntiles";
+    MyIndex.Name = "SHE_Towntile";
     MyIndex.Number = 4;
     addIndex(MyIndex);
 
-    MyIndex.Name = "SHE_Worldtiles";
+    MyIndex.Name = "SHE_Worldtile";
     MyIndex.Number = 5;
     addIndex(MyIndex);
 
-    MyIndex.Name = "SHE_Worldenemys";
+    MyIndex.Name = "SHE_Worldenemy";
     MyIndex.Number = 6;
     addIndex(MyIndex);
 
-    MyIndex.Name = "SHE_Font_colored";
+/* Index for Fonts in DDD
+    -------------------------------------------------
+*/
+    MyIndex.Name = "FNT_Game";
+    MyIndex.Number = 0;
+    addIndex(MyIndex);
+
+    MyIndex.Name = "FNT_Title";
     MyIndex.Number = 7;
     addIndex(MyIndex);
 
-    MyIndex.Name = "SHE_Font_Palette";
+/* Index for Palettes in DDD
+    -------------------------------------------------
+*/
+    MyIndex.Name = "PAL_Font_Title";
     MyIndex.Number = 8;
     addIndex(MyIndex);
 

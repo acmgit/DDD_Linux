@@ -24,8 +24,8 @@ int main()
     const int Screenheight = 480;
     const int Screendepth = 16;
 
-    const int Tilewidth = 32;
-    const int Tileheight = 32;
+    //const int Tilewidth = 32;
+    //const int Tileheight = 32;
     const int WorldTilesheetwidth = 416;
     const int HeroTilesheetwidth = 288;
     const int EnemyTilesheetwidth = 1248;
@@ -90,26 +90,14 @@ int main()
     Log("(" << ErrorLog.ALLOK << ") Files loaded.")
 #endif // DEBUG
 
-    DATAFILE* Pictures = MyData.getDatafile();
 
-    BITMAP *Frame = (BITMAP*) Pictures[MyData.findIndex("SHE_Frame").Number].dat;
-    BITMAP *Tiles = (BITMAP*) Pictures[MyData.findIndex("SHE_Worldtiles").Number].dat;
-    BITMAP *Hero = (BITMAP*) Pictures[MyData.findIndex("SHE_Hero").Number].dat;
-    BITMAP *Enemy = (BITMAP*) Pictures[MyData.findIndex("SHE_Worldenemys").Number].dat;
-    BITMAP *Town = (BITMAP*) Pictures[MyData.findIndex("SHE_Towntiles").Number].dat;
-    BITMAP *Logo = (BITMAP*) Pictures[MyData.findIndex("SHE_Logo").Number].dat;
+    MyOutput.setFont(MyData.getFont("FNT_Title"));
+    MyOutput.setPalette(MyData.getPalette("PAL_Font_Title"));
 
-    char *names[]={"008_Font_colored", "009_Palette_008"};
-    PALETTE Font2_Palette;
-    FONT *Font2 = load_dat_font(Datafilename.c_str(), Font2_Palette, names);
-
-    font = (FONT*) Pictures[MyData.findIndex("SHE_Font").Number].dat;
-
-    MyOutput.setFont(Font2, Font2_Palette);;
     MyOutput.clearScreen(true);
 
     // Set up the Logo
-    renderTile.Sheet = Logo;
+    renderTile.Sheet = MyData.getBitmap("SHE_Logo");
     renderTile.Sheetpos_x = 0;
     renderTile.Sheetpos_y = 0;
     renderTile.Width = Logowidth;                              // starting Height of the Logo
@@ -156,55 +144,55 @@ int main()
 
     MyOutput.clearScreen(true);
 
-    MyOutput.setFont(font);
+    MyOutput.setFont(MyData.getFont("FNT_Game"));
 
-    renderTile.Sheet = Tiles;
+    renderTile.Sheet = MyData.getBitmap("SHE_Worldtile");
     renderTile.Sheetpos_x = MyData.findIndex("WTI_Gras").Number;
     renderTile.Sheetpos_y = 0;
     renderTile.transparency = true;
-    renderTile.Width = Tilewidth;
-    renderTile.Height = Tileheight;
+    renderTile.Width = MyData.getTilewidth();
+    renderTile.Height = MyData.getTileheight();
 
 
     for (int y = Playfield_y; y < Playfieldrows; ++y)
     {
         for(int x = Playfield_x; x < Playfieldcolumns; ++x)
         {
-            renderTile.Destinationpos_x = x * Tilewidth;
-            renderTile.Destinationpos_y = y * Tileheight;
+            renderTile.Destinationpos_x = x * MyData.getTilewidth();
+            renderTile.Destinationpos_y = y * MyData.getTileheight();
             MyOutput.renderObject(&renderTile);
 
         } // for x
 
     } // for y
 
-    renderTile.Sheet = Enemy;
+    renderTile.Sheet = MyData.getBitmap("SHE_Worldenemy");
     renderTile.Sheetpos_x = MyData.findIndex("WEN_Skeleton").Number;
-    renderTile.Destinationpos_x = 7 * Tilewidth;
-    renderTile.Destinationpos_y = 4 * Tileheight;
+    renderTile.Destinationpos_x = 7 * MyData.getTilewidth();
+    renderTile.Destinationpos_y = 4 * MyData.getTileheight();
     MyOutput.renderObject(&renderTile);
 
     renderTile.Sheetpos_x = MyData.findIndex("WEN_Ghoul").Number;
-    renderTile.Destinationpos_x = 6 * Tilewidth;
+    renderTile.Destinationpos_x = 6 * MyData.getTilewidth();
     MyOutput.renderObject(&renderTile);
 
     renderTile.Sheetpos_x = MyData.findIndex("WEN_Zombie").Number;
-    renderTile.Destinationpos_x = 5 * Tilewidth;
+    renderTile.Destinationpos_x = 5 * MyData.getTilewidth();
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sheet = Hero;
+    renderTile.Sheet = MyData.getBitmap("SHE_Hero");
     renderTile.Sheetpos_x = MyData.findIndex("HER_Sword").Number;
-    renderTile.Destinationpos_x = 6 * Tilewidth;
-    renderTile.Destinationpos_y = 5 * Tileheight;
+    renderTile.Destinationpos_x = 6 * MyData.getTilewidth();
+    renderTile.Destinationpos_y = 5 * MyData.getTileheight();
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sheet = Town;
+    renderTile.Sheet = MyData.getBitmap("SHE_Towntile");
     renderTile.Sheetpos_x = MyData.findIndex("TWN_Mubrak").Number;
-    renderTile.Destinationpos_x = 3 * Tilewidth;
-    renderTile.Destinationpos_y = 2 * Tileheight;
+    renderTile.Destinationpos_x = 3 * MyData.getTilewidth();
+    renderTile.Destinationpos_y = 2 * MyData.getTileheight();
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sheet = Frame;
+    renderTile.Sheet = MyData.getBitmap("SHE_Frame");
     renderTile.Sheetpos_x = 0;
     renderTile.Sheetpos_y = 0;
     renderTile.Destinationpos_x = 0;

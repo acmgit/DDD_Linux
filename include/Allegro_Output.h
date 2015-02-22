@@ -50,7 +50,7 @@ class Allegro_Output: public Screeninterface
         void clearScreen(bool Virtual);                              // Clears the Virtual Screen if true, else the Display
 
         void setFont(FONT *newFont);
-        void setFont(FONT *newFont, PALETTE newPalette);
+        void setPalette(PALETTE *newPalette);
 
         int getScreenWidth();
         int getScreenHeight();

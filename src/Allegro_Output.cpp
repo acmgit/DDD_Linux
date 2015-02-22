@@ -131,12 +131,11 @@ void Allegro_Output::setFont(FONT *newFont)
 
 } // setFont(FONT)
 
-void Allegro_Output::setFont(FONT *newFont, PALETTE newPalette)
+void Allegro_Output::setPalette(PALETTE *newPalette)
 {
-    currFont = newFont;
-    set_palette(newPalette);
+    set_palette((const RGB*) newPalette);
 
-} // setFont(FONT, PALETTE)
+} // setPalette(PALETTE)
 
 void Allegro_Output::clearScreen(bool Virtual)
 {
