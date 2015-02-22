@@ -49,15 +49,14 @@ int main()
 
     const std::string Datafilename = "data/gfx.dat";
     const std::string Indexfilename = "data/gfx.idx";
-    const std::string German = "data/DDD_deutsch.txt";
-    const std::string English = "data/DDD_english.txt";
+    const std::string Language = "data/DDD_Language.txt";
 
     allegro_init();
 
-    Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
+    Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, true);
     Allegro_Input MyInput;
     Allegro_Datafile MyData(Datafilename, Indexfilename);
-    UniText Translator(German);
+    UniText Translator(Language);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
@@ -76,7 +75,7 @@ int main()
     renderText.Foregroundcolor = MyData.findIndex("[COL_yellow]").Number;
     renderText.Backgroundcolor = MyData.findIndex("[COL_transparent]").Number;
     renderText.Pos_x = 10;
-    renderText.Pos_y = Screenheight / 2;
+    renderText.Pos_y = Screenheight - 30;
     renderText.Text = Translator.Print("[Loading]");
     renderText.Text = renderText.Text + Datafilename;
     renderText.Text = renderText.Text + ".";
@@ -174,7 +173,7 @@ int main()
     renderTile.Destinationpos_y = 4 * MyData.getTileheight();
     MyOutput.renderObject(&renderTile);
 
-    renderTile.Sheetpos_x = MyData.findIndex("[WEN_Ghoul]").Number;
+    renderTile.Sheetpos_x = MyData.findIndex("[WEN_Bandit]").Number;
     renderTile.Destinationpos_x = 6 * MyData.getTilewidth();
     MyOutput.renderObject(&renderTile);
 

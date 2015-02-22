@@ -212,7 +212,9 @@ void Allegro_Datafile::loadIndex(std::string Configfile)
         std::string Err = "Can't open File: " + Configfile;
         throw std::runtime_error(Err);
     }
+
 } // loadIndex
+
 
 int Allegro_Datafile::strtoint(std::string Number)
 {

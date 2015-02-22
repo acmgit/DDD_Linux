@@ -12,7 +12,19 @@ Hit any Key to continue ...
 Loading File 
 
 [Consoletesttext]
-15 Columns. Consoletext äöü ÄÖÜ
+15 Columns. Consoletext
 
 [Statustesttext]
 30 Columns: Statustext.
+
+[North]
+North ...
+
+[South]
+South ...
+
+[West]
+West ...
+
+[East]
+East ...

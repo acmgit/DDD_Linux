@@ -12,7 +12,6 @@
 #include <sstream>
 #include <iostream>
 
-
 class Allegro_Datafile: public Datafileinterface
 {
     public:
@@ -59,6 +58,7 @@ class Allegro_Datafile: public Datafileinterface
 
         int Tilewidth;
         int Tileheight;
+
 
 };
 
