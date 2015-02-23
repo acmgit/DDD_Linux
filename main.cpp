@@ -53,7 +53,7 @@ int main()
 
     allegro_init();
 
-    Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, true);
+    Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
     Allegro_Input MyInput;
     Allegro_Datafile MyData(Datafilename, Indexfilename);
     UniText Translator(Language);
@@ -93,8 +93,8 @@ int main()
 #endif // DEBUG
 
 
-    MyOutput.setFont(MyData.getFont("[FNT_Title]"));
-    MyOutput.setPalette(MyData.getPalette("[PAL_Font_Title]"));
+    MyOutput.setFont(MyData.getFont("[FNT_Title_big]"));
+    MyOutput.setPalette(MyData.getPalette("[PAL_Font_Title_big]"));
 
     MyOutput.clearScreen(true);
 

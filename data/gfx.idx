@@ -22,10 +22,14 @@
 0
 [FNT_Title]
 7
+[FNT_Title_big]
+9
 
 #Palette (Pal)
 [PAL_Font_Title]
 8
+[PAL_Font_Title_big]
+10
 
 #Colors (COL)
 [COL_red]
