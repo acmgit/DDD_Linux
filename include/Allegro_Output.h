@@ -2,6 +2,7 @@
 #define ALLEGRO_OUTPUT_H
 
 #include "Screeninterface.h"
+
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
 #include <allegro/font.h>
@@ -55,6 +56,9 @@ class Allegro_Output: public Screeninterface
         int getScreenWidth();
         int getScreenHeight();
         int getScreenDepth();
+
+        void drawAnimation(const int ID);
+        void drawAllAnimations();
 
     private:
 

@@ -227,10 +227,7 @@ int main()
 
     MyOutput.renderScreen();
 
-    do
-    {
-    }
-    while(!MyInput.readKey());
+    MyInput.readKey(10);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programm exited.")

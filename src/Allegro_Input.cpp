@@ -62,6 +62,24 @@ bool Allegro_Input::readKey()
 
 } // readKey
 
+bool Allegro_Input::readKey(const int Seconds)
+{
+    setSeconds(Seconds);
+
+    while(!wait())
+    {
+        if(readKey())
+        {
+            return true;
+
+        } // if readKey
+
+    } // while wait
+
+    return false;
+
+} // readKey(Seconds)
+
 bool Allegro_Input::hasMousemoved()
 {
     needPoll();

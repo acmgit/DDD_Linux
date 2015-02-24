@@ -2,8 +2,9 @@
 #define ALLEGRO_INPUT_H
 
 #include "Inputinterface.h"
+#include "Clock.h"
 
-class Allegro_Input: public Inputinterface
+class Allegro_Input: public Inputinterface, public Clock
 {
     public:
         Allegro_Input();
@@ -11,6 +12,8 @@ class Allegro_Input: public Inputinterface
 
     // Keyboard
     bool readKey();
+    bool readKey(int Seconds);
+
     Key getKey();
 
     // Mouse

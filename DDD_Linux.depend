@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1424628329 source:/home/acm/mygit/DDD_Linux/main.cpp
+1424735065 source:/home/acm/mygit/DDD_Linux/main.cpp
 	<iostream>
 	<allegro.h>
 	<string>
@@ -7,6 +7,7 @@
 	"include/Allegro_Output.h"
 	"Allegro_Datafile.h"
 	"UniText.h"
+	"Clock.h"
 	"Logfile.h"
 
 1424177277 /home/acm/mygit/DDD_Linux/include/Allegro_Input.h
@@ -38,7 +39,7 @@
 	<string>
 	<time.h>
 
-1424609889 /home/acm/mygit/DDD_Linux/include/Allegro_Output.h
+1424729319 /home/acm/mygit/DDD_Linux/include/Allegro_Output.h
 	"Screeninterface.h"
 	<allegro/gfx.h>
 	<allegro/graphics.h>
@@ -47,14 +48,21 @@
 
 1424528672 /home/acm/mygit/DDD_Linux/include/Screeninterface.h
 
-1424445196 source:/home/acm/mygit/DDD_Linux/src/Allegro_Datafile.cpp
+1424641757 source:/home/acm/mygit/DDD_Linux/src/Allegro_Datafile.cpp
 	"Allegro_Datafile.h"
+	<allegro/system.h>
+	<allegro/graphics.h>
+	<allegro/gfx.h>
+	<allegro/font.h>
+	<sstream>
+	<iostream>
+	<fstream>
 	"Logfile.h"
 	<allegro/system.h>
 	<string>
 	<map>
 
-1424632419 /home/acm/mygit/DDD_Linux/include/Allegro_Datafile.h
+1424641841 /home/acm/mygit/DDD_Linux/include/Allegro_Datafile.h
 	<string>
 	<map>
 	"Datafileinterface.h"
@@ -62,11 +70,13 @@
 	<allegro/gfx.h>
 	<allegro/font.h>
 	<allegro/graphics.h>
+	<sstream>
+	<iostream>
 
 1424439368 /home/acm/mygit/DDD_Linux/include/Datafileinterface.h
 	<string>
 
-1424519317 source:/home/acm/mygit/DDD_Linux/src/Allegro_Output.cpp
+1424729304 source:/home/acm/mygit/DDD_Linux/src/Allegro_Output.cpp
 	"Allegro_Output.h"
 	<allegro/gfx.h>
 	<allegro/graphics.h>
@@ -81,4 +91,8 @@
 	<map>
 	<string>
 	<sstream>
+
+1424733428 /home/acm/mygit/DDD_Linux/include/Clock.h
+	<vector>
+	<time.h>
 
