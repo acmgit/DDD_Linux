@@ -1,14 +1,14 @@
 #ifndef ALLEGRO_INPUT_CPP
 #define ALLEGRO_INPUT_CPP
 
-#include "include/Allegro_Input.h"
+#include "Allegro_Input.h"
 
 #include <iostream>
 #include <allegro.h>
 
 #ifdef DEBUG
 
-#include "include/Logfile.h"
+#include "Logfile.h"
 
 #endif // DEBUG
 

@@ -1,4 +1,9 @@
-PROG = DDD_Linux
+#Makefile (?) by A.C.M.
+#it was f**ing hard to create this file, pls handle it with care
+#-----------------------------------------------------------------------------------------------
+
+PROGNAME = DDD_Linux
+PROGNAME_DEBUG = DDD_Linux_Debug
 CC = g++
 CCFLAGSRELEASE = -Wall -Wextra -O3 -std=c++11 -fexceptions -fexpensive-optimizations
 CCFLAGSDEBUG = -Wall -Wextra -std=c++11 -fexceptions
@@ -13,13 +18,13 @@ DEBFLAG = -DDEBUG
 OBJDIR = .
 
 release:rel
-	$(CC) -o $(PROG) $(OBJDIR)/$(OBJ) -s -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSRELEASE) $(LIBS)
+	$(CC) -o $(PROGNAME) $(OBJDIR)/$(OBJ) -s -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSRELEASE) $(LIBS)
 
 rel:*.cpp
 	$(CC) -c $(SRC) $(SOURCE)/$(SRC) $(INCLUDE)/$(INC)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSRELEASE) $(LIBS)
 
 debug:deb
-	$(CC) -o $(PROG) $(OBJDIR)/$(OBJ) -g -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(LIBS)
+	$(CC) -o $(PROGNAME_DEBUG) $(OBJDIR)/$(OBJ) -g -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(LIBS)
 
 deb:*.cpp
 	$(CC) -c $(SRC) $(SOURCE)/$(SRC) $(INCLUDE)/$(INC) $(DEBFLAG)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(LIBS)

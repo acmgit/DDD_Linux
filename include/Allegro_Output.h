@@ -1,8 +1,8 @@
 #ifndef ALLEGRO_OUTPUT_H
 #define ALLEGRO_OUTPUT_H
 
-#include "include/Screeninterface.h"
-#include "include/UniText.h"
+#include "Screeninterface.h"
+#include "UniText.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>

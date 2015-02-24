@@ -1,8 +1,8 @@
 #ifndef ALLEGRO_INPUT_H
 #define ALLEGRO_INPUT_H
 
-#include "include/Inputinterface.h"
-#include "include/Clock.h"
+#include "Inputinterface.h"
+#include "Clock.h"
 
 class Allegro_Input: public Inputinterface, public Clock
 {

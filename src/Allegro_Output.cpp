@@ -1,4 +1,4 @@
-#include "include/Allegro_Output.h"
+#include "Allegro_Output.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -6,7 +6,7 @@
 #include <allegro/font.h>
 
 #ifdef DEBUG
-#include "include/Logfile.h"
+#include "Logfile.h"
 
 #endif // DEBUG
 

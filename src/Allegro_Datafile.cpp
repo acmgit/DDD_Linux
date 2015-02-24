@@ -1,4 +1,4 @@
-#include "include/Allegro_Datafile.h"
+#include "Allegro_Datafile.h"
 
 #include <allegro/system.h>
 #include <allegro/graphics.h>
@@ -9,7 +9,7 @@
 #include <fstream>
 
 #ifdef DEBUG
-#include "include/Logfile.h"
+#include "Logfile.h"
 #include <allegro/system.h>
 
 #endif // DEBUG
