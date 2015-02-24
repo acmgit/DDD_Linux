@@ -1,26 +1,32 @@
 PROG = DDD_Linux
 CC = g++
-CCFLAGS = -Wall -O2 -std=c++11 -fexceptions
+CCFLAGSRELEASE = -Wall -Wextra -O3 -std=c++11 -fexceptions -fexpensive-optimizations
+CCFLAGSDEBUG = -Wall -Wextra -std=c++11 -fexceptions
 LIBS = -lalleg
-INC = include
-SRC = src
-REL = *.o
-DEB = *.o
+INCLUDE = include
+SOURCE = src
+OBJ = *.o
+SRC = *.cpp
+INC = *.h
+INCOBJ = *.gch
+DEBFLAG = -DDEBUG
+OBJDIR = .
 
-all:rel
-	$(CC) -o $(PROG) $(REL) -s -I$(INC) -I$(SRC) $(CCFLAGS) $(LIBS)
+release:rel
+	$(CC) -o $(PROG) $(OBJDIR)/$(OBJ) -s -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSRELEASE) $(LIBS)
 
 rel:*.cpp
-	$(CC) -c *.cpp $(SRC)/*.cpp $(INC)/*.h -I$(INC) -I$(SRC) $(CCFLAGS) $(LIBS)
+	$(CC) -c $(SRC) $(SOURCE)/$(SRC) $(INCLUDE)/$(INC)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSRELEASE) $(LIBS)
 
 debug:deb
-	$(CC) -o $(PROG) $(DEB) -g -I$(INC) -I$(SRC) $(CCFLAGS) $(LIBS)
+	$(CC) -o $(PROG) $(OBJDIR)/$(OBJ) -g -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(LIBS)
 
 deb:*.cpp
-	$(CC) -c *.cpp $(SRC)/*.cpp $(INC)/*.h -DDEBUG -I$(INC) -I$(SRC) $(CCFLAGS) $(LIBS)
+	$(CC) -c $(SRC) $(SOURCE)/$(SRC) $(INCLUDE)/$(INC) $(DEBFLAG)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(LIBS)
 
 clean:
-	rm -rf *.o
+	rm -rf $(OBJDIR)/$(OBJ)
+	rm -rf $(INCLUDE)/$(INCOBJ)
 
-,PHONY: all debug clean
+,PHONY: debug release clean
 
