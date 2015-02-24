@@ -25,37 +25,17 @@ int main()
     const int Screenheight = 480;
     const int Screendepth = 16;
 
-    const int WorldTilesheetwidth = 416;
-    const int HeroTilesheetwidth = 288;
-    const int EnemyTilesheetwidth = 1248;
-    const int TownTilesheetwidth = 416;
-
-    const int Logowidth = 240;
-    const int Logoheight = 151;
-
-    const int Playfield_x = 0;
-    const int Playfield_y = 0;
-    const int Playfieldcolumns = 12;                // Tiles
-    const int Playfieldrows = 10;                   // Tiles
-
-    const int Textheight = 10;
-    const int Textwidth = 8;
-
-    const int Consoletext_x = 10;
-    const int Consoletext_y = 324;
-
-    const int Statustext_x = 387;
-    const int Statustext_y = 12;
-
     const std::string Datafilename = "data/gfx.dat";
     const std::string Indexfilename = "data/gfx.idx";
     const std::string Language = "data/DDD_Language.txt";
+    const std::string Inifile = "data/DDD_Ini.txt";
+
 
     allegro_init();
 
     Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
+    Allegro_Datafile MyData(Datafilename, Indexfilename, Inifile);
     Allegro_Input MyInput;
-    Allegro_Datafile MyData(Datafilename, Indexfilename);
     UniText Translator(Language);
 
 #ifdef DEBUG
@@ -102,8 +82,8 @@ int main()
     renderTile.Sheet = MyData.getBitmap("[SHE_Logo]");
     renderTile.Sheetpos_x = 0;
     renderTile.Sheetpos_y = 0;
-    renderTile.Width = Logowidth;                              // starting Height of the Logo
-    renderTile.Height = Logoheight;
+    renderTile.Width = MyData.findIndex("[INI_Logowidth]").Number;                              // starting Height of the Logo
+    renderTile.Height = MyData.findIndex("[INI_Logoheight]").Number;
     renderTile.Destinationpos_y = 0;
     renderTile.Destinationpos_x = (MyOutput.getScreenWidth() / 2) - (renderTile.Width / 2);
     renderTile.transparency = false;
@@ -118,9 +98,9 @@ int main()
     {
         renderTile.Height = Logomove_y * 10;
 
-        if(renderTile.Height > Logoheight)
+        if(renderTile.Height > MyData.findIndex("[INI_Logoheight]").Number)
         {
-            renderTile.Height = Logoheight;
+            renderTile.Height = MyData.findIndex("[INI_Logoheight]").Number;
 
         } // if renderTile.Height
 
@@ -131,7 +111,11 @@ int main()
         MyOutput.renderScreen();
 
         MyOutput.clearScreen(true);                         // Clear the vitual Bitmap
-        rest(10);
+        MyInput.setMiliSeconds(500);
+        while(!MyInput.wait())
+        {
+            rest(1);
+        } // wait 10 Miliseconds
 
     } // for Logomove_y
 
@@ -151,16 +135,16 @@ int main()
     renderTile.Sheetpos_x = MyData.findIndex("[WTI_Gras]").Number;
     renderTile.Sheetpos_y = 0;
     renderTile.transparency = true;
-    renderTile.Width = MyData.getTilewidth();
-    renderTile.Height = MyData.getTileheight();
+    renderTile.Width = MyData.findIndex("[INI_Worldtileswidth]").Number;
+    renderTile.Height = MyData.findIndex("[INI_Worldtilesheight]").Number;
 
 
-    for (int y = Playfield_y; y < Playfieldrows; ++y)
+    for (int y = MyData.findIndex("[INI_Playfield_y]").Number; y < MyData.findIndex("[INI_Playfieldrows]").Number; ++y)
     {
-        for(int x = Playfield_x; x < Playfieldcolumns; ++x)
+        for(int x = MyData.findIndex("[INI_Playfield_x]").Number; x < MyData.findIndex("[INI_Playfieldcolumns]").Number; ++x)
         {
-            renderTile.Destinationpos_x = x * MyData.getTilewidth();
-            renderTile.Destinationpos_y = y * MyData.getTileheight();
+            renderTile.Destinationpos_x = x * MyData.findIndex("[INI_Worldtileswidth]").Number;
+            renderTile.Destinationpos_y = y * MyData.findIndex("[INI_Worldtilesheight]").Number;
             MyOutput.renderObject(&renderTile);
 
         } // for x
@@ -169,28 +153,28 @@ int main()
 
     renderTile.Sheet = MyData.getBitmap("[SHE_Worldenemy]");
     renderTile.Sheetpos_x = MyData.findIndex("[WEN_Skeleton]").Number;
-    renderTile.Destinationpos_x = 7 * MyData.getTilewidth();
-    renderTile.Destinationpos_y = 4 * MyData.getTileheight();
+    renderTile.Destinationpos_x = 7 * MyData.findIndex("[INI_Worldtileswidth]").Number;
+    renderTile.Destinationpos_y = 4 * MyData.findIndex("[INI_Worldtilesheight]").Number;
     MyOutput.renderObject(&renderTile);
 
     renderTile.Sheetpos_x = MyData.findIndex("[WEN_Bandit]").Number;
-    renderTile.Destinationpos_x = 6 * MyData.getTilewidth();
+    renderTile.Destinationpos_x = 6 * MyData.findIndex("[INI_Worldtileswidth]").Number;
     MyOutput.renderObject(&renderTile);
 
     renderTile.Sheetpos_x = MyData.findIndex("[WEN_Zombie]").Number;
-    renderTile.Destinationpos_x = 5 * MyData.getTilewidth();
+    renderTile.Destinationpos_x = 5 * MyData.findIndex("[INI_Worldtileswidth]").Number;
     MyOutput.renderObject(&renderTile);
 
     renderTile.Sheet = MyData.getBitmap("[SHE_Hero]");
     renderTile.Sheetpos_x = MyData.findIndex("[HER_Sword]").Number;
-    renderTile.Destinationpos_x = 6 * MyData.getTilewidth();
-    renderTile.Destinationpos_y = 5 * MyData.getTileheight();
+    renderTile.Destinationpos_x = 6 * MyData.findIndex("[INI_Worldtileswidth]").Number;
+    renderTile.Destinationpos_y = 5 * MyData.findIndex("[INI_Worldtilesheight]").Number;
     MyOutput.renderObject(&renderTile);
 
     renderTile.Sheet = MyData.getBitmap("[SHE_Towntile]");
-    renderTile.Sheetpos_x = MyData.findIndex("[TWN_Mubrak]").Number;
-    renderTile.Destinationpos_x = 3 * MyData.getTilewidth();
-    renderTile.Destinationpos_y = 2 * MyData.getTileheight();
+    renderTile.Sheetpos_x = MyData.findIndex("[TWN_Gaht]").Number;
+    renderTile.Destinationpos_x = 3 * MyData.findIndex("[INI_Worldtileswidth]").Number;
+    renderTile.Destinationpos_y = 2 * MyData.findIndex("[INI_Worldtilesheight]").Number;
     MyOutput.renderObject(&renderTile);
 
     renderTile.Sheet = MyData.getBitmap("[SHE_Frame]");
@@ -203,24 +187,24 @@ int main()
     MyOutput.renderObject(&renderTile);
 
     renderText.Foregroundcolor = MyData.findIndex("[COL_purple]").Number;
-    renderText.Pos_x = Consoletext_x;
+    renderText.Pos_x = MyData.findIndex("[INI_Consoletext_x]").Number;
     renderText.Text = Translator.Print("[Consoletesttext]");
     renderText.toConvert = true;
 
     for(int Consoleline = 0; Consoleline < 15; ++Consoleline)
     {
-        renderText.Pos_y = Consoletext_y + (Consoleline * Textheight);
+        renderText.Pos_y = MyData.findIndex("[INI_Consoletext_y]").Number + (Consoleline * MyData.findIndex("[INI_Textheight]").Number);
         MyOutput.writeOnScreen(&renderText);
 
     } // for i
 
     renderText.Text = Translator.Print("[Statustesttext]");
-    renderText.Pos_x = Statustext_x;
+    renderText.Pos_x = MyData.findIndex("[INI_Statustext_x]").Number;
     renderText.Foregroundcolor = MyData.findIndex("[COL_gold]").Number;
 
     for(int Statusline = 0; Statusline < 30; ++Statusline)
     {
-        renderText.Pos_y = Statustext_y + (Statusline * Textheight);
+        renderText.Pos_y = MyData.findIndex("[INI_Statustext_y]").Number + (Statusline * MyData.findIndex("[INI_Textheight]").Number);
         MyOutput.writeOnScreen(&renderText);
 
     } // for i

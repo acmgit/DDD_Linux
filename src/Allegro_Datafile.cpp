@@ -15,18 +15,18 @@
 #include <string>
 #include <map>
 
-Allegro_Datafile::Allegro_Datafile(const std::string File, const std::string Indexfile)
+Allegro_Datafile::Allegro_Datafile(const std::string Datafile, const std::string DatafileIndex, const std::string Configfile)
 {
 
 #ifdef DEBUG
-    Log("Loading " << File.c_str() << ".")
+    Log("Loading " << Datafile.c_str() << ".")
 #endif // DEBUG
 
-    Data = load_datafile(File.c_str());
+    Data = load_datafile(Datafile.c_str());
     if(!Data)
     {
         std::string DataError = "Could not load <";
-        DataError = DataError + File;
+        DataError = DataError + Datafile;
         DataError = DataError + ">.";
 
 #ifdef DEBUG
@@ -38,12 +38,16 @@ Allegro_Datafile::Allegro_Datafile(const std::string File, const std::string Ind
 
     } // if !Pictures
 
-    Filename = File;
-    Tilewidth = 32;
-    Tileheight = 32;
+    Filename = Datafile;
+
+    // Get inital Values
+    loadIndex(Configfile);
 
     //generateIndex();
-    loadIndex(Indexfile);
+    loadIndex(DatafileIndex);
+
+    Tilewidth = findIndex("[INI_Worldtileswidth]").Number;
+    Tileheight = findIndex("[INI_Worldtilesheight]").Number;
 
 } // Datafile
 
@@ -158,27 +162,14 @@ PALETTE* Allegro_Datafile::getPalette(const std::string Palettename)
 
 } // getPalette
 
-int Allegro_Datafile::getTilewidth()
+void Allegro_Datafile::loadIndex(std::string Indexfile)
 {
-    return Tilewidth;
-
-} // getTilewidth
-
-int Allegro_Datafile::getTileheight()
-{
-    return Tileheight;
-
-} // getTileheight
-
-
-void Allegro_Datafile::loadIndex(std::string Configfile)
-{
-    std::ifstream File(Configfile.c_str());
+    std::ifstream File(Indexfile.c_str());
 
     if(File.is_open())
     {
 #ifdef DEBUG
-    Log("File " << Configfile.c_str() << " opened.")
+    Log("File " << Indexfile.c_str() << " opened.")
 #endif // DEBUG
         Index Config;
 
@@ -200,16 +191,16 @@ void Allegro_Datafile::loadIndex(std::string Configfile)
         File.close();
 
 #ifdef DEBUG
-    Log("File " << Configfile.c_str() << " closed.")
+    Log("File " << Indexfile.c_str() << " closed.")
 #endif // DEBUG
     } // if File isopen
     else
     {
 #ifdef DEBUG
-        Log("(" << ErrorLog.FILE_NOT_FOUND << ") " << Configfile.c_str())
+        Log("(" << ErrorLog.FILE_NOT_FOUND << ") " << Indexfile.c_str())
 #endif // DEBUG
 
-        std::string Err = "Can't open File: " + Configfile;
+        std::string Err = "Can't open File: " + Indexfile;
         throw std::runtime_error(Err);
     }
 

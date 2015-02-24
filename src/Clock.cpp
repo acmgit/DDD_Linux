@@ -53,10 +53,6 @@ bool Clock::wait()
 
     if((currTime.tv_usec >= Timer.tv_usec) && (currTime.tv_sec >= Timer.tv_sec))
     {
-        #ifdef DEBUG
-            Log(currTime.tv_sec << " : " << Timer.tv_sec)
-        #endif // DEBUG
-
         return true;
 
     } // if Miliseconds && Seconds

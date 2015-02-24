@@ -2,6 +2,7 @@
 #define ALLEGRO_OUTPUT_H
 
 #include "Screeninterface.h"
+#include "UniText.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>

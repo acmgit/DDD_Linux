@@ -14,7 +14,7 @@ class Clock
         void setSeconds(const int Seconds);
         void setMiliSeconds(const int Miliseconds);
 
-        bool wait();
+        bool wait();                // Returns true, if the time was come ...
 
     protected:
     private:

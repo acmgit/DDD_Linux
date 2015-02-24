@@ -8,3 +8,4 @@ TWN = TownTiles (Die einzelnen Darstellungen der Städte und andere Eingänge in
 WTI = WorldTiles (Die Tiles der Aussenwelt)
 FNT = Fonts (Zeichensätze in DDD)
 PAL = Palettes (Palletten für die z.b. Fonts)
+INI = Initialkonstanten

@@ -27,7 +27,7 @@ class Allegro_Datafile: public Datafileinterface
             PALETTE *Palette;
         };
 
-        Allegro_Datafile(const std::string File, const std::string Indexfile);
+        Allegro_Datafile(const std::string Datafile, const std::string DatafileIndex, const std::string Configfile);
         ~Allegro_Datafile();
 
         DATAFILE* getDatafile();
@@ -41,15 +41,12 @@ class Allegro_Datafile: public Datafileinterface
         FONT* getFont(const std::string Fontname);
         PALETTE* getPalette(const std::string Palettename);
 
-        int getTilewidth();
-        int getTileheight();
-
         int strtoint(std::string Value);
         std::string inttostr(int Value);
 
     private:
 
-        void loadIndex(std::string Configfile);
+        void loadIndex(std::string Indexfile);
 
         std::string Filename;
         DATAFILE* Data;
