@@ -1,7 +1,8 @@
 #ifndef INPUTINTERFACE_CPP
 #define INPUTINTERFACE_CPP
 
-#include "Inputinterface.h"
+#include "include/Inputinterface.h"
+
 #include <string>
 #include <iostream>
 

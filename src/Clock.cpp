@@ -1,12 +1,12 @@
 #ifndef CLOCK_CPP
 #define CLOCK_CPP
-#include "Clock.h"
+#include "include/Clock.h"
 
 #include <sys/time.h>
 
 #ifdef DEBUG
 
-#include "Logfile.h"
+#include "include/Logfile.h"
 
 #endif // DEBUG
 

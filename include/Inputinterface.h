@@ -1,8 +1,8 @@
 #ifndef INPUTINTERFACE_H
 #define INPUTINTERFACE_H
 
-#include "Keyboardinterface.h"
-#include "Mouseinterface.h"
+#include "include/Keyboardinterface.h"
+#include "include/Mouseinterface.h"
 #include <string>
 
 class Inputinterface: public Keyboardinterface, public Mouseinterface

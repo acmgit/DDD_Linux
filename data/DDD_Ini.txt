@@ -7,10 +7,8 @@
 #Screendata
 [INI_Screenwidth]
 640
-
 [INI_Screenheight]
 480
-
 [INI_Screendepth]
 16
 

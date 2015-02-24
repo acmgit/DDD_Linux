@@ -4,8 +4,8 @@
 
 #include "include/Allegro_Input.h"
 #include "include/Allegro_Output.h"
-#include "Allegro_Datafile.h"
-#include "UniText.h"
+#include "include/Allegro_Datafile.h"
+#include "include/UniText.h"
 
 using namespace std;
 
@@ -13,7 +13,7 @@ void exit_on_error(const std::string &Errormessage);
 
 #ifdef DEBUG
 
-#include "Logfile.h"
+#include "include/Logfile.h"
 
 CLog ErrorLog("data/Logfile.txt");
 

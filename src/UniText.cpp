@@ -1,4 +1,5 @@
-#include "UniText.h"
+#include "include/UniText.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -6,7 +7,7 @@
 
 #ifdef DEBUG
 
-#include "Logfile.h"
+#include "include/Logfile.h"
 
 #endif // DEBUG
 // Opens the Languagefile and initalise the Map

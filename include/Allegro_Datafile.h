@@ -4,7 +4,8 @@
 #include <string>
 #include <map>
 
-#include "Datafileinterface.h"
+#include "include/Datafileinterface.h"
+
 #include <allegro/datafile.h>
 #include <allegro/gfx.h>
 #include <allegro/font.h>

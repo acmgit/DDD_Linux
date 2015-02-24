@@ -1,7 +1,7 @@
 #ifndef LOG_CPP
 #define LOG_CPP
 
-#include "Logfile.h"
+#include "include/Logfile.h"
 
 // --------------------------------------------------------------------------------
 CLog::CLog( const char* pszFileName )
