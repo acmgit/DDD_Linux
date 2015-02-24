@@ -1,0 +1,45 @@
+# Inifile.
+# Ein Schlüssel muß mit einem [ beginnen
+# und in der gleichen Zeile mit ] enden.
+# In der einzelnen Zeile unter dem Schlüssel ist dann der Wert, welcher eingelesen werden soll.
+# 
+
+#Screendata
+[INI_Screenwidth]
+640
+
+[INI_Screenheight]
+480
+
+[INI_Screendepth]
+16
+
+[INI_Logowidth]
+240
+[INI_Logoheight]
+151
+
+[INI_Playfield_x]
+0
+[InI_Playfield_y]
+0
+[INI_Playfieldcolumns]
+12
+[INI_Playfieldrows]
+10
+
+[INI_Textheight]
+10
+[INI_Consoletext_x]
+10
+[INI_Consoletext_y]
+324
+[INI_Statustext_x]
+387
+[INI_Statustext_y]
+12
+
+[INI_Worldtileswidth]
+32
+[INI_Worldtilesheight]
+32
