@@ -52,7 +52,7 @@ rel:*.cpp
 	$(CC) -c $(SOURCE)/$(SRC) $(INCLUDE)/$(INC)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSRELEASE) $(LIBS)
 
 debug:deb
-	@echo -e '$(DLEFT) linking Programm [$(FPURPLE)$(PROGNAME)$(FBLUE)],$(DRIGHT)'
+	@echo -e '$(DLEFT) linking Programm [$(FPURPLE)$(PROGNAME_DEBUG)$(FBLUE)],$(DRIGHT)'
 	$(CC) -o $(PROGNAME_DEBUG) $(OBJDIR)/$(OBJ) -g -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(LIBS)
 	@echo -e '$(DLEFT) be care, this is to Debug $(FGREEN)$(PROGNAME)$(FBLUE).$(DRIGHT)'
 
