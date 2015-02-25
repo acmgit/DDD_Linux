@@ -2,19 +2,26 @@
 #it was f**ing hard to create this file, pls handle it with care
 #-----------------------------------------------------------------------------------------------
 
-PROGNAME = DDD_Linux
-PROGNAME_DEBUG = DDD_Linux_Debug
 CC = g++
+
+# to Release
+PROGNAME = DDD_Linux
 CCFLAGSRELEASE = -Wall -Wextra -O3 -std=c++11 -fexceptions -fexpensive-optimizations
-CCFLAGSDEBUG = -Wall -Wextra -std=c++11 -fexceptions
 LIBS = -lalleg
+
+#to Debug
+PROGNAME_DEBUG = DDD_Linux_Debug
+CCFLAGSDEBUG = -Wall -Wextra -std=c++11 -fexceptions
+DLIBS = -lalleg #LIbs for Codedebugging
+DEBFLAG = -DDEBUG
+
+#general
 INCLUDE = include
 SOURCE = src
 OBJ = *.o
 SRC = *.cpp
 INC = *.h
 INCOBJ = *.gch
-DEBFLAG = -DDEBUG
 OBJDIR = .
 
 #Foregroundcolors
@@ -53,14 +60,14 @@ rel:*.cpp
 
 debug:deb
 	@echo -e '$(DLEFT) linking Programm [$(FPURPLE)$(PROGNAME_DEBUG)$(FBLUE)],$(DRIGHT)'
-	$(CC) -o $(PROGNAME_DEBUG) $(OBJDIR)/$(OBJ) -g -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(LIBS)
+	$(CC) -o $(PROGNAME_DEBUG) $(OBJDIR)/$(OBJ) -g -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(DLIBS)
 	@echo -e '$(DLEFT) be care, this is to Debug $(FGREEN)$(PROGNAME)$(FBLUE).$(DRIGHT)'
 
 deb:*.cpp
 	@echo -e '$(DLEFT) Compiling [$(FRED)$(SRC)$(FBLUE)],$(DRIGHT)'
-	$(CC) -c $(SRC) $(INCLUDE)/$(INC) $(DEBFLAG)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(LIBS)
+	$(CC) -c $(SRC) $(INCLUDE)/$(INC) $(DEBFLAG)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(DLIBS)
 	@echo -e '$(DLEFT) compiling [$(FRED)$(SOURCE)/$(SRC)$(FBLUE)],$(DRIGHT)'
-	$(CC) -c $(SOURCE)/$(SRC) $(INCLUDE)/$(INC) $(DEBFLAG)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(LIBS)
+	$(CC) -c $(SOURCE)/$(SRC) $(INCLUDE)/$(INC) $(DEBFLAG)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(DLIBS)
 
 clean:
 	@echo -e '$(DLEFT) Cleaning [$(FRED)$(OBJDIR)/$(OBJ)$(FBLUE)],$(DRIGHT)'
