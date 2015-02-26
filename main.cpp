@@ -63,7 +63,12 @@ int main()
     renderText.Foregroundcolor = MyData.findIndex("[COL_yellow]").Number;
     renderText.Backgroundcolor = MyData.findIndex("[COL_transparent]").Number;
     renderText.Pos_x = 10;
-    renderText.Pos_y = (MyData.findIndex("[INI_Screenheight]").Number) - 10; //Screenheight - 30;
+    renderText.Pos_y = (MyData.findIndex("[INI_Screenheight]").Number) - 40; //Screenheight - 30;
+
+#ifdef DEBUG
+    Log("Screenheight = " << MyData.findIndex("[INI_Screenheight]").Number)
+#endif // DEBUG
+
     renderText.Text = Translator.Print("[Loading]");
     renderText.Text = renderText.Text + Datafilename;
     renderText.Text = renderText.Text + ".";
@@ -129,6 +134,7 @@ int main()
 
     renderText.Foregroundcolor = MyData.findIndex("[COL_transparent]").Number;
     renderText.Text = Translator.Print("[Presskey]");
+
     MyOutput.renderObject(&renderTile);
     MyOutput.writeOnScreen(&renderText);
     MyOutput.renderScreen();
@@ -137,20 +143,22 @@ int main()
 
     MyOutput.clearScreen(true);
 
+    // Writes a Testtext on the Console
     for(int i = 0; i < 20; ++i)
     {
-        MyOutput.clearScreen(true);
+        MyOutput.clearScreen(true);             // Here it must be, because this is only a Test with more than max Rows
         if(i%2)
         {
-            MyOutput.writeOnConsole(MyData.findIndex("[COL_yellow]").Number, "Test ..." + MyData.inttostr(i));
+            MyOutput.writeOnConsole(MyData.findIndex("[COL_yellow]").Number, MyData.findIndex("[COL_transparent]").Number, Translator.Print("[Waiting]") + MyData.inttostr(i));
         }
         else
         {
-            MyOutput.writeOnConsole(MyData.findIndex("[COL_green]").Number, "Test ..." + MyData.inttostr(i));
+            MyOutput.writeOnConsole(MyData.findIndex("[COL_red]").Number, MyData.findIndex("[COL_white]").Number, Translator.Print("[Waiting]") + MyData.inttostr(i));
         }
 
     }
 
+    // Draws the Playwindow
     MyOutput.setFont(MyData.getFont("[FNT_Game]"));
 
     renderTile.Sheet = MyData.getBitmap("[SHE_Worldtile]");
@@ -160,7 +168,7 @@ int main()
     renderTile.Width = MyData.findIndex("[INI_Worldtileswidth]").Number;
     renderTile.Height = MyData.findIndex("[INI_Worldtilesheight]").Number;
 
-
+    // Draw the Tiles on the Playwindow
     for (int y = MyData.findIndex("[INI_Playfield_y]").Number; y < MyData.findIndex("[INI_Playfieldrows]").Number; ++y)
     {
         for(int x = MyData.findIndex("[INI_Playfield_x]").Number; x < MyData.findIndex("[INI_Playfieldcolumns]").Number; ++x)
@@ -173,6 +181,7 @@ int main()
 
     } // for y
 
+    // Fill the Playwindow with Enemys, Hero and a Town
     renderTile.Sheet = MyData.getBitmap("[SHE_Worldenemy]");
     renderTile.Sheetpos_x = MyData.findIndex("[WEN_Skeleton]").Number;
     renderTile.Destinationpos_x = 7 * MyData.findIndex("[INI_Worldtileswidth]").Number;
@@ -208,23 +217,14 @@ int main()
     renderTile.Height = MyOutput.getScreenHeight();
     MyOutput.renderObject(&renderTile);
 
-    renderText.Foregroundcolor = MyData.findIndex("[COL_purple]").Number;
-    renderText.Pos_x = MyData.findIndex("[INI_Consoletext_x]").Number;
-    renderText.Text = Translator.Print("[Consoletesttext]");
+
+    // Prepare the Statustext
     renderText.toConvert = true;
-
-/*
-    for(int Consoleline = 0; Consoleline < 15; ++Consoleline)
-    {
-        renderText.Pos_y = MyData.findIndex("[INI_Consoletext_y]").Number + (Consoleline * MyData.findIndex("[INI_Textheight]").Number);
-        MyOutput.writeOnScreen(&renderText);
-
-    } // for i
-*/
     renderText.Text = Translator.Print("[Statustesttext]");
     renderText.Pos_x = MyData.findIndex("[INI_Statustext_x]").Number;
     renderText.Foregroundcolor = MyData.findIndex("[COL_gold]").Number;
 
+    // now write in the Statuswindow
     for(int Statusline = 0; Statusline < 30; ++Statusline)
     {
         renderText.Pos_y = MyData.findIndex("[INI_Statustext_y]").Number + (Statusline * MyData.findIndex("[INI_Textheight]").Number);
@@ -232,8 +232,10 @@ int main()
 
     } // for i
 
+    // yeah, draw it Baby, draw it ...
     MyOutput.renderScreen();
 
+    // and wait 10 Seconds for a Key
     MyInput.readKey(10);
 
 #ifdef DEBUG

@@ -15,11 +15,18 @@ Clock::Clock()
     gettimeofday(&currTime, 0);
     gettimeofday(&Timer, 0);
 
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Clock opened.")
+#endif // DEBUG
+
 } // Clock
 
 Clock::~Clock()
 {
 
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Clock closed.")
+#endif // DEBUG
 
 } // ~Clock()
 

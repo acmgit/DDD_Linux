@@ -12,11 +12,17 @@
 [INI_Screendepth]
 16
 
+#Logodata
 [INI_Logowidth]
 240
 [INI_Logoheight]
 151
 
+#General Textheight in DDD
+[INI_Textheight]
+10
+
+#Playwindowdata
 [INI_Playfield_x]
 0
 [InI_Playfield_y]
@@ -25,19 +31,21 @@
 12
 [INI_Playfieldrows]
 10
-
-[INI_Textheight]
-10
-[INI_Consoletext_x]
-10
-[INI_Consoletext_y]
-324
-[INI_Statustext_x]
-387
-[INI_Statustext_y]
-12
-
 [INI_Worldtileswidth]
 32
 [INI_Worldtilesheight]
 32
+
+#Consolewindowdata
+[INI_Consoletext_x]
+10
+[INI_Consoletext_y]
+324
+[INI_Consolerowsmax]
+14
+
+#Statuswindowdata
+[INI_Statustext_x]
+387
+[INI_Statustext_y]
+12

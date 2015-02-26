@@ -57,7 +57,7 @@ class Allegro_Output: public Screeninterface
 
         void writeOnScreen(void *Text);                              // Writes the Text to the virtual Screen
         void writeOnScreen(gfx_Text *Text);
-        void writeOnConsole(const int Col, const std::string CText);
+        void writeOnConsole(const int FCol, const int BCol, const std::string CText);
 
         void renderObject(void *Object);                             // Renders the Object to the virtual Screen
         void renderObject(gfx_Object *Object);

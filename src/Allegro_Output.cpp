@@ -64,6 +64,21 @@ Allegro_Output::Allegro_Output(const screenData &Data)
 
     outputConsole = new Console(VirtualScreen, currFont, Data.consolePos_x, Data.consolePos_y, Data.consoleTextheight, Data.maxRows);
 
+    if(!outputConsole)
+    {
+#ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open the Consoleclass.")
+#endif // DEBUG
+
+        allegro_message("Konnte keinen Speicher für die Konsole reservieren.");
+        allegro_exit();
+
+    } //if outputConsole
+
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Allegro_Output opened.")
+#endif // DEBUG
+
 } // Allegro_Output(screenData)
 
 Allegro_Output::~Allegro_Output()
@@ -74,7 +89,9 @@ Allegro_Output::~Allegro_Output()
     destroy_bitmap(VirtualScreen);
 #ifdef DEBUG
     Log("Virtual Screen destroyed.")
+    Log("(" << ErrorLog.ALLOK << ") Allegro_Output closed.")
 #endif // DEBUG
+
 } // ~Allegro_Output
 
 void Allegro_Output::renderScreen()
@@ -108,12 +125,13 @@ void Allegro_Output::writeOnScreen(gfx_Text *Text)
 
 } // writeOnScreen(gfx_Text *Text)
 
-void Allegro_Output::writeOnConsole(const int Col, const std::string CText)
+void Allegro_Output::writeOnConsole(const int FCol, const int BCol, const std::string CText)
 {
 
     Console::ConsoleText toConsole;
 
-    toConsole.Col = Col;
+    toConsole.Foreground = FCol;
+    toConsole.Background = BCol;
     toConsole.CText = convertText(CText);
 
     outputConsole->writeOnConsole(toConsole);

@@ -29,7 +29,19 @@ Console::Console(BITMAP* CurrScreen, FONT* CurrFont, const int &Pos_x, const int
     consoleScreen = CurrScreen;
     consoleFont = CurrFont;
 
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Console opened.")
+#endif // DEBUG
+
 } // Console
+
+Console::~Console()
+{
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Console closed.")
+#endif // DEBUG
+
+} // ~Console
 
 void Console::writeOnConsole(ConsoleText currText)
 {
@@ -46,23 +58,12 @@ void Console::writeOnConsole(ConsoleText currText)
 
     for( iterateRows = Row.begin(); iterateRows != Row.end(); ++iterateRows)
     {
-
-#ifdef DEBUG
-        Log("startPos_y = " << startPos_y << ": currentRow = " << currentRow << ": Text = " << (*iterateRows).CText.c_str())
-#endif
-        textout_ex(consoleScreen, consoleFont, (*iterateRows).CText.c_str(), startPos_x, (startPos_y + (currentRow * textHeight)), (*iterateRows).Col, -1);
+        textout_ex(consoleScreen, consoleFont, (*iterateRows).CText.c_str(), startPos_x, (startPos_y + (currentRow * textHeight)), (*iterateRows).Foreground, (*iterateRows).Background);
         ++currentRow;
-#ifdef DEBUG
-        Log("startPos_y = " << startPos_y << ": currentRow = " << currentRow)
-#endif
 
     } // for Row.begin
 
     ++nextRow;
-
-#ifdef DEBUG
-    Log("Next Row: " << nextRow << " Max Rows: " << maxRows)
-#endif // DEBUG
 
 } // writeOnConsole
 

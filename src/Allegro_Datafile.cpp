@@ -50,11 +50,20 @@ Allegro_Datafile::Allegro_Datafile(const std::string &Datafile, const std::strin
     Tilewidth = findIndex("[INI_Worldtileswidth]").Number;
     Tileheight = findIndex("[INI_Worldtilesheight]").Number;
 
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Allegro_Datafile opened.")
+#endif // DEBUG
+
 } // Datafile
 
 Allegro_Datafile::~Allegro_Datafile()
 {
     unload_datafile(Data);
+
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Datafile destroyed.")
+    Log("(" << ErrorLog.ALLOK << ") Allegro_Datafile closed")
+#endif // DEBUG
 
 } // ~Datafile
 

@@ -22,7 +22,7 @@ Allegro_Input::Allegro_Input()
     enable_hardware_cursor();
     show_os_cursor(MOUSE_CURSOR_ARROW);
 #ifdef DEBUG
-    Log("Allegro_Input opened ...")
+    Log("(" << ErrorLog.ALLOK << ") Allegro_Input opened.")
 #endif
 
 } // Allegro_Input
@@ -32,6 +32,10 @@ Allegro_Input::~Allegro_Input()
     //dtor
     remove_keyboard();
     remove_mouse();
+
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Allegro_Input closed.")
+#endif // DEBUG
 
 } // ~Allegro_Input
 

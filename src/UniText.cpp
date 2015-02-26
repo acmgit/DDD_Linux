@@ -16,13 +16,19 @@ UniText::UniText(const std::string &Textfile)
 
     ReadFile(Textfile);
 
-    //ctor
-}
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") UniText opened.")
+#endif // DEBUG
+
+} // Unitext(Textfile)
 
 UniText::~UniText()
 {
-    //dtor
-}
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") UniText closed.")
+#endif // DEBUG
+
+} // ~UniText
 
 // Opens a new Languagefile and initalise the Map new
 void UniText::LoadNewText(const std::string &Textfile)

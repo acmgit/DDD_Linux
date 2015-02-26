@@ -14,11 +14,13 @@ class Console
 
         struct ConsoleText
         {
-            int Col;                                        // Color of the Text
+            int Foreground;
+            int Background;                                        // Color of the Text
             std::string CText;                              // Text
         };
 
         Console(BITMAP* CurrScreen, FONT* CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows);
+        ~Console();
 
         void writeOnConsole(ConsoleText currText);
 
