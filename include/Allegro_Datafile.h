@@ -28,19 +28,19 @@ class Allegro_Datafile: public Datafileinterface
             PALETTE *Palette;
         };
 
-        Allegro_Datafile(const std::string Datafile, const std::string DatafileIndex, const std::string Configfile);
+        Allegro_Datafile(const std::string &Datafile, const std::string &DatafileIndex, const std::string &Configfile);
         ~Allegro_Datafile();
 
         DATAFILE* getDatafile();
         const std::string getFilename();
 
         void addIndex(Index newEntry);
-        Index findIndex(const std::string Keyname);
+        Index findIndex(const std::string &Keyname);
         void removeIndex(Index Entry);
 
-        BITMAP* getBitmap(const std::string Bitmapname);
-        FONT* getFont(const std::string Fontname);
-        PALETTE* getPalette(const std::string Palettename);
+        BITMAP* getBitmap(const std::string &Bitmapname);
+        FONT* getFont(const std::string &Fontname);
+        PALETTE* getPalette(const std::string &Palettename);
 
         int strtoint(std::string Value);
         std::string inttostr(int Value);

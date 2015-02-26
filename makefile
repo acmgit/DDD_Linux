@@ -10,9 +10,9 @@ CCFLAGSRELEASE = -Wall -Wextra -O3 -std=c++11 -fexceptions -fexpensive-optimizat
 LIBS = -lalleg
 
 #to Debug
-PROGNAME_DEBUG = DDD_Linux_Debug
+PROGNAME_DEBUG = $(PROGNAME)_Debug
 CCFLAGSDEBUG = -Wall -Wextra -std=c++11 -fexceptions
-DLIBS = -lalleg #LIbs for Codedebugging
+DLIBS = -lalleg
 DEBFLAG = -DDEBUG
 
 #general

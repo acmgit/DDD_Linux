@@ -3,6 +3,7 @@
 
 #include "Screeninterface.h"
 #include "UniText.h"
+#include "Console.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -13,6 +14,18 @@
 class Allegro_Output: public Screeninterface
 {
     public:
+
+        struct screenData
+        {
+            int screenWidth;
+            int screenHeight;
+            int screenDepth;
+            bool Fullscreen;
+            int consolePos_x;
+            int consolePos_y;
+            int consoleTextheight;
+            int maxRows;
+        };
 
         struct gfx_Object
         {
@@ -36,8 +49,7 @@ class Allegro_Output: public Screeninterface
             bool toConvert;
         };
 
-        Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscreen);
-        Allegro_Output():Allegro_Output(640, 480, 16, false){};     // delegated Constructor
+        Allegro_Output(const screenData &Data);
 
         ~Allegro_Output();
 
@@ -45,6 +57,7 @@ class Allegro_Output: public Screeninterface
 
         void writeOnScreen(void *Text);                              // Writes the Text to the virtual Screen
         void writeOnScreen(gfx_Text *Text);
+        void writeOnConsole(const int Col, const std::string CText);
 
         void renderObject(void *Object);                             // Renders the Object to the virtual Screen
         void renderObject(gfx_Object *Object);
@@ -58,9 +71,6 @@ class Allegro_Output: public Screeninterface
         int getScreenHeight();
         int getScreenDepth();
 
-        void drawAnimation(const int ID);
-        void drawAllAnimations();
-
     private:
 
         void replace_all(std::string& text, const std::string& fnd, const std::string& rep);
@@ -69,6 +79,8 @@ class Allegro_Output: public Screeninterface
         BITMAP *Display;
         BITMAP *VirtualScreen;
         FONT *currFont;
+
+        Console *outputConsole;
 
         int Screenwidth;
         int Screenheight;

@@ -1,4 +1,8 @@
+#ifndef ALLEGRO_OUTPUT_CPP
+#define ALLEGRO_OUTPUT_CPP
+
 #include "Allegro_Output.h"
+#include "Console.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -10,27 +14,27 @@
 
 #endif // DEBUG
 
-Allegro_Output::Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscreen)
+Allegro_Output::Allegro_Output(const screenData &Data)
 {
-    set_color_depth(Scrdepth);
-    Screendepth = Scrdepth;
+    set_color_depth(Data.screenDepth);
+    Screendepth = Data.screenDepth;
 
     int screenError;
-    if(Fullscreen)
+    if(Data.Fullscreen)
     {
-        screenError = set_gfx_mode(GFX_AUTODETECT_FULLSCREEN, Width, Height, 0, 0);
+        screenError = set_gfx_mode(GFX_AUTODETECT_FULLSCREEN, Data.screenWidth, Data.screenHeight, 0, 0);
 
     }
     else
     {
-        screenError = set_gfx_mode(GFX_AUTODETECT_WINDOWED, Width, Height, 0, 0);
+        screenError = set_gfx_mode(GFX_AUTODETECT_WINDOWED, Data.screenWidth, Data.screenHeight, 0, 0);
 
     } // if Fullscreen
 
     if(screenError)
     {
 #ifdef DEBUG
-        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Screen " << Width << "x" << Height << " Depth: " << Screendepth)
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Screen " << Data.screenWidth << "x" << Data.screenHeight << " Depth: " << Data.screenDepth)
 #endif // DEBUG
 
         allegro_message(allegro_error);
@@ -58,10 +62,15 @@ Allegro_Output::Allegro_Output(int Width, int Height, int Scrdepth, bool Fullscr
     Log("Allegro_Output opened with Screen " << Screenwidth << " x " << Screenheight << " x " << Screendepth << ".")
 #endif // DEBUG
 
-} // Allegro_Output
+    outputConsole = new Console(VirtualScreen, currFont, Data.consolePos_x, Data.consolePos_y, Data.consoleTextheight, Data.maxRows);
+
+} // Allegro_Output(screenData)
 
 Allegro_Output::~Allegro_Output()
 {
+    delete outputConsole;
+    outputConsole = nullptr;
+
     destroy_bitmap(VirtualScreen);
 #ifdef DEBUG
     Log("Virtual Screen destroyed.")
@@ -98,6 +107,17 @@ void Allegro_Output::writeOnScreen(gfx_Text *Text)
     } // if Textconvert
 
 } // writeOnScreen(gfx_Text *Text)
+
+void Allegro_Output::writeOnConsole(const int Col, const std::string CText)
+{
+
+    Console::ConsoleText toConsole;
+
+    toConsole.Col = Col;
+    toConsole.CText = convertText(CText);
+
+    outputConsole->writeOnConsole(toConsole);
+} // writeOnConsole
 
 void Allegro_Output::renderObject(void *Object)
 {
@@ -195,3 +215,5 @@ int Allegro_Output::getScreenDepth()
     return Screendepth;
 
 } // getScreenDepth
+
+#endif // ALLEGRO_OUTPUT_CPP

@@ -16,7 +16,7 @@
 #include <string>
 #include <map>
 
-Allegro_Datafile::Allegro_Datafile(const std::string Datafile, const std::string DatafileIndex, const std::string Configfile)
+Allegro_Datafile::Allegro_Datafile(const std::string &Datafile, const std::string &DatafileIndex, const std::string &Configfile)
 {
 
 #ifdef DEBUG
@@ -89,7 +89,7 @@ void Allegro_Datafile::removeIndex(Index Entry)
 
 } // removeIndex
 
-Allegro_Datafile::Index Allegro_Datafile::findIndex(const std::string Keyname)
+Allegro_Datafile::Index Allegro_Datafile::findIndex(const std::string &Keyname)
 {
     std::map<std::string, int>::iterator Entry;
     Entry = Dataindex.find(Keyname);
@@ -112,7 +112,7 @@ Allegro_Datafile::Index Allegro_Datafile::findIndex(const std::string Keyname)
 
 } // findIndex
 
-BITMAP* Allegro_Datafile::getBitmap(const std::string Bitname)
+BITMAP* Allegro_Datafile::getBitmap(const std::string &Bitname)
 {
     Index Entry;
     BITMAP *Dataentry = nullptr;
@@ -129,7 +129,7 @@ BITMAP* Allegro_Datafile::getBitmap(const std::string Bitname)
 
 } // getBitmap
 
-FONT* Allegro_Datafile::getFont(const std::string Fontname)
+FONT* Allegro_Datafile::getFont(const std::string &Fontname)
 {
     Index Entry;
     FONT *Dataentry = nullptr;
@@ -146,7 +146,7 @@ FONT* Allegro_Datafile::getFont(const std::string Fontname)
 
 } // getFont
 
-PALETTE* Allegro_Datafile::getPalette(const std::string Palettename)
+PALETTE* Allegro_Datafile::getPalette(const std::string &Palettename)
 {
     Index Entry;
     PALETTE *Dataentry = nullptr;

@@ -2,18 +2,16 @@
 #include <allegro.h>
 #include <string>
 
-#include "include/Allegro_Input.h"
-#include "include/Allegro_Output.h"
-#include "include/Allegro_Datafile.h"
-#include "include/UniText.h"
+#include "Allegro_Input.h"
+#include "Allegro_Output.h"
+#include "Allegro_Datafile.h"
+#include "UniText.h"
 
 using namespace std;
 
-void exit_on_error(const std::string &Errormessage);
-
 #ifdef DEBUG
 
-#include "include/Logfile.h"
+#include "Logfile.h"
 
 CLog ErrorLog("data/Logfile.txt");
 
@@ -24,6 +22,9 @@ int main()
     const int Screenwidth = 640;
     const int Screenheight = 480;
     const int Screendepth = 16;
+    const int ConsoleText_x = 10;
+    const int ConsoleText_y = 324;
+    const int ConsoleTextheight = 10;
 
     const std::string Datafilename = "data/gfx.dat";
     const std::string Indexfilename = "data/gfx.idx";
@@ -33,7 +34,17 @@ int main()
 
     allegro_init();
 
-    Allegro_Output MyOutput(Screenwidth, Screenheight, Screendepth, false);
+    Allegro_Output::screenData startScreen;
+
+    startScreen.screenHeight = Screenheight;
+    startScreen.screenWidth = Screenwidth;
+    startScreen.screenDepth = Screendepth;
+    startScreen.Fullscreen = false;
+    startScreen.consolePos_x = ConsoleText_x;
+    startScreen.consolePos_y = ConsoleText_y;
+    startScreen.consoleTextheight = ConsoleTextheight;
+    startScreen.maxRows = 14;
+    Allegro_Output MyOutput(startScreen);
     Allegro_Datafile MyData(Datafilename, Indexfilename, Inifile);
     Allegro_Input MyInput;
     UniText Translator(Language);
@@ -41,9 +52,6 @@ int main()
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
 #endif // DEBUG
-
-    Allegro_Datafile::Index MyIndex;
-
 
 #ifdef DEBUG
     Log("Index for Datafile created.")
@@ -55,7 +63,7 @@ int main()
     renderText.Foregroundcolor = MyData.findIndex("[COL_yellow]").Number;
     renderText.Backgroundcolor = MyData.findIndex("[COL_transparent]").Number;
     renderText.Pos_x = 10;
-    renderText.Pos_y = Screenheight - 30;
+    renderText.Pos_y = (MyData.findIndex("[INI_Screenheight]").Number) - 10; //Screenheight - 30;
     renderText.Text = Translator.Print("[Loading]");
     renderText.Text = renderText.Text + Datafilename;
     renderText.Text = renderText.Text + ".";
@@ -129,6 +137,20 @@ int main()
 
     MyOutput.clearScreen(true);
 
+    for(int i = 0; i < 20; ++i)
+    {
+        MyOutput.clearScreen(true);
+        if(i%2)
+        {
+            MyOutput.writeOnConsole(MyData.findIndex("[COL_yellow]").Number, "Test ..." + MyData.inttostr(i));
+        }
+        else
+        {
+            MyOutput.writeOnConsole(MyData.findIndex("[COL_green]").Number, "Test ..." + MyData.inttostr(i));
+        }
+
+    }
+
     MyOutput.setFont(MyData.getFont("[FNT_Game]"));
 
     renderTile.Sheet = MyData.getBitmap("[SHE_Worldtile]");
@@ -191,13 +213,14 @@ int main()
     renderText.Text = Translator.Print("[Consoletesttext]");
     renderText.toConvert = true;
 
+/*
     for(int Consoleline = 0; Consoleline < 15; ++Consoleline)
     {
         renderText.Pos_y = MyData.findIndex("[INI_Consoletext_y]").Number + (Consoleline * MyData.findIndex("[INI_Textheight]").Number);
         MyOutput.writeOnScreen(&renderText);
 
     } // for i
-
+*/
     renderText.Text = Translator.Print("[Statustesttext]");
     renderText.Pos_x = MyData.findIndex("[INI_Statustext_x]").Number;
     renderText.Foregroundcolor = MyData.findIndex("[COL_gold]").Number;
@@ -220,16 +243,3 @@ int main()
     return 0;
 } // main
 END_OF_MAIN()
-
-
-void exit_on_error(const std::string &Errormessage)
-{
-#ifdef DEBUG
-    Log("(AE " << *allegro_errno << ") " << Errormessage.c_str())
-#endif // DEBUG
-
-    allegro_message("%d - %s", *allegro_errno, Errormessage.c_str());
-    allegro_exit();
-
-} // exit_on_error
-
