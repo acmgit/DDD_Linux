@@ -125,7 +125,7 @@ void Allegro_Output::writeOnScreen(gfx_Text *Text)
 
 } // writeOnScreen(gfx_Text *Text)
 
-void Allegro_Output::writeOnConsole(const int FCol, const int BCol, const std::string CText)
+void Allegro_Output::writeOnConsole(const int FCol, const int BCol, const std::string CText, const bool nextLine)
 {
 
     Console::ConsoleText toConsole;
@@ -134,7 +134,7 @@ void Allegro_Output::writeOnConsole(const int FCol, const int BCol, const std::s
     toConsole.Background = BCol;
     toConsole.CText = convertText(CText);
 
-    outputConsole->writeOnConsole(toConsole);
+    outputConsole->writeOnConsole(toConsole, nextLine);
 } // writeOnConsole
 
 void Allegro_Output::renderObject(void *Object)

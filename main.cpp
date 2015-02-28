@@ -144,17 +144,19 @@ int main()
     MyOutput.clearScreen(true);
 
     // Writes a Testtext on the Console
-    for(int i = 0; i < 20; ++i)
+    for(int i = 0; i < 30; ++i)
     {
         MyOutput.clearScreen(true);             // Here it must be, because this is only a Test with more than max Rows
-        if(i%2)
+        if(i%4)
         {
-            MyOutput.writeOnConsole(MyData.findIndex("[COL_yellow]").Number, MyData.findIndex("[COL_transparent]").Number, Translator.Print("[Waiting]") + MyData.inttostr(i));
+            MyOutput.writeOnConsole(MyData.findIndex("[COL_yellow]").Number, MyData.findIndex("[COL_transparent]").Number, Translator.Print("[Waiting]") + MyData.inttostr(i), true);
+
         }
         else
         {
-            MyOutput.writeOnConsole(MyData.findIndex("[COL_red]").Number, MyData.findIndex("[COL_white]").Number, Translator.Print("[Waiting]") + MyData.inttostr(i));
-        }
+            MyOutput.writeOnConsole(MyData.findIndex("[COL_red]").Number, MyData.findIndex("[COL_transparent]").Number, Translator.Print("[Waiting]") + MyData.inttostr(i), false);
+
+        } // if(i%2)
 
     }
 
