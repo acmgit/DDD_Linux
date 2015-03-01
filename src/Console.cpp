@@ -16,18 +16,11 @@
 Console::Console(BITMAP* CurrScreen, FONT* CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows)
 {
 
-    startPos_x = Pos_x;
-    startPos_y = Pos_y;
-    textHeight = TextHeight;
-    maxRows = CRows;
-    nextRow = 0;
+    resetConsole(CurrScreen, CurrFont, Pos_x, Pos_y, TextHeight, CRows);
 
 #ifdef DEBUG
     Log("Next Row = " << nextRow << " Max Rows: " << maxRows)
 #endif // DEBUG
-
-    consoleScreen = CurrScreen;
-    consoleFont = CurrFont;
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Console opened.")
@@ -103,4 +96,22 @@ void Console::refreshConsole()
     } // for Row.begin()
 
 } // refreshConsole
+
+void Console::resetConsole(BITMAP *CurrScreen, FONT *CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows)
+{
+    consoleScreen = CurrScreen;
+    consoleFont = CurrFont;
+
+    startPos_x = Pos_x;
+    startPos_y = Pos_y;
+    textHeight = TextHeight;
+    maxRows = CRows;
+    nextRow = 0;
+
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Consolewindow reseted.")
+#endif // DEBUG
+
+} // resetConsole
+
 #endif // CONSOLE_CPP

@@ -3,6 +3,7 @@
 
 #include "Allegro_Output.h"
 #include "Console.h"
+#include "Statuswindow.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -62,7 +63,7 @@ Allegro_Output::Allegro_Output(const screenData &Data)
     Log("Allegro_Output opened with Screen " << Screenwidth << " x " << Screenheight << " x " << Screendepth << ".")
 #endif // DEBUG
 
-    outputConsole = new Console(VirtualScreen, currFont, Data.consolePos_x, Data.consolePos_y, Data.consoleTextheight, Data.maxRows);
+    outputConsole = new Console(VirtualScreen, currFont, Data.consolePos_x, Data.consolePos_y, Data.consoleTextheight, Data.consoleRows);
 
     if(!outputConsole)
     {
@@ -75,6 +76,20 @@ Allegro_Output::Allegro_Output(const screenData &Data)
 
     } //if outputConsole
 
+    outputStatus = new Statuswindow(VirtualScreen, currFont, Data.statusPos_x, Data.statusPos_y, Data.statusTextheight, Data.statusRows);
+
+    if(!outputStatus)
+    {
+#ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open the Statuswindowclass.")
+#endif // DEBUG
+        delete outputConsole;
+
+        allegro_message("Konnte keinen Speicher für das Statusfenster reservieren.");
+        allegro_exit();
+
+    } // if outputStatus
+
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Allegro_Output opened.")
 #endif // DEBUG
@@ -85,6 +100,9 @@ Allegro_Output::~Allegro_Output()
 {
     delete outputConsole;
     outputConsole = nullptr;
+
+    delete outputStatus;
+    outputStatus = nullptr;
 
     destroy_bitmap(VirtualScreen);
 #ifdef DEBUG
@@ -233,5 +251,37 @@ int Allegro_Output::getScreenDepth()
     return Screendepth;
 
 } // getScreenDepth
+
+void Allegro_Output::setConsole(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
+{
+    outputConsole->resetConsole(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+
+} // setConsole
+
+void Allegro_Output::setStatuswindow(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
+{
+    outputStatus->resetStatuswindow(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+
+} // setStatuswindow
+
+void Allegro_Output::addStatusLine(const int &Row, const int &Tab, const int &FCol, const int &BCol, const std::string &SText)
+{
+    Statuswindow::StatusText addText;
+
+    addText.Row = Row;
+    addText.Tab = Tab;
+    addText.Foreground = FCol;
+    addText.Background = BCol;
+    addText.Text = convertText(SText);
+
+    outputStatus->addRow(addText);
+
+} // addStatusLine
+
+void Allegro_Output::writeStatus()
+{
+    outputStatus->writeStatus();
+
+} //writeStatus
 
 #endif // ALLEGRO_OUTPUT_CPP

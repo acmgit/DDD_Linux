@@ -25,7 +25,11 @@ int main()
     const int ConsoleText_x = 10;
     const int ConsoleText_y = 324;
     const int ConsoleTextheight = 10;
-
+    const int ConsoleRows = 14;
+    const int StatusText_x = 387;
+    const int StatusText_y = 12;
+    const int StatusTextheight = ConsoleTextheight;
+    const int StatusRows = 30;
     const std::string Datafilename = "data/gfx.dat";
     const std::string Indexfilename = "data/gfx.idx";
     const std::string Language = "data/DDD_Language.txt";
@@ -43,7 +47,12 @@ int main()
     startScreen.consolePos_x = ConsoleText_x;
     startScreen.consolePos_y = ConsoleText_y;
     startScreen.consoleTextheight = ConsoleTextheight;
-    startScreen.maxRows = 14;
+    startScreen.consoleRows = ConsoleRows;
+    startScreen.statusPos_x = StatusText_x;
+    startScreen.statusPos_y = StatusText_y;
+    startScreen.statusTextheight = StatusTextheight;
+    startScreen.statusRows = StatusRows;
+
     Allegro_Output MyOutput(startScreen);
     Allegro_Datafile MyData(Datafilename, Indexfilename, Inifile);
     Allegro_Input MyInput;
@@ -219,20 +228,28 @@ int main()
     renderTile.Height = MyOutput.getScreenHeight();
     MyOutput.renderObject(&renderTile);
 
+    MyOutput.setStatuswindow(MyData.findIndex("[INI_Statustext_x]").Number,
+                             MyData.findIndex("[INI_Statustext_y]").Number,
+                             MyData.findIndex("[INI_Textheight]").Number,
+                             MyData.findIndex("[INI_Statusrowsmax]").Number);
 
-    // Prepare the Statustext
-    renderText.toConvert = true;
-    renderText.Text = Translator.Print("[Statustesttext]");
-    renderText.Pos_x = MyData.findIndex("[INI_Statustext_x]").Number;
-    renderText.Foregroundcolor = MyData.findIndex("[COL_gold]").Number;
 
-    // now write in the Statuswindow
-    for(int Statusline = 0; Statusline < 30; ++Statusline)
+    for(int Statusline = 0; Statusline <= MyData.findIndex("[INI_Statusrowsmax]").Number; ++Statusline)
     {
-        renderText.Pos_y = MyData.findIndex("[INI_Statustext_y]").Number + (Statusline * MyData.findIndex("[INI_Textheight]").Number);
-        MyOutput.writeOnScreen(&renderText);
+        if(Statusline%2)
+        {
+            MyOutput.addStatusLine(Statusline, 0, MyData.findIndex("[COL_green]").Number, MyData.findIndex("[COL_transparent]").Number, Translator.Print("[Statustesttext]") + MyData.inttostr(Statusline));
 
-    } // for i
+        }
+        else
+        {
+            MyOutput.addStatusLine(Statusline, 0, MyData.findIndex("[COL_cyan]").Number, MyData.findIndex("[COL_transparent]").Number, Translator.Print("[Statustesttext]") + MyData.inttostr(Statusline));
+
+        } // if(Statusline%2)
+
+    } // for(Statusline)
+
+    MyOutput.writeStatus();
 
     // yeah, draw it Baby, draw it ...
     MyOutput.renderScreen();

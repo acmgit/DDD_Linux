@@ -49,3 +49,5 @@
 387
 [INI_Statustext_y]
 12
+[INI_Statusrowsmax]
+29

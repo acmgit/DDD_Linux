@@ -2,8 +2,8 @@
 #define ALLEGRO_OUTPUT_H
 
 #include "Screeninterface.h"
-#include "UniText.h"
 #include "Console.h"
+#include "Statuswindow.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -24,7 +24,11 @@ class Allegro_Output: public Screeninterface
             int consolePos_x;
             int consolePos_y;
             int consoleTextheight;
-            int maxRows;
+            int consoleRows;
+            int statusPos_x;
+            int statusPos_y;
+            int statusTextheight;
+            int statusRows;
         };
 
         struct gfx_Object
@@ -59,6 +63,9 @@ class Allegro_Output: public Screeninterface
         void writeOnScreen(gfx_Text *Text);
         void writeOnConsole(const int FCol, const int BCol, const std::string CText, const bool nextLine);
 
+        void addStatusLine(const int &Row, const int &Tab, const int &FCol, const int &BCol, const std::string &SText);
+        void writeStatus();
+
         void renderObject(void *Object);                             // Renders the Object to the virtual Screen
         void renderObject(gfx_Object *Object);
 
@@ -66,6 +73,8 @@ class Allegro_Output: public Screeninterface
 
         void setFont(FONT *newFont);
         void setPalette(PALETTE *newPalette);
+        void setConsole(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
+        void setStatuswindow(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
 
         int getScreenWidth();
         int getScreenHeight();
@@ -81,6 +90,7 @@ class Allegro_Output: public Screeninterface
         FONT *currFont;
 
         Console *outputConsole;
+        Statuswindow *outputStatus;
 
         int Screenwidth;
         int Screenheight;

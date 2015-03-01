@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <allegro.h>
+#include "Clock.h"
 
 #ifdef DEBUG
 
@@ -21,6 +22,17 @@ Allegro_Input::Allegro_Input()
 
     enable_hardware_cursor();
     show_os_cursor(MOUSE_CURSOR_ARROW);
+
+    inputClock = new Clock();
+    if(!inputClock)
+    {
+#ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Can't open Clock.")
+#endif
+        allegro_message("Can't open Clock");
+        allegro_exit();
+    }
+
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Allegro_Input opened.")
 #endif
@@ -29,7 +41,9 @@ Allegro_Input::Allegro_Input()
 
 Allegro_Input::~Allegro_Input()
 {
-    //dtor
+    delete inputClock;
+    inputClock = nullptr;
+
     remove_keyboard();
     remove_mouse();
 
@@ -69,9 +83,9 @@ bool Allegro_Input::readKey()
 
 bool Allegro_Input::readKey(const int Seconds)
 {
-    setSeconds(Seconds);
+    inputClock->setSeconds(Seconds);
 
-    while(!wait())
+    while(!inputClock->wait())
     {
         if(readKey())
         {
@@ -153,4 +167,22 @@ void Allegro_Input::needPoll()
     } // if keyboard_needs_poll
 
 } // needPoll
+
+void Allegro_Input::setMiliSeconds(const int &Miliseconds)
+{
+    inputClock->setMiliSeconds(Miliseconds);
+
+} // setMiliSeconds
+
+void Allegro_Input::setSeconds(const int &Seconds)
+{
+    inputClock->setSeconds(Seconds);
+
+} // setSeconds
+
+bool Allegro_Input::wait()
+{
+    return inputClock->wait();
+
+} // wait
 #endif // ALLEGRO_INPUT_CPP

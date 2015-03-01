@@ -48,6 +48,7 @@
 		<Unit filename="include/Allegro_Input.h" />
 		<Unit filename="include/Allegro_Output.h" />
 		<Unit filename="include/Clock.h" />
+		<Unit filename="include/Clock_Interface.h" />
 		<Unit filename="include/Console.h" />
 		<Unit filename="include/Datafileinterface.h" />
 		<Unit filename="include/Inputinterface.h" />
@@ -55,6 +56,7 @@
 		<Unit filename="include/Logfile.h" />
 		<Unit filename="include/Mouseinterface.h" />
 		<Unit filename="include/Screeninterface.h" />
+		<Unit filename="include/Statuswindow.h" />
 		<Unit filename="include/UniText.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Allegro_Datafile.cpp" />
@@ -64,6 +66,7 @@
 		<Unit filename="src/Console.cpp" />
 		<Unit filename="src/Inputinterface.cpp" />
 		<Unit filename="src/Logfile.cpp" />
+		<Unit filename="src/Statuswindow.cpp" />
 		<Unit filename="src/UniText.cpp" />
 		<Extensions>
 			<envvars />

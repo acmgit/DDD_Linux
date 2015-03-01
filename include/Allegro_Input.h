@@ -4,7 +4,7 @@
 #include "Inputinterface.h"
 #include "Clock.h"
 
-class Allegro_Input: public Inputinterface, public Clock
+class Allegro_Input: public Inputinterface
 {
     public:
         Allegro_Input();
@@ -21,6 +21,10 @@ class Allegro_Input: public Inputinterface, public Clock
     MousePosition getMousePosition();
     MouseButtonStatus getMouseButton();
 
+    void setMiliSeconds(const int &Miliseconds);
+    void setSeconds(const int &Seconds);
+    bool wait();
+
     protected:
 
     private:
@@ -28,6 +32,8 @@ class Allegro_Input: public Inputinterface, public Clock
 
     bool isMousePositionvalid;
     MousePosition lastMousePosition;
+
+    Clock *inputClock;
 
 }; // class Allegro_Input
 

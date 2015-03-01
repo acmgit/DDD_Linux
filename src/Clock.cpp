@@ -30,7 +30,7 @@ Clock::~Clock()
 
 } // ~Clock()
 
-void Clock::setSeconds(const int Seconds)
+void Clock::setSeconds(const int &Seconds)
 {
     gettimeofday(&currTime, 0);
     gettimeofday(&Timer, 0);
@@ -47,7 +47,7 @@ void Clock::setSeconds(const int Seconds)
 
 } // setSeconds
 
-void Clock::setMiliSeconds(const int Miliseconds)
+void Clock::setMiliSeconds(const int &Miliseconds)
 {
     gettimeofday(&Timer, 0);
     Timer.tv_usec = Timer.tv_usec + Miliseconds;
