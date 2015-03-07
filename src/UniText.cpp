@@ -51,9 +51,11 @@ std::string UniText::Print(const std::string &Key)
 
     i = Translate.begin();
 
+/*
 #ifdef DEBUG
     Log("Print " << Key.c_str())
 #endif // DEBUG
+*/
 
     i = Translate.find(Key.c_str());
 

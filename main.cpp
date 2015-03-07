@@ -6,6 +6,7 @@
 #include "Allegro_Output.h"
 #include "Allegro_Datafile.h"
 #include "UniText.h"
+#include "Mapinterface.h"
 
 using namespace std;
 
@@ -64,7 +65,7 @@ int main()
         allegro_message("Couldn't open Allegro_Outputscreen");
         allegro_exit();
 
-    } // if !MyOutput
+    } // if !MyOutputfindIndex
 
     MyOutput->setConsole(ConsoleText_x, ConsoleText_y, ConsoleTextheight, ConsoleRows);
     MyOutput->setStatuswindow(StatusText_x, StatusText_y, StatusTextheight, StatusRows);
@@ -108,6 +109,19 @@ int main()
         allegro_exit();
 
     } // if !MyOutput
+
+    Mapinterface *currMaps = nullptr;
+    currMaps = new Mapinterface(MyData);
+
+    if(!currMaps)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Couldn't open Mapinterface.")
+        #endif // DEBUG
+        allegro_message("Couldn't open Mapinterface");
+        allegro_exit();
+
+    } // if currBattlemap
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
@@ -269,10 +283,6 @@ int main()
     {
         for(int Tile_Column = 0; Tile_Column < MyData->findIndex("[INI_Playfieldcolumns]").Number; ++ Tile_Column)
         {
-            #ifdef DEBUG
-            Log("Row = " << Tile_Row << " Column = " << Tile_Column)
-            #endif // DEBUG
-
             Tile.Column = Tile_Column;
             Tile.Row = Tile_Row;
             MyOutput->renderTile(Tile);
@@ -329,6 +339,13 @@ int main()
 
     // and wait 10 Seconds for a Key
     MyInput->readKey(10);
+
+    if(currMaps)
+    {
+        delete currMaps;
+        currMaps = nullptr;
+
+    } // if currBattlemap
 
     if(Translator)
     {

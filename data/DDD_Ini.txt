@@ -51,3 +51,120 @@
 12
 [INI_Statusrowsmax]
 29
+
+#Battlemaps to generate
+
+#% of Gras
+[BAT_Gras_Gras]
+85
+[BAT_Gras_Shrubbery]
+8
+[BAT_Gras_Forest]
+4
+[BAT_Gras_Boulder]
+2
+[BAT_Gras_Mountain]
+0
+[BAT_Gras_Swamp]
+0
+[BAT_Gras_River]
+0
+[BAT_Gras_Sea]
+0
+[BAT_Gras_Lava]
+0
+[BAT_Gras_Dessert]
+0
+# 100%
+
+#% of Shrubbery
+[BAT_Shrubbery_Gras]
+65
+[BAT_Shrubbery_Shrubbery]
+20
+[BAT_Shrubbery_Forest]
+17
+[BAT_Shrubbery_Boulder]
+3
+[BAT_Shrubbery_Mountain]
+0
+[BAT_Shrubbery_Swamp]
+0
+[BAT_Shrubbery_River]
+0
+[BAT_Shrubbery_Sea]
+0
+[BAT_Shrubbery_Lava]
+0
+[BAT_Shrubbery_Dessert]
+0
+# 100%
+
+#% of Forest
+[BAT_Forest_Gras]
+20
+[BAT_Forest_Shrubbery]
+65
+[BAT_Forest_Forest]
+12
+[BAT_Forest_Boulder]
+3
+[BAT_Forest_Mountain]
+0
+[BAT_Forest_Swamp]
+0
+[BAT_Forest_River]
+0
+[BAT_Forest_Sea]
+0
+[BAT_Forest_Lava]
+0
+[BAT_Forest_Dessert]
+0
+# 100%
+
+#% of Boulder
+[BAT_Boulder_Gras]
+20
+[BAT_Boulder_Shrubbery]
+20
+[BAT_Boulder_Forest]
+5
+[BAT_Boulder_Boulder]
+40
+[BAT_Boulder_Mountain]
+5
+[BAT_Boulder_Swamp]
+0
+[BAT_Boulder_River]
+0
+[BAT_Boulder_Sea]
+0
+[BAT_Boulder_Lava]
+0
+[BAT_Boulder_Dessert]
+10
+# 100%
+
+#% of Swamp
+[BAT_Swamp_Gras]
+30
+[BAT_Swamp_Shrubbery]
+30
+[BAT_Swamp_Forest]
+5
+[BAT_Swamp_Boulder]
+0
+[BAT_Swamp_Mountain]
+0
+[BAT_Swamp_Swamp]
+30
+[BAT_Swamp_River]
+5
+[BAT_Swamp_Sea]
+0
+[BAT_Swamp_Lava]
+0
+[BAT_Swamp_Dessert]
+0
+# 100%
