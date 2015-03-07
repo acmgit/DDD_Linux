@@ -59,36 +59,9 @@ Allegro_Output::Allegro_Output(const screenData &Data)
         allegro_exit();
     } // if !VirtualScreen
 
-#ifdef DEBUG
-    Log("Allegro_Output opened with Screen " << Screenwidth << " x " << Screenheight << " x " << Screendepth << ".")
-#endif // DEBUG
-
-    outputConsole = new Console(VirtualScreen, currFont, Data.consolePos_x, Data.consolePos_y, Data.consoleTextheight, Data.consoleRows);
-
-    if(!outputConsole)
-    {
-#ifdef DEBUG
-        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open the Consoleclass.")
-#endif // DEBUG
-
-        allegro_message("Konnte keinen Speicher für die Konsole reservieren.");
-        allegro_exit();
-
-    } //if outputConsole
-
-    outputStatus = new Statuswindow(VirtualScreen, currFont, Data.statusPos_x, Data.statusPos_y, Data.statusTextheight, Data.statusRows);
-
-    if(!outputStatus)
-    {
-#ifdef DEBUG
-        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open the Statuswindowclass.")
-#endif // DEBUG
-        delete outputConsole;
-
-        allegro_message("Konnte keinen Speicher für das Statusfenster reservieren.");
-        allegro_exit();
-
-    } // if outputStatus
+    outputConsole = nullptr;
+    outputStatus = nullptr;
+    outputPlayfield = nullptr;
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Allegro_Output opened.")
@@ -98,17 +71,50 @@ Allegro_Output::Allegro_Output(const screenData &Data)
 
 Allegro_Output::~Allegro_Output()
 {
-    delete outputConsole;
-    outputConsole = nullptr;
+    if(outputConsole)
+    {
 
-    delete outputStatus;
-    outputStatus = nullptr;
+        delete outputConsole;
+        outputConsole = nullptr;
+    }
+    else
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Consolewindow wasn't open.")
+        #endif // DEBUG
+
+    } //if outputConsole
+
+
+    if(outputStatus)
+    {
+
+        delete outputStatus;
+        outputStatus = nullptr;
+    }
+    else
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Statuswindow wasn't open.")
+        #endif // DEBUG
+
+    } //if outputConsole
+
+    if(outputPlayfield)
+    {
+        delete outputPlayfield;
+        outputPlayfield = nullptr;
+
+    }
+    else
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Playfieldwindow wasn't open.")
+        #endif // DEBUG
+
+    } // if outputPlayfield
 
     destroy_bitmap(VirtualScreen);
-#ifdef DEBUG
-    Log("Virtual Screen destroyed.")
-    Log("(" << ErrorLog.ALLOK << ") Allegro_Output closed.")
-#endif // DEBUG
 
 } // ~Allegro_Output
 
@@ -153,6 +159,7 @@ void Allegro_Output::writeOnConsole(const int FCol, const int BCol, const std::s
     toConsole.CText = convertText(CText);
 
     outputConsole->writeOnConsole(toConsole, nextLine);
+
 } // writeOnConsole
 
 void Allegro_Output::renderObject(void *Object)
@@ -181,6 +188,14 @@ void Allegro_Output::renderObject(gfx_Object *Object)
 
 } // drawObject(gfx_Object *Object)
 
+void Allegro_Output::renderTile(const tileData Tile)
+{
+    int currColumn = Tile.Column;
+    int currRow = Tile.Row;
+
+    outputPlayfield->drawTile(Tile.Sheet, Tile.Sheetpos_x, Tile.Sheetpos_y, currColumn, currRow, Tile.transparency);
+
+}
 
 void Allegro_Output::setFont(FONT *newFont)
 {
@@ -198,6 +213,9 @@ void Allegro_Output::clearScreen(bool Virtual)
 {
     if(Virtual)
     {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") ---===< CLEAR VIRTUAL SCREEN >===---")
+        #endif // DEBUG
         clear_bitmap(VirtualScreen);
 
     }
@@ -254,16 +272,78 @@ int Allegro_Output::getScreenDepth()
 
 void Allegro_Output::setConsole(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
 {
-    outputConsole->resetConsole(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+    if(!outputConsole)
+    {
+
+        outputConsole = new Console(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+        if(!outputConsole)
+        {
+            #ifdef DEBUG
+            Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open the Consoleclass.")
+            #endif // DEBUG
+
+            allegro_message("Konnte keinen Speicher für die Konsole reservieren.");
+            allegro_exit();
+
+        } //if outputConsole
+
+    }
+    else
+    {
+        outputConsole->resetConsole(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+
+    } // if !outputConsole)
 
 } // setConsole
 
 void Allegro_Output::setStatuswindow(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
 {
-    outputStatus->resetStatuswindow(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+    if(!outputStatus)
+    {
+        outputStatus = new Statuswindow(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+        if(!outputStatus)
+        {
+            #ifdef DEBUG
+            Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open the Statuswindowclass.")
+            #endif // DEBUG
+
+            allegro_message("Konnte keinen Speicher für das Statusfenster reservieren.");
+            allegro_exit();
+
+        } // if !outputStatus
+
+
+    }
+    else
+    {
+        outputStatus->resetStatuswindow(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+
+    } // if !outputStatus
 
 } // setStatuswindow
 
+void Allegro_Output::setPlayfieldwindow(const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
+{
+    if(!outputPlayfield)
+    {
+        outputPlayfield = new Playfield(VirtualScreen, Pos_x, Pos_y, Tilewidth, Tileheight, Tilecolumns, Tilerows);
+        if(!outputPlayfield)
+        {
+            #ifdef DEBUG
+            Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open the Playfieldwindowclass.")
+            #endif // DEBUG
+
+            allegro_message("Konnte keinen Speicher für das Spielfeld reservieren.");
+            allegro_exit();
+
+        } // if !outputPlayfield
+
+    }
+    else
+    {
+
+    } // if !outputPlayfield
+}
 void Allegro_Output::addStatusLine(const int &Row, const int &Tab, const int &FCol, const int &BCol, const std::string &SText)
 {
     Statuswindow::StatusText addText;

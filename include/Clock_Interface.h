@@ -6,8 +6,8 @@
 class Clock_Interface
 {
     public:
-        Clock_Interface() {}
-        virtual ~Clock_Interface() {}
+        Clock_Interface() {};
+        virtual ~Clock_Interface() {};
 
         virtual void setSeconds(const int &Seconds) = 0;
         virtual void setMiliSeconds(const int &Miliseconds) = 0;

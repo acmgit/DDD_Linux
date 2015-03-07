@@ -23,7 +23,7 @@ class Statuswindow
         void addRow(const StatusText &newLine);
         void writeStatus();
 
-        void resetStatuswindow(BITMAP *currScreen, FONT *currFont, const int &Pos_x, const int &Pos_y, const int &Textheight, const int &Rows);
+        void resetStatuswindow(BITMAP *currStausScreen, FONT *currStatusFont, const int &Pos_x, const int &Pos_y, const int &Textheight, const int &Rows);
 
     protected:
     private:

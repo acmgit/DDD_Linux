@@ -4,6 +4,7 @@
 class Screeninterface
 {
     public:
+        virtual ~Screeninterface() {};
 
         virtual void renderScreen() = 0;                                    // renders the whole Screen
         virtual void writeOnScreen(void *Text) = 0;

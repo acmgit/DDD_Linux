@@ -19,10 +19,6 @@ Console::Console(BITMAP* CurrScreen, FONT* CurrFont, const int &Pos_x, const int
     resetConsole(CurrScreen, CurrFont, Pos_x, Pos_y, TextHeight, CRows);
 
 #ifdef DEBUG
-    Log("Next Row = " << nextRow << " Max Rows: " << maxRows)
-#endif // DEBUG
-
-#ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Console opened.")
 #endif // DEBUG
 
@@ -54,10 +50,6 @@ void Console::writeOnConsole(ConsoleText currText, const bool nextLine)
     }
     else                                                                // add on last Consoleline
     {
-        #ifdef DEBUG
-        Log("Write new Text on Console to append <" << currText.CText.c_str() << ">")
-        #endif // DEBUG
-
         if(!Row.empty())                                                // Console has Lines to add Text
         {
             std::vector<ConsoleText>::iterator iterateRows;

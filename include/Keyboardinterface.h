@@ -14,6 +14,7 @@ class Keyboardinterface
             bool Strg;
             bool Alt;
         }; // Key
+        virtual ~Keyboardinterface() {};
 
         virtual bool readKey() = 0;         // Is a Key pressed?
         virtual Key getKey() = 0;           // Ok, get the Key

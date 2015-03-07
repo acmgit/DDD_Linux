@@ -37,6 +37,10 @@ void UniText::LoadNewText(const std::string &Textfile)
     Translate.clear();
     ReadFile(Textfile);
 
+#ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Unitextfile reseted to " << Textfile.c_str() << ".")
+#endif // DEBUG
+
 } // LoadNewText()
 
 
@@ -68,6 +72,11 @@ std::string UniText::Print(const std::string &Key)
 // Opens the Languagefile, read it and fills the Map.
 void UniText::ReadFile(const std::string &Textfile)
 {
+
+#ifdef DEBUG
+    Log("Try to read Unitextfile: " << Textfile.c_str() << ".")
+#endif // DEBUG
+
     std::ifstream File(Textfile.c_str());
 
     if(File.is_open())

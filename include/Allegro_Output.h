@@ -4,6 +4,7 @@
 #include "Screeninterface.h"
 #include "Console.h"
 #include "Statuswindow.h"
+#include "Playfield.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -21,14 +22,16 @@ class Allegro_Output: public Screeninterface
             int screenHeight;
             int screenDepth;
             bool Fullscreen;
-            int consolePos_x;
-            int consolePos_y;
-            int consoleTextheight;
-            int consoleRows;
-            int statusPos_x;
-            int statusPos_y;
-            int statusTextheight;
-            int statusRows;
+        };
+
+        struct tileData
+        {
+            int Sheetpos_x;
+            int Sheetpos_y;
+            int Column;
+            int Row;
+            bool transparency;
+            BITMAP *Sheet;
         };
 
         struct gfx_Object
@@ -68,6 +71,7 @@ class Allegro_Output: public Screeninterface
 
         void renderObject(void *Object);                             // Renders the Object to the virtual Screen
         void renderObject(gfx_Object *Object);
+        void renderTile(const tileData Tile);
 
         void clearScreen(bool Virtual);                              // Clears the Virtual Screen if true, else the Display
 
@@ -75,6 +79,7 @@ class Allegro_Output: public Screeninterface
         void setPalette(PALETTE *newPalette);
         void setConsole(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
         void setStatuswindow(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
+        void setPlayfieldwindow(const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
 
         int getScreenWidth();
         int getScreenHeight();
@@ -91,6 +96,7 @@ class Allegro_Output: public Screeninterface
 
         Console *outputConsole;
         Statuswindow *outputStatus;
+        Playfield *outputPlayfield;
 
         int Screenwidth;
         int Screenheight;

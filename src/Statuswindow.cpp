@@ -37,19 +37,15 @@ Statuswindow::~Statuswindow()
 
 } // ~Statuswindow
 
-void Statuswindow::resetStatuswindow(BITMAP *currScreen, FONT *currFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
+void Statuswindow::resetStatuswindow(BITMAP *currStatusScreen, FONT *currStatusFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
 {
-    statusScreen = currScreen;
-    statusFont = currFont;
+    statusScreen = currStatusScreen;
+    statusFont = currStatusFont;
 
     statusPos_x = Pos_x;
     statusPos_y = Pos_y;
     statusTextheight = TextHeight;
     maxRows = Rows;
-
-#ifdef DEBUG
-    Log("(" << ErrorLog.ALLOK << ") Statuswindow reseted.")
-#endif // DEBUG
 
 } // resetStatuswindow
 
@@ -77,11 +73,18 @@ void Statuswindow::writeStatus()
 
         } // if currLine > maxRows
 
-        textout_ex(statusScreen, statusFont, currLine->Text.c_str(), currLine->Tab + statusPos_x, statusPos_y + (currLine->Row * statusTextheight), currLine->Foreground, currLine->Background);
+        textout_ex(statusScreen, statusFont,
+                   currLine->Text.c_str(),
+                   currLine->Tab + statusPos_x, statusPos_y + (currLine->Row * statusTextheight),
+                   currLine->Foreground, currLine->Background);
 
     } // for(currLine)
 
     Rows.clear();
+
+    #ifdef DEBUG
+    Log("Statuswindow written.")
+    #endif // DEBUG
 
 } // writeStatus
 #endif // STATUSWINDOW_CPP

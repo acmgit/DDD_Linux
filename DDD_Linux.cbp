@@ -55,6 +55,7 @@
 		<Unit filename="include/Keyboardinterface.h" />
 		<Unit filename="include/Logfile.h" />
 		<Unit filename="include/Mouseinterface.h" />
+		<Unit filename="include/Playfield.h" />
 		<Unit filename="include/Screeninterface.h" />
 		<Unit filename="include/Statuswindow.h" />
 		<Unit filename="include/UniText.h" />
@@ -66,6 +67,7 @@
 		<Unit filename="src/Console.cpp" />
 		<Unit filename="src/Inputinterface.cpp" />
 		<Unit filename="src/Logfile.cpp" />
+		<Unit filename="src/Playfield.cpp" />
 		<Unit filename="src/Statuswindow.cpp" />
 		<Unit filename="src/UniText.cpp" />
 		<Extensions>

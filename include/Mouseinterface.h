@@ -18,6 +18,8 @@ class Mouseinterface
             bool mouse_middle;
         }; // MouseButtonStatus
 
+        virtual ~Mouseinterface() {};
+
         virtual MousePosition getMousePosition() = 0;
         virtual MouseButtonStatus getMouseButton() = 0;
 
