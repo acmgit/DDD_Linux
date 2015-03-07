@@ -168,3 +168,26 @@
 [BAT_Swamp_Dessert]
 0
 # 100%
+
+#% of Dessert
+[BAT_Dessert_Gras]
+5
+[BAT_Dessert_Shrubbery]
+0
+[BAT_Dessert_Forest]
+0
+[BAT_Dessert_Boulder]
+10
+[BAT_Dessert_Mountain]
+0
+[BAT_Dessert_Swamp]
+0
+[BAT_Dessert_River]
+0
+[BAT_Dessert_Sea]
+0
+[BAT_Dessert_Lava]
+0
+[BAT_Dessert_Dessert]
+85
+# 100%

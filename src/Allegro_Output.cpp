@@ -116,6 +116,14 @@ Allegro_Output::~Allegro_Output()
 
     destroy_bitmap(VirtualScreen);
 
+    #ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Virtual Screeen destroyed.")
+    #endif // DEBUG
+
+    #ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Allegro_Output closed.")
+    #endif // DEBUG
+
 } // ~Allegro_Output
 
 void Allegro_Output::renderScreen()

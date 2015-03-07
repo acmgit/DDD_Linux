@@ -272,6 +272,7 @@ int main()
     } // for(Statusline)
     MyOutput->writeStatus();
 
+/*
     // Draw the Playfield
     Allegro_Output::tileData Tile;
     Tile.Sheet = MyData->getBitmap("[SHE_Worldtile]");
@@ -290,7 +291,30 @@ int main()
         } // for Tiles_Rows
 
     } // for Tiles_Columns
+*/
 
+    Allegro_Output::tileData Tile;
+    Tile.Sheetpos_y = 0;
+
+    currMaps->generateBattlemap("Gras");
+    Mapinterface::Tiledata currTile;
+    Tile.transparency = false;
+
+    // Draw the Battlemap
+    for(int Tile_Row = 0; Tile_Row < MyData->findIndex("[INI_Playfieldrows]").Number; ++Tile_Row)
+    {
+        for(int Tile_Column = 0; Tile_Column < MyData->findIndex("[INI_Playfieldcolumns]").Number; ++Tile_Column)
+        {
+            currTile = currMaps->getTile(Mapinterface::Battlemaptile, Tile_Column, Tile_Row);
+            Tile.Sheet = currTile.Sheet;
+            Tile.Sheetpos_x = currTile.Index;
+            Tile.Column = Tile_Column;
+            Tile.Row = Tile_Row;
+            MyOutput->renderTile(Tile);
+
+        } // for Column
+
+    } // for Row
     // Enemy Skull
     Tile.transparency = true;
     Tile.Sheet = MyData->getBitmap("[SHE_Worldenemy]");

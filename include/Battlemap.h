@@ -34,9 +34,11 @@ class Battlemap
         bool isTile(int Value, int Min, int Max);
 
     Allegro_Datafile *Data;
-    timeval currTime;
-    int lastRandom;
+    time_t btime;
 
+/*
+    int lastRandom;
+*/
 }; // Battlemap
 
 #endif // BATTLEMAP_H

@@ -46,6 +46,8 @@ Mapinterface::~Mapinterface()
 
     } // if currBattlemap
 
+    destroyBattlemap();
+
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Mapinterface closed.")
     #endif // DEBUG
@@ -105,12 +107,25 @@ void Mapinterface::generateBattlemap(const std::string Battletyp)
     } // for Row
 
     validBattlemap = true;
+
+    #ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Battlemap generated.")
+    #endif // DEBUG
+
 } // generateBattlemap
 
 void Mapinterface::destroyBattlemap()
 {
-    currBattlemap.clear();
-    validBattlemap = false;
+    if(validBattlemap)
+    {
+        currBattlemap.clear();
+        validBattlemap = false;
+
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") Battlemap destroyed.")
+        #endif // DEBUG
+
+    } // if validBattlemap
 
 } // destroyBattlemap
 
@@ -173,7 +188,7 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
     case 'B':
         {
-            Tile.Index = currDatafile->findIndex("[WTI_Boulder]").Number;
+            Tile.Index = currDatafile->findIndex("[WTI_Boulders]").Number;
             Tile.walkable = true;
             Tile.flyable = true;
             Tile.shipable = false;
@@ -243,7 +258,7 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
     default: // Unknown Tile
         {
-            Tile.Index = -1;
+            Tile.Index = currDatafile->findIndex("[WTI_Fog]").Number;
             Tile.walkable = false;
             Tile.shipable = false;
             Tile.flyable = false;
