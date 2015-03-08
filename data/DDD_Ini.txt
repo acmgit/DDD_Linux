@@ -79,11 +79,11 @@
 
 #% of Shrubbery
 [BAT_Shrubbery_Gras]
-65
+30
 [BAT_Shrubbery_Shrubbery]
-20
+45
 [BAT_Shrubbery_Forest]
-17
+22
 [BAT_Shrubbery_Boulder]
 3
 [BAT_Shrubbery_Mountain]
@@ -104,9 +104,9 @@
 [BAT_Forest_Gras]
 20
 [BAT_Forest_Shrubbery]
-65
+30
 [BAT_Forest_Forest]
-12
+47
 [BAT_Forest_Boulder]
 3
 [BAT_Forest_Mountain]
@@ -171,13 +171,13 @@
 
 #% of Dessert
 [BAT_Dessert_Gras]
-5
+3
 [BAT_Dessert_Shrubbery]
 0
 [BAT_Dessert_Forest]
 0
 [BAT_Dessert_Boulder]
-10
+12
 [BAT_Dessert_Mountain]
 0
 [BAT_Dessert_Swamp]
