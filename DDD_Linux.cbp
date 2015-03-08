@@ -51,6 +51,7 @@
 		<Unit filename="include/Clock.h" />
 		<Unit filename="include/Clock_Interface.h" />
 		<Unit filename="include/Console.h" />
+		<Unit filename="include/DDD_Screen.h" />
 		<Unit filename="include/Datafileinterface.h" />
 		<Unit filename="include/Inputinterface.h" />
 		<Unit filename="include/Keyboardinterface.h" />
@@ -58,7 +59,6 @@
 		<Unit filename="include/Mapinterface.h" />
 		<Unit filename="include/Mouseinterface.h" />
 		<Unit filename="include/Playfield.h" />
-		<Unit filename="include/Screeninterface.h" />
 		<Unit filename="include/Statuswindow.h" />
 		<Unit filename="include/UniText.h" />
 		<Unit filename="main.cpp" />
@@ -68,6 +68,7 @@
 		<Unit filename="src/Battlemap.cpp" />
 		<Unit filename="src/Clock.cpp" />
 		<Unit filename="src/Console.cpp" />
+		<Unit filename="src/DDD_Screen.cpp" />
 		<Unit filename="src/Inputinterface.cpp" />
 		<Unit filename="src/Logfile.cpp" />
 		<Unit filename="src/Mapinterface.cpp" />

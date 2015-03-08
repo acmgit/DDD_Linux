@@ -2,6 +2,7 @@
 #define PLAYFIELD_CPP
 
 #include "Playfield.h"
+#include "DDD_Screen.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -10,9 +11,10 @@
 #include "Logfile.h"
 #endif // DEBUG
 
-Playfield::Playfield(BITMAP *currScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
+Playfield::Playfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
 {
-    resetPlayfield(currScreen, Pos_x, Pos_y, Tilewidth, Tileheight, Tilecolumns, Tilerows);
+    currScreen = aktivScreen;
+    resetPlayfield(aktivScreen, Pos_x, Pos_y, Tilewidth, Tileheight, Tilecolumns, Tilerows);
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Playfieldwindow opened.")
@@ -22,7 +24,7 @@ Playfield::Playfield(BITMAP *currScreen, const int &Pos_x, const int &Pos_y, con
 
 Playfield::~Playfield()
 {
-    Playfieldscreen = nullptr;
+    currScreen = nullptr;
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Playfieldwindow closed")
@@ -30,9 +32,9 @@ Playfield::~Playfield()
 
 } // ~Playfield
 
-void Playfield::resetPlayfield(BITMAP *currScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
+void Playfield::resetPlayfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
 {
-    Playfieldscreen = currScreen;
+    currScreen = aktivScreen;
     Playfieldpos_x = Pos_x;
     Playfieldpos_y = Pos_y;
     Playfieldtileswidth = Tilewidth;
@@ -47,7 +49,7 @@ void Playfield::resetPlayfield(BITMAP *currScreen, const int &Pos_x, const int &
 
 } // resetPlayfield
 
-void Playfield::drawTile(BITMAP *Sheetpos, const int &Sheetpos_x, const int &Sheetpos_y, int Column, int Row, const bool &transparency)
+void Playfield::drawTile(BITMAP *Sheetpos, BITMAP *virtualScreen, const int &Sheetpos_x, const int &Sheetpos_y, int Column, int Row, const bool &transparency)
 {
     if(Column < Playfieldpos_x)
     {
@@ -73,6 +75,11 @@ void Playfield::drawTile(BITMAP *Sheetpos, const int &Sheetpos_x, const int &She
 
     } // if Row >
 
+    currScreen->renderObject(Sheetpos, virtualScreen,
+                             Sheetpos_x, Sheetpos_y,
+                             Playfieldpos_x + (Column * Playfieldtileswidth), Playfieldpos_y + (Row * Playfieldtileswidth),
+                             Playfieldtileswidth, Playfieldtilesheight, transparency);
+/*
     if(transparency)
     {
         masked_blit(    Sheetpos, Playfieldscreen,
@@ -90,6 +97,7 @@ void Playfield::drawTile(BITMAP *Sheetpos, const int &Sheetpos_x, const int &She
                 Playfieldtileswidth, Playfieldtilesheight);
 
     } // if transparency
+*/
 
 } // drawTile
 

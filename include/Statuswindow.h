@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 
+#include "DDD_Screen.h"
+
 class Statuswindow
 {
     public:
@@ -18,7 +20,7 @@ class Statuswindow
             std::string Text;                       // Text for the Statuswindowrow
         };
 
-        Statuswindow(BITMAP *currScreen, FONT *currFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
+        Statuswindow(DDD_Screen *aktivScreen, BITMAP *currScreen, FONT *currFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
         ~Statuswindow();
         void addRow(const StatusText &newLine);
         void writeStatus();
@@ -28,6 +30,7 @@ class Statuswindow
     protected:
     private:
 
+    DDD_Screen *outputScreen;
     BITMAP *statusScreen;
     FONT *statusFont;
 

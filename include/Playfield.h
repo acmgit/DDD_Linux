@@ -4,20 +4,22 @@
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
 
+#include "DDD_Screen.h"
+
 class Playfield
 {
     public:
-        Playfield(BITMAP *currScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
+        Playfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
         ~Playfield();
 
-        void drawTile(BITMAP *Sheet, const int &Sheetpos_x, const int &Sheetpos_y, int Column, int Row, const bool &transparency);
+        void drawTile(BITMAP *Sheet, BITMAP *virtualScreen, const int &Sheetpos_x, const int &Sheetpos_y, int Column, int Row, const bool &transparency);
 
-        void resetPlayfield(BITMAP *currScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
+        void resetPlayfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
 
     protected:
     private:
 
-    BITMAP* Playfieldscreen;
+    DDD_Screen *currScreen;
 
     int Playfieldpos_x;
     int Playfieldpos_y;

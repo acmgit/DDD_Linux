@@ -4,6 +4,7 @@
 #include "Allegro_Output.h"
 #include "Console.h"
 #include "Statuswindow.h"
+#include "DDD_Screen.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -17,38 +18,26 @@
 
 Allegro_Output::Allegro_Output(const screenData &Data)
 {
-    set_color_depth(Data.screenDepth);
     Screendepth = Data.screenDepth;
 
-    int screenError;
-    if(Data.Fullscreen)
+    outputScreen = new DDD_Screen(Data.screenWidth, Data.screenHeight, Data.screenDepth, Data.Fullscreen);
+
+    if(!outputScreen)
     {
-        screenError = set_gfx_mode(GFX_AUTODETECT_FULLSCREEN, Data.screenWidth, Data.screenHeight, 0, 0);
-
-    }
-    else
-    {
-        screenError = set_gfx_mode(GFX_AUTODETECT_WINDOWED, Data.screenWidth, Data.screenHeight, 0, 0);
-
-    } // if Fullscreen
-
-    if(screenError)
-    {
-#ifdef DEBUG
-        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Screen " << Data.screenWidth << "x" << Data.screenHeight << " Depth: " << Data.screenDepth)
-#endif // DEBUG
-
-        allegro_message(allegro_error);
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open the Screenclass.")
+        #endif // DEBUG
+        allegro_message("Fail to open Screenclass.");
         allegro_exit();
-
-    } // if screenError
+    }
 
     Display = screen;
     Screenheight = SCREEN_H;
     Screenwidth = SCREEN_W;
     currFont = font;
 
-    VirtualScreen = create_bitmap(Screenwidth, Screenheight);
+    VirtualScreen = outputScreen->openVirtualScreen(Screenwidth, Screenheight);
+
     if(!VirtualScreen)
     {
 #ifdef DEBUG
@@ -114,11 +103,14 @@ Allegro_Output::~Allegro_Output()
 
     } // if outputPlayfield
 
-    destroy_bitmap(VirtualScreen);
+    outputScreen->closeVirtualScreen(VirtualScreen);
 
-    #ifdef DEBUG
-    Log("(" << ErrorLog.ALLOK << ") Virtual Screeen destroyed.")
-    #endif // DEBUG
+    if(outputScreen)
+    {
+        delete outputScreen;
+        outputScreen = nullptr;
+
+    } // if outputScreen
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Allegro_Output closed.")
@@ -128,30 +120,30 @@ Allegro_Output::~Allegro_Output()
 
 void Allegro_Output::renderScreen()
 {
-    blit(VirtualScreen, Display, 0, 0, 0, 0, Screenwidth, Screenheight);
+    outputScreen->renderScreen(VirtualScreen);
+
+    //blit(VirtualScreen, Display, 0, 0, 0, 0, Screenwidth, Screenheight);
     //clear_bitmap(VirtualScreen);
 
 } // renderScreen
 
-void Allegro_Output::writeOnScreen(void *Text)
-{
-#ifdef DEBUG
-    Log("(" << ErrorLog.WRONG_FUNCTION << ") Attention, void* called")
-#endif // DEBUG
-    writeOnScreen((gfx_Text*) Text);
-
-} // writeOnScreen(void*)
-
 void Allegro_Output::writeOnScreen(gfx_Text *Text)
 {
+
     if(Text->toConvert)
     {
-        textout_ex(VirtualScreen, currFont, convertText(Text->Text).c_str(), Text->Pos_x, Text->Pos_y, Text->Foregroundcolor, Text->Backgroundcolor);
+        outputScreen->writeText(VirtualScreen, currFont,
+                                convertText(Text->Text),
+                                Text->Pos_x, Text->Pos_y,
+                                Text->Foregroundcolor, Text->Backgroundcolor);
 
     }
     else
     {
-        textout_ex(VirtualScreen, currFont, Text->Text.c_str(), Text->Pos_x, Text->Pos_y, Text->Foregroundcolor, Text->Backgroundcolor);
+        outputScreen->writeText(VirtualScreen, currFont,
+                                Text->Text,
+                                Text->Pos_x, Text->Pos_y,
+                                Text->Foregroundcolor, Text->Backgroundcolor);
 
     } // if Textconvert
 
@@ -170,29 +162,12 @@ void Allegro_Output::writeOnConsole(const int FCol, const int BCol, const std::s
 
 } // writeOnConsole
 
-void Allegro_Output::renderObject(void *Object)
-{
-
-#ifdef DEBUG
-    Log("(" << ErrorLog.WRONG_FUNCTION << ") Attention, void* called")
-#endif // DEBUG
-
-    renderObject((gfx_Object*) Object);
-
-} // drawObject(void *Object)
-
 void Allegro_Output::renderObject(gfx_Object *Object)
 {
-    if(Object->transparency)
-    {
-        masked_blit(Object->Sheet, VirtualScreen, Object->Sheetpos_x, Object->Sheetpos_y, Object->Destinationpos_x, Object->Destinationpos_y, Object->Width, Object->Height);
-
-    }
-    else
-    {
-        blit(Object->Sheet, VirtualScreen, Object->Sheetpos_x, Object->Sheetpos_y, Object->Destinationpos_x, Object->Destinationpos_y, Object->Width, Object->Height);
-
-    } // if transparency
+    outputScreen->renderObject( Object->Sheet, VirtualScreen,
+                                Object->Sheetpos_x, Object->Sheetpos_y,
+                                Object->Destinationpos_x, Object->Destinationpos_y,
+                                Object->Width, Object->Height, Object->transparency);
 
 } // drawObject(gfx_Object *Object)
 
@@ -201,7 +176,7 @@ void Allegro_Output::renderTile(const tileData Tile)
     int currColumn = Tile.Column;
     int currRow = Tile.Row;
 
-    outputPlayfield->drawTile(Tile.Sheet, Tile.Sheetpos_x, Tile.Sheetpos_y, currColumn, currRow, Tile.transparency);
+    outputPlayfield->drawTile(Tile.Sheet, VirtualScreen, Tile.Sheetpos_x, Tile.Sheetpos_y, currColumn, currRow, Tile.transparency);
 
 }
 
@@ -283,7 +258,7 @@ void Allegro_Output::setConsole(const int &Pos_x, const int &Pos_y, const int &T
     if(!outputConsole)
     {
 
-        outputConsole = new Console(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+        outputConsole = new Console(outputScreen, currFont, VirtualScreen, Pos_x, Pos_y, TextHeight, Rows);
         if(!outputConsole)
         {
             #ifdef DEBUG
@@ -298,7 +273,7 @@ void Allegro_Output::setConsole(const int &Pos_x, const int &Pos_y, const int &T
     }
     else
     {
-        outputConsole->resetConsole(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+        outputConsole->resetConsole(outputScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
 
     } // if !outputConsole)
 
@@ -308,7 +283,7 @@ void Allegro_Output::setStatuswindow(const int &Pos_x, const int &Pos_y, const i
 {
     if(!outputStatus)
     {
-        outputStatus = new Statuswindow(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+        outputStatus = new Statuswindow(outputScreen, VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
         if(!outputStatus)
         {
             #ifdef DEBUG
@@ -334,7 +309,7 @@ void Allegro_Output::setPlayfieldwindow(const int &Pos_x, const int &Pos_y, cons
 {
     if(!outputPlayfield)
     {
-        outputPlayfield = new Playfield(VirtualScreen, Pos_x, Pos_y, Tilewidth, Tileheight, Tilecolumns, Tilerows);
+        outputPlayfield = new Playfield(outputScreen, Pos_x, Pos_y, Tilewidth, Tileheight, Tilecolumns, Tilerows);
         if(!outputPlayfield)
         {
             #ifdef DEBUG

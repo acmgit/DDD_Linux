@@ -7,6 +7,7 @@
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
 #include <allegro/font.h>
+#include "DDD_Screen.h"
 
 class Console
 {
@@ -19,7 +20,7 @@ class Console
             std::string CText;                                      // Text
         };
 
-        Console(BITMAP* CurrScreen, FONT* CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows);
+        Console(DDD_Screen *aktivScreen, FONT* CurrFont, BITMAP *VirtualScreen, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows);
         ~Console();
 
         /*  Writes the given Text to the Console
@@ -28,7 +29,7 @@ class Console
                         if false, then the new Text will append to the old Line and overwrite it with the given Colors of the Text to append
         */
         void writeOnConsole(ConsoleText currText, const bool nextLine);
-        void resetConsole(BITMAP *CurrScreen, FONT* CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows);
+        void resetConsole(DDD_Screen *aktivScreen, FONT* CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows);
 
 
     protected:
@@ -45,7 +46,8 @@ class Console
     int maxRows;
     int nextRow;
 
-    BITMAP* consoleScreen;
+    DDD_Screen *currScreen;
+    BITMAP *virtualScreen;
     FONT* consoleFont;
 
 }; // Console

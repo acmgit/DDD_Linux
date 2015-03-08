@@ -1,10 +1,10 @@
 #ifndef ALLEGRO_OUTPUT_H
 #define ALLEGRO_OUTPUT_H
 
-#include "Screeninterface.h"
 #include "Console.h"
 #include "Statuswindow.h"
 #include "Playfield.h"
+#include "DDD_Screen.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -12,7 +12,7 @@
 
 #include <string>
 
-class Allegro_Output: public Screeninterface
+class Allegro_Output
 {
     public:
 
@@ -62,14 +62,12 @@ class Allegro_Output: public Screeninterface
 
         void renderScreen();                                         // Renders the whole virtual Screen to Display
 
-        void writeOnScreen(void *Text);                              // Writes the Text to the virtual Screen
         void writeOnScreen(gfx_Text *Text);
         void writeOnConsole(const int FCol, const int BCol, const std::string CText, const bool nextLine);
 
         void addStatusLine(const int &Row, const int &Tab, const int &FCol, const int &BCol, const std::string &SText);
         void writeStatus();
 
-        void renderObject(void *Object);                             // Renders the Object to the virtual Screen
         void renderObject(gfx_Object *Object);
         void renderTile(const tileData Tile);
 
@@ -94,6 +92,7 @@ class Allegro_Output: public Screeninterface
         BITMAP *VirtualScreen;
         FONT *currFont;
 
+        DDD_Screen *outputScreen;
         Console *outputConsole;
         Statuswindow *outputStatus;
         Playfield *outputPlayfield;

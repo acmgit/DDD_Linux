@@ -2,6 +2,7 @@
 #define CONSOLE_CPP
 
 #include "Console.h"
+#include "DDD_Screen.h"
 
 #ifdef DEBUG
 
@@ -13,10 +14,12 @@
 #include <allegro/gfx.h>
 #include <allegro/font.h>
 
-Console::Console(BITMAP* CurrScreen, FONT* CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows)
+Console::Console(DDD_Screen *aktivScreen, FONT *aktivFont, BITMAP *VirtualScreen, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows)
 {
-
-    resetConsole(CurrScreen, CurrFont, Pos_x, Pos_y, TextHeight, CRows);
+    virtualScreen = VirtualScreen;
+    currScreen = aktivScreen;
+    consoleFont = aktivFont;
+    resetConsole(currScreen, consoleFont, Pos_x, Pos_y, TextHeight, CRows);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Console opened.")
@@ -82,16 +85,21 @@ void Console::refreshConsole()
 
     for( iterateRows = Row.begin(); iterateRows != Row.end(); ++iterateRows)
     {
-        textout_ex(consoleScreen, consoleFont, (*iterateRows).CText.c_str(), startPos_x, (startPos_y + (currentRow * textHeight)), (*iterateRows).Foreground, (*iterateRows).Background);
+        currScreen->writeText(virtualScreen, consoleFont,
+                              (*iterateRows).CText,
+                              startPos_x, (startPos_y + (currentRow * textHeight)),
+                              (*iterateRows).Foreground, (*iterateRows).Background);
+
+        //textout_ex(consoleScreen, consoleFont, (*iterateRows).CText.c_str(), startPos_x, (startPos_y + (currentRow * textHeight)), (*iterateRows).Foreground, (*iterateRows).Background);
         ++currentRow;
 
     } // for Row.begin()
 
 } // refreshConsole
 
-void Console::resetConsole(BITMAP *CurrScreen, FONT *CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows)
+void Console::resetConsole(DDD_Screen *aktivScreen, FONT *CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows)
 {
-    consoleScreen = CurrScreen;
+    currScreen = aktivScreen;
     consoleFont = CurrFont;
 
     startPos_x = Pos_x;

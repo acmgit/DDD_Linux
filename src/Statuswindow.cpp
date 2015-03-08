@@ -2,6 +2,8 @@
 #define STATUSWINDOW_CPP
 
 #include "Statuswindow.h"
+#include "DDD_Screen.h"
+
 #include <allegro/gfx.h>
 #include <allegro/font.h>
 #include <allegro/graphics.h>
@@ -15,9 +17,9 @@
 
 #endif // DEBUG
 
-Statuswindow::Statuswindow(BITMAP *currScreen, FONT *currFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
+Statuswindow::Statuswindow(DDD_Screen *aktivScreen, BITMAP *currScreen, FONT *currFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
 {
-
+    outputScreen = aktivScreen;
     resetStatuswindow(currScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
 
 #ifdef DEBUG
@@ -73,10 +75,10 @@ void Statuswindow::writeStatus()
 
         } // if currLine > maxRows
 
-        textout_ex(statusScreen, statusFont,
-                   currLine->Text.c_str(),
-                   currLine->Tab + statusPos_x, statusPos_y + (currLine->Row * statusTextheight),
-                   currLine->Foreground, currLine->Background);
+        outputScreen->writeText(statusScreen, statusFont,
+                                currLine->Text,
+                                currLine->Tab + statusPos_x, statusPos_y + (currLine->Row * statusTextheight),
+                                currLine->Foreground, currLine->Background);
 
     } // for(currLine)
 
