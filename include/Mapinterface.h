@@ -25,7 +25,8 @@ class Mapinterface
         {
             Worldmaptile = 1,
             Townmaptile,
-            Battlemaptile
+            Battlemaptile,
+            Treasuremaptile
         };
 
         Mapinterface(Allegro_Datafile *Data);
@@ -42,6 +43,7 @@ class Mapinterface
     std::vector<std::string> currBattlemap;
     bool validBattlemap;
     void getBattlemapTile(Tiledata &Tile, const int Column, const int Row);
+    void convertTile(Tiledata &Tile, const char TChar);                         // Central converter of the Tilemaps
 
     Allegro_Datafile *currDatafile;
     Battlemap *currBattlemapclass;

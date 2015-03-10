@@ -80,6 +80,12 @@ Mapinterface::Tiledata Mapinterface::getTile(Tiletyp Map, const int Column, cons
 
         } // case Worldmaptile
 
+        case Tiletyp::Treasuremaptile:
+        {
+
+
+        } // case Treasuremaptile
+
         default:
         {
 
@@ -155,9 +161,16 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
     std::string cRow = currBattlemap.at(Row);
     char cColumn = (char) cRow.at(Column);
 
-    switch(cColumn)
+    convertTile(Tile, cColumn);
+
+} // getBattlemapTile
+
+void Mapinterface::convertTile(Tiledata &Tile, const char TChar)
+{
+
+    switch(TChar)
     {
-    case 'G':
+    case 'g':
         {
             Tile.Index = currDatafile->findIndex("[WTI_Gras]").Number;
             Tile.walkable = true;
@@ -166,7 +179,7 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
             break;
         } // Case 'G'
 
-    case 'S':
+    case 'w':
         {
             Tile.Index = currDatafile->findIndex("[WTI_Shrubbery]").Number;
             Tile.walkable = true;
@@ -176,7 +189,7 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
         } // Case 'S'
 
-    case 'F':
+    case 'W':
         {
             Tile.Index = currDatafile->findIndex("[WTI_Forest]").Number;
             Tile.walkable = true;
@@ -186,7 +199,7 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
         } // Case 'F'
 
-    case 'B':
+    case 'n':
         {
             Tile.Index = currDatafile->findIndex("[WTI_Boulders]").Number;
             Tile.walkable = true;
@@ -196,7 +209,7 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
         } // case 'B'
 
-    case 'M':
+    case 'B':
         {
             Tile.Index = currDatafile->findIndex("[WTI_Mountain]").Number;
             Tile.walkable = false;
@@ -206,7 +219,7 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
         } // case 'M'
 
-    case 'D':
+    case 'x':
         {
             Tile.Index = currDatafile->findIndex("[WTI_Dessert]").Number;
             Tile.walkable = true;
@@ -226,7 +239,7 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
         } // case 'm'
 
-    case 'w':
+    case 's':
         {
             Tile.Index = currDatafile->findIndex("[WTI_River]").Number;
             Tile.walkable = false;
@@ -236,7 +249,7 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
         } // case 'w'
 
-    case 'W':
+    case 'S':
         {
             Tile.Index = currDatafile->findIndex("[WTI_Sea]").Number;
             Tile.walkable = false;
@@ -256,6 +269,24 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
         } // case 'l'
 
+    case 'b':
+        {
+            Tile.Index = currDatafile->findIndex("[WTI_Bridge_horizontal]").Number;
+            Tile.walkable = true;
+            Tile.shipable = false;
+            Tile.flyable = true;
+            break;
+        }
+
+    case '#':
+        {
+            Tile.Index = currDatafile->findIndex("[WTI_Bridge_vertical]").Number;
+            Tile.walkable = true;
+            Tile.shipable = false;
+            Tile.flyable = true;
+            break;
+        }
+
     default: // Unknown Tile
         {
             Tile.Index = currDatafile->findIndex("[WTI_Fog]").Number;
@@ -266,7 +297,8 @@ void Mapinterface::getBattlemapTile(Tiledata &Tile, const int Column, const int 
 
         } // default
 
-    } // switch cColumn
+    } // switch TChar
 
-} // getBattlemapTile
+} // convertTile
+
 #endif // MAPINTERFACE_CPP

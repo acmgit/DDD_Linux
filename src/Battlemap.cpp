@@ -105,7 +105,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
 
         if(isTile(genTile, minPercent, maxPercent))             // is Gras
         {
-            Row = Row + "G";
+            Row = Row + "g";
 
         }
         else
@@ -114,8 +114,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
             maxPercent = minPercent + Seed.Shrubbery;
             if(isTile(genTile, minPercent, maxPercent))         // is Shrubbery
             {
-                Row = Row + "S";
-
+                Row = Row + "w";
             }
             else
             {
@@ -123,7 +122,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
                 maxPercent = minPercent + Seed.Forest;
                 if(isTile(genTile, minPercent, maxPercent))     // is Forest
                 {
-                    Row = Row + "F";
+                    Row = Row + "W";
 
                 }
                 else
@@ -132,7 +131,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
                     maxPercent = minPercent + Seed.Boulder;
                     if(isTile(genTile, minPercent, maxPercent)) // is Boulder
                     {
-                        Row = Row + "B";
+                        Row = Row + "n";
 
                     }
                     else
@@ -141,7 +140,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
                         maxPercent = minPercent + Seed.Mountain;
                         if(isTile(genTile, minPercent, maxPercent)) // is Mountain
                         {
-                            Row = Row + "M";
+                            Row = Row + "B";
 
                         }
                         else
@@ -150,7 +149,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
                            maxPercent = minPercent + Seed.Dessert;
                            if(isTile(genTile, minPercent, maxPercent))  // is Dessert
                            {
-                               Row = Row + "D";
+                               Row = Row + "x";
 
                            }
                            else
@@ -168,7 +167,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
                                    maxPercent = minPercent + Seed.River;
                                    if(isTile(genTile, minPercent, maxPercent))  // is River
                                    {
-                                       Row = Row + "w";
+                                       Row = Row + "s";
 
                                    }
                                    else
@@ -177,7 +176,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
                                        maxPercent = minPercent + Seed.Sea;
                                        if(isTile(genTile, minPercent, maxPercent)) // is Sea
                                        {
-                                           Row = Row + "W";
+                                           Row = Row + "S";
 
                                        }
                                        else
@@ -191,7 +190,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
                                            }
                                            else
                                            {
-                                               Row = Row + "x";                         // Unknown Tile;
+                                               Row = Row + "X";                         // Unknown Tile;
 
                                            } // is Lava
 
