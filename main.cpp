@@ -1,12 +1,14 @@
 #include <iostream>
 #include <allegro.h>
 #include <string>
+#include <allegro/graphics.h>
 
 #include "Allegro_Input.h"
 #include "Allegro_Output.h"
 #include "Allegro_Datafile.h"
 #include "UniText.h"
 #include "Mapinterface.h"
+#include "Clock.h"
 
 using namespace std;
 
@@ -17,6 +19,11 @@ using namespace std;
 CLog ErrorLog("data/Logfile.txt");
 
 #endif // DEBUG
+
+void Fade_out(int speed, BITMAP *bmp_orig);
+void Fade_in(int speed, BITMAP *bmp_orig);
+
+void shade(BITMAP *dest, float howMuch);
 
 int main()
 {
@@ -359,10 +366,24 @@ int main()
     MyOutput->renderObject(&renderTile);
 
     // yeah, draw it Baby, draw it ...
-    MyOutput->renderScreen();
+    //MyOutput->renderScreen();
+    Fade_in(10, MyOutput->getVirtualScreen());
 
+/*
+    // draw a Konsolewindow
+    set_trans_blender(0,0,0,90);
+    drawing_mode(DRAW_MODE_TRANS, screen, 0, 0);
+    rectfill(screen, 50, 50, 590, 430, makecol(250, 250, 250));
+    drawing_mode(DRAW_MODE_SOLID, screen, 0, 0);
+*/
     // and wait 10 Seconds for a Key
     MyInput->readKey(10);
+
+
+
+    Fade_out(10, MyOutput->getVirtualScreen());
+
+    //MyInput->readKey(5);
 
     if(currMaps)
     {
@@ -406,3 +427,80 @@ int main()
     return 0;
 } // main
 END_OF_MAIN()
+
+void Fade_out(int speed, BITMAP *bmp_orig)
+{
+    // Fade out start ----------------
+    BITMAP *bmp_buff;
+    Clock *Pause;
+    Pause = new Clock();
+
+    if ((bmp_buff = create_system_bitmap(SCREEN_W, SCREEN_H)))
+    {
+        blit(screen, bmp_orig, 0,0, 0,0, SCREEN_W, SCREEN_H);
+        if (speed <= 0)
+        {
+            speed = 16;
+
+        } // if speed
+
+        for (int a = 255-speed; a > 0; a-=speed)
+        {
+            clear(bmp_buff);
+            set_trans_blender(0,0,0,a);
+            draw_trans_sprite(bmp_buff, bmp_orig, 0, 0);
+            vsync();
+            blit(bmp_buff, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
+            Pause->setMiliSeconds(50);
+            while(!Pause->wait())
+            {
+            }
+
+        } // for a
+
+        destroy_bitmap(bmp_buff);
+
+    } // if((bmp_buff)
+
+    delete Pause;
+    rectfill(screen, 0,0, SCREEN_W,SCREEN_H, makecol(0,0,0));
+    // Fade out end ---------------------------------
+
+} // fade_out
+
+void Fade_in(int speed, BITMAP *bmp_orig)
+{
+    // Fade in start ----------------
+    Clock *Pause;
+    Pause = new Clock();
+
+    if (speed <= 0) speed = 16;
+
+    for (int a = 0 + speed; a <= 255; a+=speed)
+    {
+        set_trans_blender(0,0,0,a);
+        draw_trans_sprite(screen, bmp_orig, 0, 0);
+        vsync();
+        Pause->setMiliSeconds(50);
+        while(!Pause->wait())
+        {
+        }
+
+    } // for a
+
+    blit(bmp_orig, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+    delete Pause;
+    // Fade in end ---------------------------------
+
+} // fade_in
+
+// If howMuch is 1, dest is turned black.  If howMuch is 0, dest is left unchanged
+void shade(BITMAP *dest, float howMuch)
+{
+    const int val = (int)(howMuch * 0xff);
+
+    set_trans_blender(0x20, 0x20, 0x20, val);
+    drawing_mode(DRAW_MODE_TRANS, 0, 0, 0);
+    rectfill(dest, 0, 0, dest->w, dest->h, makeacol32(0xff, 0xff, 0xff, val));
+    drawing_mode(DRAW_MODE_SOLID, 0, 0, 0);
+}

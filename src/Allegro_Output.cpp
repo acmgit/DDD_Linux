@@ -347,4 +347,10 @@ void Allegro_Output::writeStatus()
 
 } //writeStatus
 
+BITMAP *Allegro_Output::getVirtualScreen()
+{
+    return VirtualScreen;
+
+} // getVirtualScreen();
+
 #endif // ALLEGRO_OUTPUT_CPP

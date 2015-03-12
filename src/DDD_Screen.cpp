@@ -76,7 +76,7 @@ BITMAP *DDD_Screen::openVirtualScreen(const int &screenWidth, const int &screenH
 {
     BITMAP *newBitmap;
 
-    newBitmap = create_bitmap(screenWidth, screenHeight);
+    newBitmap = create_system_bitmap(screenWidth, screenHeight);
     if(!newBitmap)
     {
         #ifdef DEBUG

@@ -83,6 +83,7 @@ class Allegro_Output
         int getScreenHeight();
         int getScreenDepth();
 
+        BITMAP *getVirtualScreen();
     private:
 
         void replace_all(std::string& text, const std::string& fnd, const std::string& rep);
