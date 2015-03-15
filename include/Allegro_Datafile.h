@@ -16,13 +16,13 @@
 class Allegro_Datafile: public Datafileinterface
 {
     public:
-        struct Index
+        struct Index                        // Entry of an Index
         {
             std::string Name;
             int Number;
         };
 
-        struct Colorfont
+        struct Colorfont                    // Entry of a Colorfont
         {
             FONT *Font;
             PALETTE *Palette;
@@ -34,10 +34,12 @@ class Allegro_Datafile: public Datafileinterface
         DATAFILE* get_Datafile();
         const std::string get_Filename();
 
-        void add_Index(Index newEntry);
-        Index find_Index(const std::string &Keyname);
-        void remove_Index(Index Entry);
+        // Indexcommands
+        void add_Index(Index newEntry);                                 // Build an Indexentry
+        Index find_Index(const std::string &Keyname);                   // Find an Indexentry
+        void remove_Index(Index Entry);                                 // delete an Indexentry
 
+        // Special Commands
         BITMAP* get_Bitmap(const std::string &Bitmapname);
         FONT* get_Font(const std::string &Fontname);
         PALETTE* get_Palette(const std::string &Palettename);

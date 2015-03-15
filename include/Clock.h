@@ -12,7 +12,7 @@ class Clock: public Clock_Interface
         Clock();
         ~Clock();
 
-        void set_Seconds(const int &Seconds);
+        void set_Seconds(const int &Seconds);                   // this Function or the set_MilliSeconds must be called before wait
         void set_MilliSeconds(const int &Milliseconds);
         bool wait();
 

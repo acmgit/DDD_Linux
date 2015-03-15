@@ -22,8 +22,9 @@ class Statuswindow
 
         Statuswindow(DDD_Screen *aktivScreen, BITMAP *currScreen, FONT *currFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
         ~Statuswindow();
-        void add_Row(const StatusText &newLine);
-        void write_Status();
+
+        void add_Row(const StatusText &newLine);    // add's a Line to the Statustext
+        void write_Status();                        // write's the whole Status to the window
 
         void reset_Statuswindow(BITMAP *currStausScreen, FONT *currStatusFont, const int &Pos_x, const int &Pos_y, const int &Textheight, const int &Rows);
 
