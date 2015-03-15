@@ -2,11 +2,11 @@
 #define DDD_SCREEN_CPP
 
 #include "DDD_Screen.h"
+#include "Clock.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
 #include <allegro/system.h>
-
 #include <string>
 
 #ifdef DEBUG
@@ -19,6 +19,8 @@ DDD_Screen::DDD_Screen(int screenWidth, int screenHeight, int screenDepth, bool 
     set_color_depth(screenDepth);
 
     openScreen(screenWidth, screenHeight, screenDepth, fullScreen);
+
+    fader_Pause = 50;
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") DDD_Screenclass opened.")
@@ -72,7 +74,7 @@ BITMAP *DDD_Screen::openScreen(const int &screenWidth, const int &screenHeight, 
 
 } // openScreen
 
-BITMAP *DDD_Screen::openVirtualScreen(const int &screenWidth, const int &screenHeight)
+BITMAP *DDD_Screen::open_VirtualScreen(const int &screenWidth, const int &screenHeight)
 {
     BITMAP *newBitmap;
 
@@ -88,16 +90,16 @@ BITMAP *DDD_Screen::openVirtualScreen(const int &screenWidth, const int &screenH
 
     return newBitmap;
 
-} // openVirtualScreen
+} // open_VirtualScreen
 
-void DDD_Screen::renderScreen(BITMAP *virtualScreen)
+void DDD_Screen::render_Screen(BITMAP *virtualScreen)
 {
     blit(virtualScreen, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
     //show_video_bitmap(virtualScreen);
 
-} // renderScreen
+} // render_Screen
 
-void DDD_Screen::renderObject(BITMAP *Object, BITMAP *virtualScreen,
+void DDD_Screen::render_Object(BITMAP *Object, BITMAP *virtualScreen,
                           const int &Object_x, const int &Object_y,
                           const int &virtualScreen_x, const int virtualScreen_y,
                           const int &Width, const int Height, const bool &transparency)
@@ -113,18 +115,18 @@ void DDD_Screen::renderObject(BITMAP *Object, BITMAP *virtualScreen,
 
     } // if transparency
 
-} // renderObject
+} // render_Object
 
-void DDD_Screen::writeText(BITMAP *virtualScreen, FONT *currFont,
+void DDD_Screen::write_Text(BITMAP *virtualScreen, FONT *currFont,
                        std::string Text,
                        const int &textPos_x, const int &textPos_y,
                        const int &foregroundColor, const int &backgroundColor)
 {
     textout_ex(virtualScreen, currFont, Text.c_str(), textPos_x, textPos_y, foregroundColor, backgroundColor);
 
-} // writeText
+} // write_Text
 
-void DDD_Screen::closeVirtualScreen(BITMAP *currScreen)
+void DDD_Screen::close_VirtualScreen(BITMAP *currScreen)
 {
     if(currScreen)
     {
@@ -146,5 +148,79 @@ void DDD_Screen::closeVirtualScreen(BITMAP *currScreen)
 
 } // closeScreen
 
+void DDD_Screen::fade_In(int speed, BITMAP *to_Fadein)
+{
+    Clock *Pause;
+    Pause = new Clock();
+
+    if (speed <= 0) speed = 16;
+
+    for (int a = 0 + speed; a <= 255; a+=speed)
+    {
+        set_trans_blender(0,0,0,a);
+        draw_trans_sprite(screen, to_Fadein, 0, 0);
+        vsync();
+        Pause->set_MilliSeconds(fader_Pause);
+        while(!Pause->wait())
+        {
+        }
+
+    } // for a
+
+    blit(to_Fadein, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+    delete Pause;
+
+} // fade_In
+
+void DDD_Screen::fade_Out(int speed, BITMAP *to_Fadeout)
+{
+    BITMAP *bmp_buff;
+    Clock *Pause;
+    Pause = new Clock();
+
+    if ((bmp_buff = create_system_bitmap(SCREEN_W, SCREEN_H)))
+    {
+        blit(screen, to_Fadeout, 0,0, 0,0, SCREEN_W, SCREEN_H);
+        if (speed <= 0)
+        {
+            speed = 16;
+
+        } // if speed
+
+        for (int a = 255-speed; a > 0; a-=speed)
+        {
+            clear_bitmap(bmp_buff);
+            set_trans_blender(0,0,0,a);
+            draw_trans_sprite(bmp_buff, to_Fadeout, 0, 0);
+            vsync();
+            blit(bmp_buff, screen, 0,0, 0,0, SCREEN_W, SCREEN_H);
+            Pause->set_MilliSeconds(fader_Pause);
+            while(!Pause->wait())
+            {
+            }
+
+        } // for a
+
+        destroy_bitmap(bmp_buff);
+
+    } // if((bmp_buff)
+
+    delete Pause;
+    rectfill(screen, 0,0, SCREEN_W,SCREEN_H, makecol(0,0,0));
+    // Fade out end ---------------------------------
+
+} // fade_Out
+
+void DDD_Screen::set_Faderpause(int Pause)
+{
+    if(Pause <= 0)
+    {
+        Pause = 1;
+
+    } // Pause
+
+    fader_Pause = Pause;
+
+} // set_Faderpause
 
 #endif // DDD_Screen_CPP

@@ -31,23 +31,23 @@ class Allegro_Datafile: public Datafileinterface
         Allegro_Datafile(const std::string &Datafile, const std::string &DatafileIndex, const std::string &Configfile);
         ~Allegro_Datafile();
 
-        DATAFILE* getDatafile();
-        const std::string getFilename();
+        DATAFILE* get_Datafile();
+        const std::string get_Filename();
 
-        void addIndex(Index newEntry);
-        Index findIndex(const std::string &Keyname);
-        void removeIndex(Index Entry);
+        void add_Index(Index newEntry);
+        Index find_Index(const std::string &Keyname);
+        void remove_Index(Index Entry);
 
-        BITMAP* getBitmap(const std::string &Bitmapname);
-        FONT* getFont(const std::string &Fontname);
-        PALETTE* getPalette(const std::string &Palettename);
+        BITMAP* get_Bitmap(const std::string &Bitmapname);
+        FONT* get_Font(const std::string &Fontname);
+        PALETTE* get_Palette(const std::string &Palettename);
 
         int strtoint(std::string Value);
         std::string inttostr(int Value);
 
     private:
 
-        void loadIndex(std::string Indexfile);
+        void load_Index(std::string Indexfile);
 
         std::string Filename;
         DATAFILE* Data;

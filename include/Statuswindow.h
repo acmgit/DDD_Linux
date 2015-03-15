@@ -22,10 +22,10 @@ class Statuswindow
 
         Statuswindow(DDD_Screen *aktivScreen, BITMAP *currScreen, FONT *currFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
         ~Statuswindow();
-        void addRow(const StatusText &newLine);
-        void writeStatus();
+        void add_Row(const StatusText &newLine);
+        void write_Status();
 
-        void resetStatuswindow(BITMAP *currStausScreen, FONT *currStatusFont, const int &Pos_x, const int &Pos_y, const int &Textheight, const int &Rows);
+        void reset_Statuswindow(BITMAP *currStausScreen, FONT *currStatusFont, const int &Pos_x, const int &Pos_y, const int &Textheight, const int &Rows);
 
     protected:
     private:

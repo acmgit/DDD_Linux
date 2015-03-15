@@ -9,8 +9,8 @@ class Clock_Interface
         Clock_Interface() {};
         virtual ~Clock_Interface() {};
 
-        virtual void setSeconds(const int &Seconds) = 0;
-        virtual void setMiliSeconds(const int &Miliseconds) = 0;
+        virtual void set_Seconds(const int &Seconds) = 0;
+        virtual void set_MilliSeconds(const int &Miliseconds) = 0;
         virtual bool wait() = 0;
 
     protected:

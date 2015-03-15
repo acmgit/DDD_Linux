@@ -30,7 +30,7 @@ Clock::~Clock()
 
 } // ~Clock()
 
-void Clock::setSeconds(const int &Seconds)
+void Clock::set_Seconds(const int &Seconds)
 {
     gettimeofday(&currTime, 0);
     gettimeofday(&Timer, 0);
@@ -45,12 +45,12 @@ void Clock::setSeconds(const int &Seconds)
     Log(Timer.tv_sec << " : to Second")
 #endif
 
-} // setSeconds
+} // set_Seconds
 
-void Clock::setMiliSeconds(const int &Miliseconds)
+void Clock::set_MilliSeconds(const int &Milliseconds)
 {
     gettimeofday(&Timer, 0);
-    Timer.tv_usec = Timer.tv_usec + Miliseconds;
+    Timer.tv_usec = Timer.tv_usec + Milliseconds;
 
 } // setMiliseconds
 

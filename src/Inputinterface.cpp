@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-std::string Inputinterface::getString()
+std::string Inputinterface::get_String()
 {
     std::string Input;
     Key currentKey;
@@ -15,9 +15,9 @@ std::string Inputinterface::getString()
 
     do
     {
-        if(readKey())
+        if(read_Key())
         {
-            currentKey = getKey();
+            currentKey = get_Key();
 
             if((currentKey.Scancode != SCAN_ESCAPE) && (currentKey.Scancode != SCAN_ENTER))   // Is the Key for the String?
             {
@@ -37,9 +37,9 @@ std::string Inputinterface::getString()
 
     return Input;
 
-} // getString
+} // get_String
 
-std::string Inputinterface::getString(int Len)
+std::string Inputinterface::get_String(int Len)
 {
     std::string Input;
     Key currentKey;
@@ -55,9 +55,9 @@ std::string Inputinterface::getString(int Len)
 
     do
     {
-        if(readKey())
+        if(read_Key())
         {
-            currentKey = getKey();
+            currentKey = get_Key();
             if((currentKey.Scancode != SCAN_ESCAPE) && (currentKey.Scancode != SCAN_ENTER))   // Is the Key for the String?
             {
                 Input += currentKey.Key;
@@ -81,9 +81,9 @@ std::string Inputinterface::getString(int Len)
 
     return Input;
 
-} // getString(Len)
+} // get_String(Len)
 
-std::string Inputinterface::inputString()
+std::string Inputinterface::input_String()
 {
     std::string Input;
     Key currentKey;
@@ -92,9 +92,9 @@ std::string Inputinterface::inputString()
 
     do
     {
-        if(readKey())
+        if(read_Key())
         {
-            currentKey = getKey();
+            currentKey = get_Key();
             if((currentKey.Scancode != SCAN_ESCAPE) && (currentKey.Scancode != SCAN_ENTER))
             {
                 if(currentKey.Scancode == SCAN_BACKSPACE)
@@ -125,9 +125,9 @@ std::string Inputinterface::inputString()
     while(!Done);
     return Input;
 
-} // inputString
+} // input_String
 
-std::string Inputinterface::inputString(int Len)
+std::string Inputinterface::input_String(int Len)
 {
     std::string Input;
     Key currentKey;
@@ -143,9 +143,9 @@ std::string Inputinterface::inputString(int Len)
 
     do
     {
-        if(readKey())
+        if(read_Key())
         {
-            currentKey = getKey();
+            currentKey = get_Key();
             if((currentKey.Scancode != SCAN_ESCAPE) && (currentKey.Scancode != SCAN_ENTER))
             {
                 if(currentKey.Scancode == SCAN_BACKSPACE)
@@ -183,6 +183,7 @@ std::string Inputinterface::inputString(int Len)
     while(!Done);
     return Input;
 
-} // inputString(Len)
+} // input_String(Len)
+
 #endif // INPUTINTERFACE_CPP
 

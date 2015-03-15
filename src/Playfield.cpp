@@ -14,7 +14,7 @@
 Playfield::Playfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
 {
     currScreen = aktivScreen;
-    resetPlayfield(aktivScreen, Pos_x, Pos_y, Tilewidth, Tileheight, Tilecolumns, Tilerows);
+    reset_Playfield(aktivScreen, Pos_x, Pos_y, Tilewidth, Tileheight, Tilecolumns, Tilerows);
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Playfieldwindow opened.")
@@ -32,7 +32,7 @@ Playfield::~Playfield()
 
 } // ~Playfield
 
-void Playfield::resetPlayfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
+void Playfield::reset_Playfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
 {
     currScreen = aktivScreen;
     Playfieldpos_x = Pos_x;
@@ -47,9 +47,9 @@ void Playfield::resetPlayfield(DDD_Screen *aktivScreen, const int &Pos_x, const 
 #endif // DEBUG
 
 
-} // resetPlayfield
+} // reset_Playfield
 
-void Playfield::drawTile(BITMAP *Sheetpos, BITMAP *virtualScreen, const int &Sheetpos_x, const int &Sheetpos_y, int Column, int Row, const bool &transparency)
+void Playfield::draw_Tile(BITMAP *Sheetpos, BITMAP *virtualScreen, const int &Sheetpos_x, const int &Sheetpos_y, int Column, int Row, const bool &transparency)
 {
     if(Column < Playfieldpos_x)
     {
@@ -75,7 +75,7 @@ void Playfield::drawTile(BITMAP *Sheetpos, BITMAP *virtualScreen, const int &She
 
     } // if Row >
 
-    currScreen->renderObject(Sheetpos, virtualScreen,
+    currScreen->render_Object(Sheetpos, virtualScreen,
                              Sheetpos_x, Sheetpos_y,
                              Playfieldpos_x + (Column * Playfieldtileswidth), Playfieldpos_y + (Row * Playfieldtileswidth),
                              Playfieldtileswidth, Playfieldtilesheight, transparency);
@@ -99,6 +99,6 @@ void Playfield::drawTile(BITMAP *Sheetpos, BITMAP *virtualScreen, const int &She
     } // if transparency
 */
 
-} // drawTile
+} // draw_Tile
 
 #endif // PLAYFIEL_CPP

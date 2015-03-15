@@ -36,7 +36,7 @@ Allegro_Output::Allegro_Output(const screenData &Data)
     Screenwidth = SCREEN_W;
     currFont = font;
 
-    VirtualScreen = outputScreen->openVirtualScreen(Screenwidth, Screenheight);
+    VirtualScreen = outputScreen->open_VirtualScreen(Screenwidth, Screenheight);
 
     if(!VirtualScreen)
     {
@@ -103,7 +103,7 @@ Allegro_Output::~Allegro_Output()
 
     } // if outputPlayfield
 
-    outputScreen->closeVirtualScreen(VirtualScreen);
+    outputScreen->close_VirtualScreen(VirtualScreen);
 
     if(outputScreen)
     {
@@ -118,29 +118,29 @@ Allegro_Output::~Allegro_Output()
 
 } // ~Allegro_Output
 
-void Allegro_Output::renderScreen()
+void Allegro_Output::render_Screen()
 {
-    outputScreen->renderScreen(VirtualScreen);
+    outputScreen->render_Screen(VirtualScreen);
 
     //blit(VirtualScreen, Display, 0, 0, 0, 0, Screenwidth, Screenheight);
     //clear_bitmap(VirtualScreen);
 
-} // renderScreen
+} // render_Screen
 
-void Allegro_Output::writeOnScreen(gfx_Text *Text)
+void Allegro_Output::write_OnScreen(gfx_Text *Text)
 {
 
     if(Text->toConvert)
     {
-        outputScreen->writeText(VirtualScreen, currFont,
-                                convertText(Text->Text),
+        outputScreen->write_Text(VirtualScreen, currFont,
+                                convert_Text(Text->Text),
                                 Text->Pos_x, Text->Pos_y,
                                 Text->Foregroundcolor, Text->Backgroundcolor);
 
     }
     else
     {
-        outputScreen->writeText(VirtualScreen, currFont,
+        outputScreen->write_Text(VirtualScreen, currFont,
                                 Text->Text,
                                 Text->Pos_x, Text->Pos_y,
                                 Text->Foregroundcolor, Text->Backgroundcolor);
@@ -149,50 +149,50 @@ void Allegro_Output::writeOnScreen(gfx_Text *Text)
 
 } // writeOnScreen(gfx_Text *Text)
 
-void Allegro_Output::writeOnConsole(const int FCol, const int BCol, const std::string CText, const bool nextLine)
+void Allegro_Output::write_OnConsole(const int FCol, const int BCol, const std::string CText, const bool nextLine)
 {
 
     Console::ConsoleText toConsole;
 
     toConsole.Foreground = FCol;
     toConsole.Background = BCol;
-    toConsole.CText = convertText(CText);
+    toConsole.CText = convert_Text(CText);
 
-    outputConsole->writeOnConsole(toConsole, nextLine);
+    outputConsole->write_OnConsole(toConsole, nextLine);
 
-} // writeOnConsole
+} // write_OnConsole
 
-void Allegro_Output::renderObject(gfx_Object *Object)
+void Allegro_Output::render_Object(gfx_Object *Object)
 {
-    outputScreen->renderObject( Object->Sheet, VirtualScreen,
+    outputScreen->render_Object( Object->Sheet, VirtualScreen,
                                 Object->Sheetpos_x, Object->Sheetpos_y,
                                 Object->Destinationpos_x, Object->Destinationpos_y,
                                 Object->Width, Object->Height, Object->transparency);
 
 } // drawObject(gfx_Object *Object)
 
-void Allegro_Output::renderTile(const tileData Tile)
+void Allegro_Output::render_Tile(const tileData Tile)
 {
     int currColumn = Tile.Column;
     int currRow = Tile.Row;
 
-    outputPlayfield->drawTile(Tile.Sheet, VirtualScreen, Tile.Sheetpos_x, Tile.Sheetpos_y, currColumn, currRow, Tile.transparency);
+    outputPlayfield->draw_Tile(Tile.Sheet, VirtualScreen, Tile.Sheetpos_x, Tile.Sheetpos_y, currColumn, currRow, Tile.transparency);
 
 }
 
-void Allegro_Output::setFont(FONT *newFont)
+void Allegro_Output::set_Font(FONT *newFont)
 {
     currFont = newFont;
 
 } // setFont(FONT)
 
-void Allegro_Output::setPalette(PALETTE *newPalette)
+void Allegro_Output::set_Palette(PALETTE *newPalette)
 {
     set_palette((const RGB*) newPalette);
 
 } // setPalette(PALETTE)
 
-void Allegro_Output::clearScreen(bool Virtual)
+void Allegro_Output::clear_Screen(bool Virtual)
 {
     if(Virtual)
     {
@@ -222,7 +222,7 @@ void Allegro_Output::replace_all(std::string &text,const std::string &fnd,const 
 
 } // replace_all
 
-std::string Allegro_Output::convertText(std::string Text)
+std::string Allegro_Output::convert_Text(std::string Text)
 {
     replace_all(Text, "ä", "{");
     replace_all(Text, "ö", "|");
@@ -235,25 +235,25 @@ std::string Allegro_Output::convertText(std::string Text)
 
 } // convertText
 
-int Allegro_Output::getScreenHeight()
+int Allegro_Output::get_ScreenHeight()
 {
     return Screenheight;
 
 } // getScreenHeight
 
-int Allegro_Output::getScreenWidth()
+int Allegro_Output::get_ScreenWidth()
 {
     return Screenwidth;
 
 } // getScreenHeight
 
-int Allegro_Output::getScreenDepth()
+int Allegro_Output::get_ScreenDepth()
 {
     return Screendepth;
 
 } // getScreenDepth
 
-void Allegro_Output::setConsole(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
+void Allegro_Output::set_Console(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
 {
     if(!outputConsole)
     {
@@ -273,13 +273,13 @@ void Allegro_Output::setConsole(const int &Pos_x, const int &Pos_y, const int &T
     }
     else
     {
-        outputConsole->resetConsole(outputScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+        outputConsole->reset_Console(outputScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
 
     } // if !outputConsole)
 
 } // setConsole
 
-void Allegro_Output::setStatuswindow(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
+void Allegro_Output::set_Statuswindow(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
 {
     if(!outputStatus)
     {
@@ -299,13 +299,13 @@ void Allegro_Output::setStatuswindow(const int &Pos_x, const int &Pos_y, const i
     }
     else
     {
-        outputStatus->resetStatuswindow(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+        outputStatus->reset_Statuswindow(VirtualScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
 
     } // if !outputStatus
 
 } // setStatuswindow
 
-void Allegro_Output::setPlayfieldwindow(const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
+void Allegro_Output::set_Playfieldwindow(const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows)
 {
     if(!outputPlayfield)
     {
@@ -327,7 +327,7 @@ void Allegro_Output::setPlayfieldwindow(const int &Pos_x, const int &Pos_y, cons
 
     } // if !outputPlayfield
 }
-void Allegro_Output::addStatusLine(const int &Row, const int &Tab, const int &FCol, const int &BCol, const std::string &SText)
+void Allegro_Output::add_StatusLine(const int &Row, const int &Tab, const int &FCol, const int &BCol, const std::string &SText)
 {
     Statuswindow::StatusText addText;
 
@@ -335,22 +335,40 @@ void Allegro_Output::addStatusLine(const int &Row, const int &Tab, const int &FC
     addText.Tab = Tab;
     addText.Foreground = FCol;
     addText.Background = BCol;
-    addText.Text = convertText(SText);
+    addText.Text = convert_Text(SText);
 
-    outputStatus->addRow(addText);
+    outputStatus->add_Row(addText);
 
 } // addStatusLine
 
-void Allegro_Output::writeStatus()
+void Allegro_Output::write_Status()
 {
-    outputStatus->writeStatus();
+    outputStatus->write_Status();
 
-} //writeStatus
+} //write_Status
 
-BITMAP *Allegro_Output::getVirtualScreen()
+BITMAP *Allegro_Output::get_VirtualScreen()
 {
     return VirtualScreen;
 
 } // getVirtualScreen();
+
+void Allegro_Output::set_Faderpause(const int Pause)
+{
+    outputScreen->set_Faderpause(Pause);
+
+} // setFaderpause
+
+void Allegro_Output::screen_FadeIn(const int Speed, BITMAP *to_Fadein)
+{
+    outputScreen->fade_In(Speed, to_Fadein);
+
+} // screen_FadeIn
+
+void Allegro_Output::screen_FadeOut(const int Speed, BITMAP *to_Fadeout)
+{
+    outputScreen->fade_Out(Speed, to_Fadeout);
+
+} // screen_FadeOut
 
 #endif // ALLEGRO_OUTPUT_CPP

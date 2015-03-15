@@ -12,9 +12,9 @@ class Playfield
         Playfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
         ~Playfield();
 
-        void drawTile(BITMAP *Sheet, BITMAP *virtualScreen, const int &Sheetpos_x, const int &Sheetpos_y, int Column, int Row, const bool &transparency);
+        void draw_Tile(BITMAP *Sheet, BITMAP *virtualScreen, const int &Sheetpos_x, const int &Sheetpos_y, int Column, int Row, const bool &transparency);
 
-        void resetPlayfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
+        void reset_Playfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
 
     protected:
     private:

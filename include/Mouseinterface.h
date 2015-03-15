@@ -20,8 +20,8 @@ class Mouseinterface
 
         virtual ~Mouseinterface() {};
 
-        virtual MousePosition getMousePosition() = 0;
-        virtual MouseButtonStatus getMouseButton() = 0;
+        virtual MousePosition get_MousePosition() = 0;
+        virtual MouseButtonStatus get_MouseButton() = 0;
 
 }; // class Mouseinterface
 

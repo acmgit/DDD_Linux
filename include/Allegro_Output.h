@@ -60,34 +60,37 @@ class Allegro_Output
 
         ~Allegro_Output();
 
-        void renderScreen();                                         // Renders the whole virtual Screen to Display
+        void render_Screen();                                         // Renders the whole virtual Screen to Display
 
-        void writeOnScreen(gfx_Text *Text);
-        void writeOnConsole(const int FCol, const int BCol, const std::string CText, const bool nextLine);
+        void write_OnScreen(gfx_Text *Text);
+        void write_OnConsole(const int FCol, const int BCol, const std::string CText, const bool nextLine);
 
-        void addStatusLine(const int &Row, const int &Tab, const int &FCol, const int &BCol, const std::string &SText);
-        void writeStatus();
+        void add_StatusLine(const int &Row, const int &Tab, const int &FCol, const int &BCol, const std::string &SText);
+        void write_Status();
 
-        void renderObject(gfx_Object *Object);
-        void renderTile(const tileData Tile);
+        void render_Object(gfx_Object *Object);
+        void render_Tile(const tileData Tile);
 
-        void clearScreen(bool Virtual);                              // Clears the Virtual Screen if true, else the Display
+        void clear_Screen(bool Virtual);                              // Clears the Virtual Screen if true, else the Display
+        void set_Faderpause(const int Pause);
+        void screen_FadeIn(const int speed, BITMAP *to_Fadein);
+        void screen_FadeOut(const int speed, BITMAP *to_Fadeout);
 
-        void setFont(FONT *newFont);
-        void setPalette(PALETTE *newPalette);
-        void setConsole(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
-        void setStatuswindow(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
-        void setPlayfieldwindow(const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
+        void set_Font(FONT *newFont);
+        void set_Palette(PALETTE *newPalette);
+        void set_Console(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
+        void set_Statuswindow(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
+        void set_Playfieldwindow(const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
 
-        int getScreenWidth();
-        int getScreenHeight();
-        int getScreenDepth();
+        int get_ScreenWidth();
+        int get_ScreenHeight();
+        int get_ScreenDepth();
 
-        BITMAP *getVirtualScreen();
+        BITMAP *get_VirtualScreen();
     private:
 
         void replace_all(std::string& text, const std::string& fnd, const std::string& rep);
-        std::string convertText(std::string Text);
+        std::string convert_Text(std::string Text);
 
         BITMAP *Display;
         BITMAP *VirtualScreen;

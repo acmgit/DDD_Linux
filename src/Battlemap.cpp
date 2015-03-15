@@ -52,7 +52,7 @@ Battlemap::~Battlemap()
 
 } // ~Battlemap()
 
-std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
+std::string Battlemap::get_Battlerow(const std::string Typo, const int Columns)
 {
     std::string Typ = "[BAT_" + Typo;
     std::string Row;
@@ -64,16 +64,16 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
 */
     Battledata Seed;
 
-    Seed.Gras = Data->findIndex(Typ + "_Gras]").Number;
-    Seed.Shrubbery = Data->findIndex(Typ + "_Shrubbery]").Number;
-    Seed.Forest = Data->findIndex(Typ + "_Forest]").Number;
-    Seed.Boulder = Data->findIndex(Typ + "_Boulder]").Number;
-    Seed.Mountain = Data->findIndex(Typ + "_Mountain]").Number;
-    Seed.Sea = Data->findIndex(Typ + "_Sea]").Number;
-    Seed.River = Data->findIndex(Typ + "_River]").Number;
-    Seed.Dessert = Data->findIndex(Typ + "_Dessert]").Number;
-    Seed.Swamp = Data->findIndex(Typ + "_Swamp]").Number;
-    Seed.Lava = Data->findIndex(Typ + "_Lava]").Number;
+    Seed.Gras = Data->find_Index(Typ + "_Gras]").Number;
+    Seed.Shrubbery = Data->find_Index(Typ + "_Shrubbery]").Number;
+    Seed.Forest = Data->find_Index(Typ + "_Forest]").Number;
+    Seed.Boulder = Data->find_Index(Typ + "_Boulder]").Number;
+    Seed.Mountain = Data->find_Index(Typ + "_Mountain]").Number;
+    Seed.Sea = Data->find_Index(Typ + "_Sea]").Number;
+    Seed.River = Data->find_Index(Typ + "_River]").Number;
+    Seed.Dessert = Data->find_Index(Typ + "_Dessert]").Number;
+    Seed.Swamp = Data->find_Index(Typ + "_Swamp]").Number;
+    Seed.Lava = Data->find_Index(Typ + "_Lava]").Number;
 
 /*
 #ifdef DEBUG
@@ -94,7 +94,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
 
     for(int Column = 0; Column < Columns; ++Column)
     {
-        genTile = generateRandom(0, 100);
+        genTile = generate_Random(0, 100);
 /*
         #ifdef DEBUG
         Log("Random = " << genTile)
@@ -221,7 +221,7 @@ std::string Battlemap::getBattlerow(const std::string Typo, const int Columns)
 */
     return Row;
 
-} // getBattlerow(Typo, Columns)
+} // get_Battlerow(Typo, Columns)
 
 bool Battlemap::isTile(int Value, int Min, int Max)
 {
@@ -239,24 +239,12 @@ bool Battlemap::isTile(int Value, int Min, int Max)
 
 } // isTile
 
-int Battlemap::generateRandom(const int Low, const int High)
+int Battlemap::generate_Random(const int Low, const int High)
 {
 
     return rand() % High + Low;
 
 
-} // generateRandom
-
-/*
-int Battlemap::generateRandom(const int Low, const int High)
-{
-    gettimeofday(&currTime, 0);
-
-    int thisRandom = (currTime.tv_sec * lastRandom + Low) % High;
-    lastRandom = thisRandom;
-    return thisRandom;
-
-} // generateRandom
-*/
+} // generate_Random
 
 #endif // BATTLEMAP_CPP

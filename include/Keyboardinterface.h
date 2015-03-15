@@ -16,8 +16,8 @@ class Keyboardinterface
         }; // Key
         virtual ~Keyboardinterface() {};
 
-        virtual bool readKey() = 0;         // Is a Key pressed?
-        virtual Key getKey() = 0;           // Ok, get the Key
+        virtual bool read_Key() = 0;         // Is a Key pressed?
+        virtual Key get_Key() = 0;           // Ok, get the Key
 
 }; // class Keyboardinterface
 

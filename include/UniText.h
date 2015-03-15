@@ -14,7 +14,7 @@ class UniText
         UniText(const std::string &Textfile);                                                   // Opens a Languagefile, throws an Exception, if file can't open
         ~UniText();
 
-        void LoadNewText(const std::string &Textfile);                                          // Changes the Languagefile
+        void load_NewText(const std::string &Textfile);                                          // Changes the Languagefile
         std::string Print(const std::string &Key);                                              // Translates the Key to Text. Returns the Key, if no Text found.
 
         template <class X>
@@ -22,7 +22,7 @@ class UniText
 
     protected:
     private:
-        void ReadFile(const std::string &Textfile);                                             // Read a Languagefile, throws an Exception, if file can't open
+        void read_File(const std::string &Textfile);                                             // Read a Languagefile, throws an Exception, if file can't open
 
 };
 

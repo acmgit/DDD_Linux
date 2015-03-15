@@ -53,7 +53,7 @@ Allegro_Input::~Allegro_Input()
 
 } // ~Allegro_Input
 
-Allegro_Input::Key Allegro_Input::getKey()
+Allegro_Input::Key Allegro_Input::get_Key()
 {
     int currentAllegroKey;
     currentAllegroKey = readkey();                                                          // Attention, this is the readkey-Function from Allegro
@@ -69,7 +69,7 @@ Allegro_Input::Key Allegro_Input::getKey()
 
 } // getKey
 
-bool Allegro_Input::readKey()
+bool Allegro_Input::read_Key()
 {
     if(keypressed())
     {
@@ -81,13 +81,13 @@ bool Allegro_Input::readKey()
 
 } // readKey
 
-bool Allegro_Input::readKey(const int Seconds)
+bool Allegro_Input::read_Key(const int Seconds)
 {
-    inputClock->setSeconds(Seconds);
+    inputClock->set_Seconds(Seconds);
 
     while(!inputClock->wait())
     {
-        if(readKey())
+        if(read_Key())
         {
             return true;
 
@@ -105,13 +105,13 @@ bool Allegro_Input::hasMousemoved()
     if(isMousePositionvalid == false)                                                       // has lastMousePosition a value?
     {
         isMousePositionvalid = true;                                                        // no,
-        lastMousePosition = getMousePosition();                                             // write the Value to lastMousePosition
+        lastMousePosition = get_MousePosition();                                             // write the Value to lastMousePosition
 
         return false;                                                                       // false, cause we don't know about an move of the mouse
 
     } // if isMousePositionvalid
 
-    MousePosition currentMousePosition = getMousePosition();
+    MousePosition currentMousePosition = get_MousePosition();
     if((currentMousePosition.mouse_x == lastMousePosition.mouse_x) && (currentMousePosition.mouse_y == lastMousePosition.mouse_y))
     {
         return false;
@@ -127,7 +127,7 @@ bool Allegro_Input::hasMousemoved()
 
 } // hasMousemoved
 
-Allegro_Input::MouseButtonStatus Allegro_Input::getMouseButton()
+Allegro_Input::MouseButtonStatus Allegro_Input::get_MouseButton()
 {
     needPoll();
 
@@ -138,9 +138,9 @@ Allegro_Input::MouseButtonStatus Allegro_Input::getMouseButton()
 
     return currentMouseButtonStatus;
 
-} // getMouseButton
+} // get_MouseButton
 
-Allegro_Input::MousePosition Allegro_Input::getMousePosition()
+Allegro_Input::MousePosition Allegro_Input::get_MousePosition()
 {
     needPoll();
 
@@ -150,7 +150,7 @@ Allegro_Input::MousePosition Allegro_Input::getMousePosition()
     currentMousePosition.mouse_y = mouse_pos & 0x0000ffff;
 
     return currentMousePosition;
-} // getMousePosition
+} // get_MousePosition
 
 void Allegro_Input::needPoll()
 {
@@ -168,17 +168,17 @@ void Allegro_Input::needPoll()
 
 } // needPoll
 
-void Allegro_Input::setMiliSeconds(const int &Miliseconds)
+void Allegro_Input::set_MilliSeconds(const int &Milliseconds)
 {
-    inputClock->setMiliSeconds(Miliseconds);
+    inputClock->set_MilliSeconds(Milliseconds);
 
 } // setMiliSeconds
 
-void Allegro_Input::setSeconds(const int &Seconds)
+void Allegro_Input::set_Seconds(const int &Seconds)
 {
-    inputClock->setSeconds(Seconds);
+    inputClock->set_Seconds(Seconds);
 
-} // setSeconds
+} // set_Seconds
 
 bool Allegro_Input::wait()
 {

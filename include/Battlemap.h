@@ -26,11 +26,11 @@ class Battlemap
         Battlemap(Allegro_Datafile *Datafile);
         ~Battlemap();
 
-        std::string getBattlerow(const std::string Typo, const int Columns);
+        std::string get_Battlerow(const std::string Typo, const int Columns);
 
     private:
 
-        int generateRandom(const int Low, const int High);
+        int generate_Random(const int Low, const int High);
         bool isTile(int Value, int Min, int Max);
 
     Allegro_Datafile *Data;

@@ -11,18 +11,17 @@ class Allegro_Input: public Inputinterface
         ~Allegro_Input();
 
     // Keyboard
-    bool readKey();
-    bool readKey(int Seconds);
-
-    Key getKey();
+    bool read_Key();
+    bool read_Key(int Seconds);
+    Key get_Key();
 
     // Mouse
     bool hasMousemoved();
-    MousePosition getMousePosition();
-    MouseButtonStatus getMouseButton();
+    MousePosition get_MousePosition();
+    MouseButtonStatus get_MouseButton();
 
-    void setMiliSeconds(const int &Miliseconds);
-    void setSeconds(const int &Seconds);
+    void set_MilliSeconds(const int &Milliseconds);
+    void set_Seconds(const int &Seconds);
     bool wait();
 
     protected:

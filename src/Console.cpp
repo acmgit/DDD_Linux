@@ -19,7 +19,7 @@ Console::Console(DDD_Screen *aktivScreen, FONT *aktivFont, BITMAP *VirtualScreen
     virtualScreen = VirtualScreen;
     currScreen = aktivScreen;
     consoleFont = aktivFont;
-    resetConsole(currScreen, consoleFont, Pos_x, Pos_y, TextHeight, CRows);
+    reset_Console(currScreen, consoleFont, Pos_x, Pos_y, TextHeight, CRows);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Console opened.")
@@ -35,7 +35,7 @@ Console::~Console()
 
 } // ~Console
 
-void Console::writeOnConsole(ConsoleText currText, const bool nextLine)
+void Console::write_OnConsole(ConsoleText currText, const bool nextLine)
 {
     if(nextLine)                                                        // Writes a new Consoleline
     {
@@ -73,11 +73,11 @@ void Console::writeOnConsole(ConsoleText currText, const bool nextLine)
 
     }   // if(nextLine)
 
-    refreshConsole();
+    refresh_Console();
 
-} // writeOnConsole(currText)
+} // write_OnConsole(currText)
 
-void Console::refreshConsole()
+void Console::refresh_Console()
 {
     std::vector<ConsoleText>::iterator iterateRows;
 
@@ -85,7 +85,7 @@ void Console::refreshConsole()
 
     for( iterateRows = Row.begin(); iterateRows != Row.end(); ++iterateRows)
     {
-        currScreen->writeText(virtualScreen, consoleFont,
+        currScreen->write_Text(virtualScreen, consoleFont,
                               (*iterateRows).CText,
                               startPos_x, (startPos_y + (currentRow * textHeight)),
                               (*iterateRows).Foreground, (*iterateRows).Background);
@@ -95,9 +95,9 @@ void Console::refreshConsole()
 
     } // for Row.begin()
 
-} // refreshConsole
+} // refresh_Console
 
-void Console::resetConsole(DDD_Screen *aktivScreen, FONT *CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows)
+void Console::reset_Console(DDD_Screen *aktivScreen, FONT *CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows)
 {
     currScreen = aktivScreen;
     consoleFont = CurrFont;
@@ -112,6 +112,6 @@ void Console::resetConsole(DDD_Screen *aktivScreen, FONT *CurrFont, const int &P
     Log("(" << ErrorLog.ALLOK << ") Consolewindow reseted.")
 #endif // DEBUG
 
-} // resetConsole
+} // reset_Console
 
 #endif // CONSOLE_CPP

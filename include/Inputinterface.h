@@ -8,10 +8,10 @@
 class Inputinterface: public Keyboardinterface, public Mouseinterface
 {
     public:
-    virtual std::string getString();                    // get the whole String, get back if pressed Enter or Escape
-    virtual std::string getString(int Len);             // get the whole String, get back, if pressed Enter, Escape or the Number of Len are entered
-    virtual std::string inputString();                  // you can edit the String with Backspace, get back if pressed Enter or Escape
-    virtual std::string inputString(int Len);           // you can edit the String with Backspace, get back if pressed Enter, Escape or the number of Len are entered
+    virtual std::string get_String();                    // get the whole String, get back if pressed Enter or Escape
+    virtual std::string get_String(int Len);             // get the whole String, get back, if pressed Enter, Escape or the Number of Len are entered
+    virtual std::string input_String();                  // you can edit the String with Backspace, get back if pressed Enter or Escape
+    virtual std::string input_String(int Len);           // you can edit the String with Backspace, get back if pressed Enter, Escape or the number of Len are entered
 
     protected:
     enum

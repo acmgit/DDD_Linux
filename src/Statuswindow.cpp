@@ -20,7 +20,7 @@
 Statuswindow::Statuswindow(DDD_Screen *aktivScreen, BITMAP *currScreen, FONT *currFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
 {
     outputScreen = aktivScreen;
-    resetStatuswindow(currScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
+    reset_Statuswindow(currScreen, currFont, Pos_x, Pos_y, TextHeight, Rows);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Statuswindow opened")
@@ -39,7 +39,7 @@ Statuswindow::~Statuswindow()
 
 } // ~Statuswindow
 
-void Statuswindow::resetStatuswindow(BITMAP *currStatusScreen, FONT *currStatusFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
+void Statuswindow::reset_Statuswindow(BITMAP *currStatusScreen, FONT *currStatusFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows)
 {
     statusScreen = currStatusScreen;
     statusFont = currStatusFont;
@@ -49,15 +49,15 @@ void Statuswindow::resetStatuswindow(BITMAP *currStatusScreen, FONT *currStatusF
     statusTextheight = TextHeight;
     maxRows = Rows;
 
-} // resetStatuswindow
+} // reset_Statuswindow
 
-void Statuswindow::addRow(const StatusText &newLine)
+void Statuswindow::add_Row(const StatusText &newLine)
 {
     Rows.push_back(newLine);
 
-} // addRow
+} // add_Row
 
-void Statuswindow::writeStatus()
+void Statuswindow::write_Status()
 {
     std::vector<StatusText>::iterator currLine;
 
@@ -75,7 +75,7 @@ void Statuswindow::writeStatus()
 
         } // if currLine > maxRows
 
-        outputScreen->writeText(statusScreen, statusFont,
+        outputScreen->write_Text(statusScreen, statusFont,
                                 currLine->Text,
                                 currLine->Tab + statusPos_x, statusPos_y + (currLine->Row * statusTextheight),
                                 currLine->Foreground, currLine->Background);
@@ -88,5 +88,5 @@ void Statuswindow::writeStatus()
     Log("Statuswindow written.")
     #endif // DEBUG
 
-} // writeStatus
+} // write_Status
 #endif // STATUSWINDOW_CPP

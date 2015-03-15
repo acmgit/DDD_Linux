@@ -12,8 +12,8 @@ class Clock: public Clock_Interface
         Clock();
         ~Clock();
 
-        void setSeconds(const int &Seconds);
-        void setMiliSeconds(const int &Miliseconds);
+        void set_Seconds(const int &Seconds);
+        void set_MilliSeconds(const int &Milliseconds);
         bool wait();
 
     protected:

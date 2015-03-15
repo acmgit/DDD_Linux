@@ -32,18 +32,18 @@ class Mapinterface
         Mapinterface(Allegro_Datafile *Data);
         ~Mapinterface();
 
-        Tiledata getTile(Tiletyp Map, const int Column, const int Row);
+        Tiledata get_Tile(Tiletyp Map, const int Column, const int Row);
 
-        bool getBattlemapstatus();
-        void generateBattlemap(const std::string Battletyp);
-        void destroyBattlemap();
+        bool get_Battlemapstatus();
+        void generate_Battlemap(const std::string Battletyp);
+        void destroy_Battlemap();
 
     private:
 
     std::vector<std::string> currBattlemap;
     bool validBattlemap;
-    void getBattlemapTile(Tiledata &Tile, const int Column, const int Row);
-    void convertTile(Tiledata &Tile, const char TChar);                         // Central converter of the Tilemaps
+    void get_BattlemapTile(Tiledata &Tile, const int Column, const int Row);
+    void convert_Tile(Tiledata &Tile, const char TChar);                         // Central converter of the Tilemaps
 
     Allegro_Datafile *currDatafile;
     Battlemap *currBattlemapclass;

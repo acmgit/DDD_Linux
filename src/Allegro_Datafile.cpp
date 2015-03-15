@@ -42,13 +42,13 @@ Allegro_Datafile::Allegro_Datafile(const std::string &Datafile, const std::strin
     Filename = Datafile;
 
     // Get inital Values
-    loadIndex(Configfile);
+    load_Index(Configfile);
 
     //generateIndex();
-    loadIndex(DatafileIndex);
+    load_Index(DatafileIndex);
 
-    Tilewidth = findIndex("[INI_Worldtileswidth]").Number;
-    Tileheight = findIndex("[INI_Worldtilesheight]").Number;
+    Tilewidth = find_Index("[INI_Worldtileswidth]").Number;
+    Tileheight = find_Index("[INI_Worldtilesheight]").Number;
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Allegro_Datafile opened.")
@@ -67,25 +67,25 @@ Allegro_Datafile::~Allegro_Datafile()
 
 } // ~Datafile
 
-const std::string Allegro_Datafile::getFilename()
+const std::string Allegro_Datafile::get_Filename()
 {
     return Filename;
 
-} // getFilename
+} // get_Filename
 
-DATAFILE* Allegro_Datafile::getDatafile()
+DATAFILE* Allegro_Datafile::get_Datafile()
 {
     return Data;
 
-} // getDatafile
+} // get_Datafile
 
-void Allegro_Datafile::addIndex(Index newEntry)
+void Allegro_Datafile::add_Index(Index newEntry)
 {
     Dataindex.insert(std::pair<std::string, int>(newEntry.Name, newEntry.Number));
 
-} // addIndex
+} // add_Index
 
-void Allegro_Datafile::removeIndex(Index Entry)
+void Allegro_Datafile::remove_Index(Index Entry)
 {
     std::map<std::string, int>::iterator delEntry;
     delEntry = Dataindex.find(Entry.Name);
@@ -96,9 +96,9 @@ void Allegro_Datafile::removeIndex(Index Entry)
 
     } // if delEntry != end()
 
-} // removeIndex
+} // remove_Index
 
-Allegro_Datafile::Index Allegro_Datafile::findIndex(const std::string &Keyname)
+Allegro_Datafile::Index Allegro_Datafile::find_Index(const std::string &Keyname)
 {
     std::map<std::string, int>::iterator Entry;
     Entry = Dataindex.find(Keyname);
@@ -119,14 +119,14 @@ Allegro_Datafile::Index Allegro_Datafile::findIndex(const std::string &Keyname)
 
     return foundEntry;
 
-} // findIndex
+} // find_Index
 
-BITMAP* Allegro_Datafile::getBitmap(const std::string &Bitname)
+BITMAP* Allegro_Datafile::get_Bitmap(const std::string &Bitname)
 {
     Index Entry;
     BITMAP *Dataentry = nullptr;
 
-    Entry = findIndex(Bitname);
+    Entry = find_Index(Bitname);
 
     if(Entry.Number != -1)
     {
@@ -136,14 +136,14 @@ BITMAP* Allegro_Datafile::getBitmap(const std::string &Bitname)
 
     return Dataentry;
 
-} // getBitmap
+} // get_Bitmap
 
-FONT* Allegro_Datafile::getFont(const std::string &Fontname)
+FONT* Allegro_Datafile::get_Font(const std::string &Fontname)
 {
     Index Entry;
     FONT *Dataentry = nullptr;
 
-    Entry = findIndex(Fontname);
+    Entry = find_Index(Fontname);
 
     if(Entry.Number != -1)
     {
@@ -153,14 +153,14 @@ FONT* Allegro_Datafile::getFont(const std::string &Fontname)
 
     return Dataentry;
 
-} // getFont
+} // get_Font
 
-PALETTE* Allegro_Datafile::getPalette(const std::string &Palettename)
+PALETTE* Allegro_Datafile::get_Palette(const std::string &Palettename)
 {
     Index Entry;
     PALETTE *Dataentry = nullptr;
 
-    Entry = findIndex(Palettename);
+    Entry = find_Index(Palettename);
 
     if(Entry.Number != -1)
     {
@@ -170,9 +170,9 @@ PALETTE* Allegro_Datafile::getPalette(const std::string &Palettename)
 
     return Dataentry;
 
-} // getPalette
+} // get_Palette
 
-void Allegro_Datafile::loadIndex(std::string Indexfile)
+void Allegro_Datafile::load_Index(std::string Indexfile)
 {
     std::ifstream File(Indexfile.c_str());
 
@@ -192,7 +192,7 @@ void Allegro_Datafile::loadIndex(std::string Indexfile)
                 std::string Value;
                 std::getline(File, Value);
                 Config.Number = strtoint(Value);
-                addIndex(Config);
+                add_Index(Config);
 
             } // if find
 
@@ -214,7 +214,7 @@ void Allegro_Datafile::loadIndex(std::string Indexfile)
         throw std::runtime_error(Err);
     }
 
-} // loadIndex
+} // load_Index
 
 
 int Allegro_Datafile::strtoint(std::string Number)

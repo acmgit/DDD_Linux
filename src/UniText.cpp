@@ -14,7 +14,7 @@
 UniText::UniText(const std::string &Textfile)
 {
 
-    ReadFile(Textfile);
+    read_File(Textfile);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") UniText opened.")
@@ -31,17 +31,17 @@ UniText::~UniText()
 } // ~UniText
 
 // Opens a new Languagefile and initalise the Map new
-void UniText::LoadNewText(const std::string &Textfile)
+void UniText::load_NewText(const std::string &Textfile)
 {
 
     Translate.clear();
-    ReadFile(Textfile);
+    read_File(Textfile);
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Unitextfile reseted to " << Textfile.c_str() << ".")
 #endif // DEBUG
 
-} // LoadNewText()
+} // load_NewText()
 
 
 // Returns the Languagestring below [Key]. Returns the Key, if no Key found.
@@ -72,7 +72,7 @@ std::string UniText::Print(const std::string &Key)
 
 
 // Opens the Languagefile, read it and fills the Map.
-void UniText::ReadFile(const std::string &Textfile)
+void UniText::read_File(const std::string &Textfile)
 {
 
 #ifdef DEBUG
@@ -110,5 +110,5 @@ void UniText::ReadFile(const std::string &Textfile)
         std::string Err = "Can't open File: " + Textfile;
         throw std::runtime_error(Err);
     }
-} // ReadFile(Textfile)
+} // read_File(Textfile)
 

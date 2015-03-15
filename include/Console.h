@@ -28,14 +28,14 @@ class Console
             nextLine:   if true, then writes to the next Line of the Console
                         if false, then the new Text will append to the old Line and overwrite it with the given Colors of the Text to append
         */
-        void writeOnConsole(ConsoleText currText, const bool nextLine);
-        void resetConsole(DDD_Screen *aktivScreen, FONT* CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows);
+        void write_OnConsole(ConsoleText currText, const bool nextLine);
+        void reset_Console(DDD_Screen *aktivScreen, FONT* CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows);
 
 
     protected:
     private:
 
-        void refreshConsole();
+        void refresh_Console();
 
     std::vector<ConsoleText> Row;
 
