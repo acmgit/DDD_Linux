@@ -16,7 +16,6 @@ class Playfield
 
         void reset_Playfield(DDD_Screen *aktivScreen, const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
 
-    protected:
     private:
 
     DDD_Screen *currScreen;

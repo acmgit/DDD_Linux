@@ -67,7 +67,7 @@ class Allegro_Output
 
         // write Functions
         void write_OnScreen(gfx_Text *Text);
-        void write_OnConsole(const int FCol, const int BCol, const std::string CText, const bool nextLine);
+        void write_OnConsole(const int FCol, const int BCol, const std::string &CText, const bool nextLine);
         void write_Status();
 
         // Function to fill the Statusscreen. the Statusscreen will be shown with the command write_Status.
@@ -75,7 +75,7 @@ class Allegro_Output
 
         // drawing Functions
         void render_Object(gfx_Object *Object);
-        void render_Tile(const tileData Tile);
+        void render_Tile(const tileData &Tile);
 
         // Faderfunctions
         void screen_FadeIn(const int speed, BITMAP *to_Fadein);         // Fade's the given Screen (to_Fadein) in

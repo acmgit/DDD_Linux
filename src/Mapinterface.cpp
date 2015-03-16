@@ -68,27 +68,32 @@ Mapinterface::Tiledata Mapinterface::get_Tile(Tiletyp Map, const int Column, con
 
         case Tiletyp::Townmaptile:
         {
-
+            currMap.Sheet = nullptr;
+            currMap.Index = 0;
             break;
 
         } // case Townmaptile
 
         case Tiletyp::Worldmaptile:
         {
-
+            currMap.Sheet = nullptr;
+            currMap.Index = 0;
             break;
 
         } // case Worldmaptile
 
         case Tiletyp::Treasuremaptile:
         {
-
+            currMap.Sheet = nullptr;
+            currMap.Index = 0;
+            break;
 
         } // case Treasuremaptile
 
         default:
         {
-
+            currMap.Sheet = nullptr;
+            currMap.Index = 0;
             break;
 
         } // default
@@ -99,7 +104,7 @@ Mapinterface::Tiledata Mapinterface::get_Tile(Tiletyp Map, const int Column, con
 
 } // get_Tile
 
-void Mapinterface::generate_Battlemap(const std::string Battletyp)
+void Mapinterface::generate_Battlemap(const std::string &Battletyp)
 {
     int Rows = currDatafile->find_Index("[INI_Playfieldrows]").Number;
     int Columns = currDatafile->find_Index("[INI_Playfieldcolumns]").Number;
@@ -154,14 +159,16 @@ void Mapinterface::get_BattlemapTile(Tiledata &Tile, const int Column, const int
         Log("(" << ErrorLog.ILLEGAL_ACCESS << ") No Battlemap generated.")
         #endif // DEBUG
 
-    } // if !validbattlemap
+    } // if !validBattlemap
+    else
+    {
+        Tile.Sheet = currDatafile->get_Bitmap("[SHE_Worldtile]");
 
-    Tile.Sheet = currDatafile->get_Bitmap("[SHE_Worldtile]");
+        std::string cRow = currBattlemap.at(Row);
+        char cColumn = (char) cRow.at(Column);
 
-    std::string cRow = currBattlemap.at(Row);
-    char cColumn = (char) cRow.at(Column);
-
-    convert_Tile(Tile, cColumn);
+        convert_Tile(Tile, cColumn);
+    } // if else !validBattlemap
 
 } // get_BattlemapTile
 

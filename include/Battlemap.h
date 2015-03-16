@@ -36,7 +36,7 @@ class Battlemap
             The Sum of the Table is 100%. If there are more as 100%, the Tiles will not generated.
             If there are lower as 100%, then unknown Tiles will be generated.
         */
-        std::string get_Battlerow(const std::string Typo, const int Columns);
+        std::string get_Battlerow(const std::string &Typo, const int Columns);
 
     private:
 

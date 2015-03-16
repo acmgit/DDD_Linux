@@ -147,9 +147,9 @@ void Allegro_Output::write_OnScreen(gfx_Text *Text)
 
     } // if Textconvert
 
-} // writeOnScreen(gfx_Text *Text)
+} // write_OnScreen(gfx_Text *Text)
 
-void Allegro_Output::write_OnConsole(const int FCol, const int BCol, const std::string CText, const bool nextLine)
+void Allegro_Output::write_OnConsole(const int FCol, const int BCol, const std::string &CText, const bool nextLine)
 {
 
     Console::ConsoleText toConsole;
@@ -169,16 +169,16 @@ void Allegro_Output::render_Object(gfx_Object *Object)
                                 Object->Destinationpos_x, Object->Destinationpos_y,
                                 Object->Width, Object->Height, Object->transparency);
 
-} // drawObject(gfx_Object *Object)
+} // render_Object(gfx_Object *Object)
 
-void Allegro_Output::render_Tile(const tileData Tile)
+void Allegro_Output::render_Tile(const tileData &Tile)
 {
     int currColumn = Tile.Column;
     int currRow = Tile.Row;
 
     outputPlayfield->draw_Tile(Tile.Sheet, VirtualScreen, Tile.Sheetpos_x, Tile.Sheetpos_y, currColumn, currRow, Tile.transparency);
 
-}
+} // render_Tile
 
 void Allegro_Output::set_Font(FONT *newFont)
 {

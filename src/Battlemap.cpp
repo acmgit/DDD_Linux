@@ -52,7 +52,7 @@ Battlemap::~Battlemap()
 
 } // ~Battlemap()
 
-std::string Battlemap::get_Battlerow(const std::string Typo, const int Columns)
+std::string Battlemap::get_Battlerow(const std::string &Typo, const int Columns)
 {
     std::string Typ = "[BAT_" + Typo;
     std::string Row;

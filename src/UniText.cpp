@@ -49,7 +49,7 @@ std::string UniText::Print(const std::string &Key)
 {
     std::map<std::string, std::string>::iterator i;
 
-    i = Translate.begin();
+    //#i = Translate.begin();
 
 /*
 #ifdef DEBUG

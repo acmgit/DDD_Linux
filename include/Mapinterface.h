@@ -34,19 +34,43 @@ class Mapinterface
 
         Tiledata get_Tile(Tiletyp Map, const int Column, const int Row);
 
-        bool get_Battlemapstatus();
-        void generate_Battlemap(const std::string Battletyp);
-        void destroy_Battlemap();
+        bool get_Battlemapstatus();                                         // is a Battlemap valid?
+
+        /*
+            Generates a Battlemap with the Typ like "Gras", "Dessert", "Swamp", etc. ...
+        */
+        void generate_Battlemap(const std::string &Battletyp);
+        void destroy_Battlemap();                                           // deletes a generated Battlemap
 
     private:
 
     std::vector<std::string> currBattlemap;
-    bool validBattlemap;
+    bool validBattlemap;                                                        // Ask, is there an Battlemap?
+
+    /*
+        Get a Tile of the Battlemap and fills the following Data:
+        Tile.Sheet = Bitmap of the Tilesheet.
+
+        It fills Tile.Sheet with a NULL, if there is no valid Battlemap generated.
+        It fills Tile.Index with 0, if there is no valid Battlemap generated.
+
+        Is a Batllemap there, then the Tiledata are filled with the Tilesheet and
+        calls convert_Tile.
+    */
     void get_BattlemapTile(Tiledata &Tile, const int Column, const int Row);
-    void convert_Tile(Tiledata &Tile, const char TChar);                         // Central converter of the Tilemaps
+
+    /*
+        Fills the Data of the Typ Tiledata with Informations of the found Tile.
+        It fills Tiledata.Index with the Position in the Tilesheet.
+        Tiledata    .walkable
+                    .flyable
+                    .shipable
+    */
+    void convert_Tile(Tiledata &Tile, const char TChar);
 
     Allegro_Datafile *currDatafile;
     Battlemap *currBattlemapclass;
-};
+
+}; // Mapinterface
 
 #endif // MAPINTERFACE_H
