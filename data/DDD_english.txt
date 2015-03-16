@@ -17,6 +17,7 @@ Loading File
 [Statustesttext]
 30 Columns: Statustext.
 
+# --------- Directions
 [North]
 North ...
 
@@ -29,11 +30,15 @@ West ...
 [East]
 East ...
 
+#------------------------------------------------
 [Waiting]
 Wait ...
 
+# --------- Special Charakters
 [Male]
 *
 
 [Female]
 +
+
+#------------------------------------------------

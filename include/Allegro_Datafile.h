@@ -44,8 +44,11 @@ class Allegro_Datafile: public Datafileinterface
         FONT* get_Font(const std::string &Fontname);
         PALETTE* get_Palette(const std::string &Palettename);
 
-        int strtoint(std::string Value);
-        std::string inttostr(int Value);
+        template <class X>
+        void strtoval(std::string Value, X &Val);
+
+        template <class X>
+        std::string valtostr(X &Value);
 
     private:
 
@@ -62,4 +65,25 @@ class Allegro_Datafile: public Datafileinterface
 
 };
 
+template <class X>
+void Allegro_Datafile::strtoval(std::string Number, X &Val)
+{
+    X Num;
+    std::stringstream Str;
+    Str << Number;
+    Str >> Num;
+
+    Val = Num;
+
+} // strtoint
+
+template <class X>
+std::string Allegro_Datafile::valtostr(X &Value)
+{
+    std::ostringstream Str;
+    Str << Value;
+
+    return Str.str();
+
+} // inttostr
 #endif // DATAFILE_H

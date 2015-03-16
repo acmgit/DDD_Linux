@@ -17,6 +17,7 @@ Lade Datei
 [Statustesttext]
 30 Zeilen: Statustext.
 
+# --------- Richtungen
 [North]
 Norden ...
 
@@ -29,11 +30,15 @@ Westen ...
 [East]
 Osten ...
 
+#------------------------------------------------
 [Waiting]
 Warte ...
 
+
+# --------- Spezielle Zeichen
 [Male]
 *
-
 [Female]
 +
+
+#------------------------------------------------

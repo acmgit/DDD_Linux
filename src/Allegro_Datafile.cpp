@@ -191,7 +191,7 @@ void Allegro_Datafile::load_Index(std::string Indexfile)
             {
                 std::string Value;
                 std::getline(File, Value);
-                Config.Number = strtoint(Value);
+                strtoval(Value, Config.Number);
                 add_Index(Config);
 
             } // if find
@@ -216,23 +216,3 @@ void Allegro_Datafile::load_Index(std::string Indexfile)
 
 } // load_Index
 
-
-int Allegro_Datafile::strtoint(std::string Number)
-{
-    int Num;
-    std::stringstream Str;
-    Str << Number;
-    Str >> Num;
-
-    return Num;
-
-} // strtoint
-
-std::string Allegro_Datafile::inttostr(int Number)
-{
-    std::ostringstream Str;
-    Str << Number;
-
-    return Str.str();
-
-} // inttostr

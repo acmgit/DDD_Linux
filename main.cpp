@@ -248,12 +248,12 @@ int main()
         MyOutput->clear_Screen(true);             // Here it must be, because this is only a Test with more than max Rows (not mor needed in Game)
         if(Consoleline%4)
         {
-            MyOutput->write_OnConsole(MyData->find_Index("[COL_yellow]").Number, MyData->find_Index("[COL_transparent]").Number, Translator->Print("[Waiting]") + MyData->inttostr(Consoleline), true);
+            MyOutput->write_OnConsole(MyData->find_Index("[COL_yellow]").Number, MyData->find_Index("[COL_transparent]").Number, Translator->Print("[Waiting]") + " " + MyData->valtostr(Consoleline), true);
 
         }
         else
         {
-            MyOutput->write_OnConsole(MyData->find_Index("[COL_red]").Number, MyData->find_Index("[COL_transparent]").Number, Translator->Print("[Waiting]") + MyData->inttostr(Consoleline), false);
+            MyOutput->write_OnConsole(MyData->find_Index("[COL_red]").Number, MyData->find_Index("[COL_transparent]").Number, Translator->Print("[Waiting]") + " " + MyData->valtostr(Consoleline), false);
 
         } // if(i%2)
 
@@ -264,12 +264,12 @@ int main()
     {
         if(Statusline%2)
         {
-            MyOutput->add_StatusLine(Statusline, 0, MyData->find_Index("[COL_green]").Number, MyData->find_Index("[COL_transparent]").Number, Translator->Print("[Statustesttext]") + MyData->inttostr(Statusline));
+            MyOutput->add_StatusLine(Statusline, 0, MyData->find_Index("[COL_green]").Number, MyData->find_Index("[COL_transparent]").Number, Translator->Print("[Statustesttext]") + MyData->valtostr(Statusline));
 
         }
         else
         {
-            MyOutput->add_StatusLine(Statusline, 0, MyData->find_Index("[COL_cyan]").Number, MyData->find_Index("[COL_transparent]").Number, Translator->Print("[Statustesttext]") + MyData->inttostr(Statusline));
+            MyOutput->add_StatusLine(Statusline, 0, MyData->find_Index("[COL_cyan]").Number, MyData->find_Index("[COL_transparent]").Number, Translator->Print("[Statustesttext]") + MyData->valtostr(Statusline));
 
         } // if(Statusline%2)
 
