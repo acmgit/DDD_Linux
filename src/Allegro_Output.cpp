@@ -31,6 +31,7 @@ Allegro_Output::Allegro_Output(const screenData &Data)
         allegro_exit();
     }
 
+
     Display = screen;
     Screenheight = SCREEN_H;
     Screenwidth = SCREEN_W;

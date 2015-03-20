@@ -1,5 +1,6 @@
-#include <iostream>
 #include <allegro.h>
+/*
+#include <iostream>
 #include <string>
 #include <allegro/graphics.h>
 
@@ -9,6 +10,9 @@
 #include "UniText.h"
 #include "Mapinterface.h"
 #include "Clock.h"
+*/
+
+#include "game.h"
 
 using namespace std;
 
@@ -24,6 +28,7 @@ void shade(BITMAP *dest, float howMuch);
 
 int main()
 {
+/*
     const int Screenwidth = 640;
     const int Screenheight = 480;
     const int Screendepth = 16;
@@ -48,9 +53,24 @@ int main()
     const std::string Language = "data/DDD_Language.txt";
     const std::string Inifile = "data/DDD_Ini.txt";
 
-
+*/
     allegro_init();
 
+
+    game *MyGame;
+    MyGame = new game();
+
+    if(!MyGame)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Couldn't open Gameclass.")
+        #endif // DEBUG
+        allegro_message("Couldn't open Gameclass");
+        allegro_exit();
+
+    } // if !MyGame
+
+/*
     Allegro_Output::screenData startScreen;
 
     startScreen.screenHeight = Screenheight;
@@ -91,7 +111,7 @@ int main()
     Allegro_Input *MyInput = nullptr;
     MyInput = new Allegro_Input();
 
-    if(!MyData)
+    if(!MyInput)
     {
         #ifdef DEBUG
         Log("(" << ErrorLog.MEMORY_FAILURE << ") Couldn't open Allegro_Inputclass.")
@@ -125,14 +145,10 @@ int main()
         allegro_message("Couldn't open Mapinterface");
         allegro_exit();
 
-    } // if currBattlemap
+    } // if currMaps
 
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programmstart.")
-#endif // DEBUG
-
-#ifdef DEBUG
-    Log("Index for Datafile created.")
 #endif // DEBUG
 
     Allegro_Output::gfx_Text renderText;
@@ -355,6 +371,23 @@ int main()
 
     //MyInput->readKey(5);
 
+*/
+    MyGame->init();
+
+    MyGame->draw_Frame();
+    MyGame->render_game();
+    MyGame->wait_input();
+
+    MyGame->exit();
+
+    if(MyGame)
+    {
+        delete MyGame;
+        MyGame = nullptr;
+
+    } // if MyGame
+
+/*
     if(currMaps)
     {
         delete currMaps;
@@ -390,6 +423,7 @@ int main()
 
     } // if MyOutput
 
+*/
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Programm exited.")
 #endif // DEBUG
