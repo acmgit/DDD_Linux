@@ -59,7 +59,7 @@ void Console::write_OnConsole(ConsoleText currText, const bool nextLine)
             iterateRows = Row.end();
             --iterateRows;                                              // Sets the Iterator to the last Line
 
-            currText.CText = (*iterateRows).CText + currText.CText;     // get the last Line and append the new Text to the line
+            //currText.CText = (*iterateRows).CText + currText.CText;     // get the last Line and append the new Text to the line
             Row.pop_back();                                             // delete the last Line in Row
             Row.push_back(currText);                                    // and add the new Line on the Row
 
@@ -79,6 +79,7 @@ void Console::write_OnConsole(ConsoleText currText, const bool nextLine)
 
 void Console::refresh_Console()
 {
+    clear_Console();
     std::vector<ConsoleText>::iterator iterateRows;
 
     int currentRow = 0;                                                 // is needed to calculate the next Line
@@ -96,6 +97,12 @@ void Console::refresh_Console()
     } // for Row.begin()
 
 } // refresh_Console
+
+void Console::clear_Console()
+{
+    rectfill(virtualScreen, startPos_x, startPos_y, SCREEN_W - 10, SCREEN_H - 10, makecol(0, 0, 0));
+
+} // clear_Console
 
 void Console::reset_Console(DDD_Screen *aktivScreen, FONT *CurrFont, const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &CRows)
 {

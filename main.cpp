@@ -374,9 +374,7 @@ int main()
 */
     MyGame->init();
 
-    MyGame->draw_Frame();
-    MyGame->render_game();
-    MyGame->wait_input();
+    MyGame->run();
 
     MyGame->exit();
 

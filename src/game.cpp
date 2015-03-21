@@ -2,6 +2,8 @@
 #define GAME_CPP
 
 #include "game.h"
+#include "Allegro_Input.h"
+#include "Keyboardinterface.h"
 
 #ifdef DEBUG
 #include "Logfile.h"
@@ -110,15 +112,6 @@ void game::render_game()
 
 } // render_game()
 
-void game::wait_input()
-{
-    std::string inputtext = DDD_Input->get_String(5);
-    #ifdef DEBUG
-    Log("Text: " << inputtext.c_str())
-    #endif // DEBUG
-
-} // wait_input
-
 void game::init()
 {
     // Set's the Frame
@@ -177,6 +170,29 @@ void game::exit()
 
 } // exit()
 
+void game::run()
+{
+    std::string Command;
+    int counting = 0;
+
+    while(running)
+    {
+        draw_Frame();
+        render_game();
+
+        Command = get_Command(1, 10);                   // 1 Chars and 10 Seconds to wait ...
+        ++counting;
+
+        if(counting > 15)
+        {
+            running = false;
+
+        } // if counting
+
+    } // while running
+
+} // run
+
 void game::clean_game()
 {
 
@@ -229,5 +245,48 @@ int game::get_Color(std::string Text)
     return Color;
 
 } // get_Color
+
+std::string game::get_Command(int Len, int Seconds)
+{
+    std::string Command = "";
+    int command_Count = 0;
+    Keyboardinterface::Key currKey;
+
+    DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "#", false);
+    render_game();
+
+    while(command_Count < Len)
+    {
+        if(DDD_Input->read_Key(Seconds))
+        {
+            currKey = DDD_Input->get_Key();
+            Command.append(1, currKey.Key);
+            ++command_Count;
+            DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "#" + Command, false);
+            //DDD_Input->flush_Keyboard();
+
+        }
+        else
+        {
+            command_Count = Len;
+            DDD_Output->write_OnConsole(get_Color("orange"), get_Color("transparent"), DDD_Translator->Print("[Waiting]"), true);
+
+        } // if readKey
+
+        if(command_Count >= Len)
+        {
+            DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "", true);
+
+        } // if command_Count
+
+        render_game();
+    } // while command_Count
+
+    #ifdef DEBUG
+    Log("Command: " << Command.c_str())
+    #endif // DEBUG
+
+    return Command;
+} // get_Command
 
 #endif // GAME_CPP

@@ -42,7 +42,7 @@
 [INI_Consoletext_y]
 324
 [INI_Consolerowsmax]
-14
+13
 
 #Statuswindowdata
 [INI_Statustext_x]

@@ -19,16 +19,18 @@ class game
 
         void init();
         void exit();
+        void run();
 
-        void draw_Frame();                          // draws the global Frame of the Game
-        void render_game();
-        void wait_input();
 
     private:
 
         int get_Color(std::string ColText);
 
+        void draw_Frame();                          // draws the global Frame of the Game
+        void render_game();
         void clean_game();                           // deletes all valid Pointer
+
+        std::string get_Command(int Len, int Seconds);
 
         Allegro_Output *DDD_Output;
         Allegro_Input *DDD_Input;

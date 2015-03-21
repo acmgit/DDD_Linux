@@ -36,6 +36,7 @@ class Console
     private:
 
         void refresh_Console();
+        void clear_Console();
 
     std::vector<ConsoleText> Row;
 

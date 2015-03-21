@@ -328,6 +328,7 @@ void Allegro_Output::set_Playfieldwindow(const int &Pos_x, const int &Pos_y, con
 
     } // if !outputPlayfield
 }
+
 void Allegro_Output::add_StatusLine(const int &Row, const int &Tab, const int &FCol, const int &BCol, const std::string &SText)
 {
     Statuswindow::StatusText addText;
