@@ -2,8 +2,6 @@
 #define GAME_CPP
 
 #include "game.h"
-#include "Allegro_Input.h"
-#include "Keyboardinterface.h"
 
 #ifdef DEBUG
 #include "Logfile.h"
@@ -153,6 +151,8 @@ void game::init()
     DDD_Output->clear_Screen(true);
 
     running = true;
+    Heropos_x = 67;
+    Heropos_y = 85;
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Game started.")
@@ -180,11 +180,13 @@ void game::run()
         draw_Frame();
         render_game();
 
-        Command = get_Command(1, 10);                   // 1 Chars and 10 Seconds to wait ...
+        Command = get_Command(1, 10);                   // 1 Char and 10 Seconds to wait ...
         ++counting;
 
         if(counting > 15)
         {
+            Mapinterface::Tiledata Testtile;
+            Testtile = DDD_Map->get_Tile(Mapinterface::Worldmaptile, Heropos_x, Heropos_y);
             running = false;
 
         } // if counting

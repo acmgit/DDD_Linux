@@ -6,6 +6,8 @@
 #include <allegro/gfx.h>
 
 #include "Battlemap.h"
+#include "Worldmap.h"
+
 #include "Allegro_Datafile.h"
 
 class Mapinterface
@@ -70,6 +72,7 @@ class Mapinterface
 
     Allegro_Datafile *currDatafile;
     Battlemap *currBattlemapclass;
+    Worldmap *currWorldmapclass;
 
 }; // Mapinterface
 

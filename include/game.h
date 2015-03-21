@@ -55,6 +55,10 @@ class game
         Allegro_Output::gfx_Object global_Frame;
         bool running;
 
+        // Herodata
+        int Heropos_x;
+        int Heropos_y;
+
 }; // game
 
 #endif // GAME_H

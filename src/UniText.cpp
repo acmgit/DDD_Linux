@@ -100,15 +100,19 @@ void UniText::read_File(const std::string &Textfile)
                 Log(KeyText.c_str())
                 Log(TransText.c_str())
 #endif // DEBUG
-            }
-        }
+            } // if KeyText.find
+
+        } // while File.good
 
         File.close();
+
     }
     else
     {
         std::string Err = "Can't open File: " + Textfile;
         throw std::runtime_error(Err);
-    }
+
+    } // if File.isopen
+
 } // read_File(Textfile)
 

@@ -61,6 +61,7 @@
 		<Unit filename="include/Playfield.h" />
 		<Unit filename="include/Statuswindow.h" />
 		<Unit filename="include/UniText.h" />
+		<Unit filename="include/Worldmap.h" />
 		<Unit filename="include/game.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Allegro_Datafile.cpp" />
@@ -76,6 +77,7 @@
 		<Unit filename="src/Playfield.cpp" />
 		<Unit filename="src/Statuswindow.cpp" />
 		<Unit filename="src/UniText.cpp" />
+		<Unit filename="src/Worldmap.cpp" />
 		<Unit filename="src/game.cpp" />
 		<Extensions>
 			<envvars />

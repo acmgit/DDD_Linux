@@ -30,6 +30,18 @@ Mapinterface::Mapinterface(Allegro_Datafile *Data)
 
     validBattlemap = false;
 
+    currWorldmapclass = new Worldmap("data/DDD_Map.txt");
+    if(!currWorldmapclass)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Couldn't open Worldmapclass.")
+        #endif // DEBUG
+
+        allegro_message("Couldn't open Worldmapclass.");
+        allegro_exit();
+
+    } // if !currWorldmapclass
+
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Mapinterface opened.")
     #endif // DEBUG
@@ -76,8 +88,7 @@ Mapinterface::Tiledata Mapinterface::get_Tile(Tiletyp Map, const int Column, con
 
         case Tiletyp::Worldmaptile:
         {
-            currMap.Sheet = nullptr;
-            currMap.Index = 0;
+            convert_Tile(currMap, currWorldmapclass->get_Tile(Column, Row));
             break;
 
         } // case Worldmaptile
