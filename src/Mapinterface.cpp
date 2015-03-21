@@ -319,4 +319,10 @@ void Mapinterface::convert_Tile(Tiledata &Tile, const char TChar)
 
 } // convert_Tile
 
+void Mapinterface::convert_WorldmapCoords(int &Pos_x, int &Pos_y)
+{
+    currWorldmapclass->check_Coord(Pos_x, Pos_y);
+
+} // convert_WorldmapCoords
+
 #endif // MAPINTERFACE_CPP

@@ -55,7 +55,7 @@ void Worldmap::read_Map(const std::string &Mapname)
         } // while File.good
 
         Rows = Row - 1;                     // we begin to count at 0
-        Columns = Maprow.length();          // Len of the String is the Width of the Map
+        Columns = Maprow.length() - 1;      // Len of the String is the Width of the Map
 
         #ifdef DEBUG
         Log("(" << ErrorLog.ALLOK << ") Worldmapfile readed: Rows = " << Rows << " Columns = " << Columns)
@@ -113,6 +113,50 @@ char Worldmap::get_Tile(const int Pos_x, const int Pos_y)
     return Tile;
 
 } // get_Tile
+
+void Worldmap::check_Coord(int &Pos_x, int &Pos_y)
+{
+    if(Pos_x < 0)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") Convert Pos_x from: " << Pos_x << " to " << (Columns + (Pos_x + 1)) << ".")
+        #endif // DEBUG
+
+        Pos_x = Columns + (Pos_x + 1);
+
+    } // if Pos_x < 0
+
+    if(Pos_x > Columns)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") Convert Pos_x from: " << Pos_x << " to " << ((Pos_x - 1) - Columns) << ".")
+        #endif // DEBUG
+
+        Pos_x = (Pos_x - 1) - Columns;
+
+    } // if Pos_x > Columns
+
+    if(Pos_y < 0)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") Convert Pos_y from: " << Pos_y << " to " << (Rows + (Pos_y + 1)) << ".")
+        #endif // DEBUG
+
+        Pos_y = Rows + (Pos_y + 1);
+
+    } // if Pos_y < 0
+
+    if(Pos_y > Rows)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") Convert Pos_y from: " << Pos_y << " to " << ((Pos_y - 1) - Rows) << ".")
+        #endif // DEBUG
+
+        Pos_y = (Pos_y - 1) - Rows;
+
+    } // if Pos_y > Columns
+
+} // check_Coord
 
 int Worldmap::get_Columns()
 {

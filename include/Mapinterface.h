@@ -44,6 +44,8 @@ class Mapinterface
         void generate_Battlemap(const std::string &Battletyp);
         void destroy_Battlemap();                                           // deletes a generated Battlemap
 
+        void convert_WorldmapCoords(int &Pos_x, int &Pos_y);
+
     private:
 
     std::vector<std::string> currBattlemap;

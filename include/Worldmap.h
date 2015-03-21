@@ -14,6 +14,8 @@ class Worldmap
         int get_Columns();
         int get_Rows();
 
+        void check_Coord(int &Pos_x, int &Pos_y);
+
     private:
 
         void read_Map(const std::string &Mapname);

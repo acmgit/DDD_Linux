@@ -151,8 +151,8 @@ void game::init()
     DDD_Output->clear_Screen(true);
 
     running = true;
-    Heropos_x = 67;
-    Heropos_y = 85;
+    Heropos_x = 156;
+    Heropos_y = 146;
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Game started.")
@@ -186,6 +186,7 @@ void game::run()
         if(counting > 15)
         {
             Mapinterface::Tiledata Testtile;
+            DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
             Testtile = DDD_Map->get_Tile(Mapinterface::Worldmaptile, Heropos_x, Heropos_y);
             running = false;
 
