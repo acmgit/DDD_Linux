@@ -26,6 +26,11 @@ class game
 
         int get_Color(std::string ColText);
 
+        void generate_Battlemap(const std::string &Typ);
+        void draw_Battlemap();
+        void delete_Battlemap();
+
+        void draw_Worldmap(const int &Pos_x, const int &Pos_y);
         void draw_Frame();                          // draws the global Frame of the Game
         void render_game();
         void clean_game();                           // deletes all valid Pointer
