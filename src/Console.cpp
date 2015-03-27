@@ -40,6 +40,9 @@ void Console::write_OnConsole(ConsoleText currText, const bool nextLine)
     if(nextLine)                                                        // Writes a new Consoleline
     {
         Row.push_back(currText);                                        // add new Line on the Console
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") Console Line inserted (nextLine=true): " << currText.CText.c_str())
+        #endif // DEBUG
 
         if(nextRow > maxRows)                                           // Console full?
         {
@@ -62,12 +65,18 @@ void Console::write_OnConsole(ConsoleText currText, const bool nextLine)
             //currText.CText = (*iterateRows).CText + currText.CText;     // get the last Line and append the new Text to the line
             Row.pop_back();                                             // delete the last Line in Row
             Row.push_back(currText);                                    // and add the new Line on the Row
+            #ifdef DEBUG
+            Log("(" << ErrorLog.ALLOK << ") Console Line inserted (nextLine=true, !empty): " << currText.CText.c_str())
+            #endif // DEBUG
 
         }
         else                                                            // Console has no Line to append Text
         {
 
             Row.push_back(currText);                                    // so you can simply add this Line
+            #ifdef DEBUG
+            Log("(" << ErrorLog.ALLOK << ") Console Line inserted (nextLine=true, empty): " << currText.CText.c_str())
+            #endif // DEBUG
 
         } // if Row.empty
 
@@ -93,6 +102,9 @@ void Console::refresh_Console()
 
         //textout_ex(consoleScreen, consoleFont, (*iterateRows).CText.c_str(), startPos_x, (startPos_y + (currentRow * textHeight)), (*iterateRows).Foreground, (*iterateRows).Background);
         ++currentRow;
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") Writing Consoleline: " << (*iterateRows).CText.c_str())
+        #endif // DEBUG
 
     } // for Row.begin()
 

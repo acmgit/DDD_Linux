@@ -15,13 +15,20 @@ class game
 {
     public:
 
+        struct Order
+        {
+            std::string Command;
+            Allegro_Input::Key Key;
+        };
+
         enum State
         {
             Menu = 0,
             World,
             Battle,
             Town,
-            Dungeon
+            Dungeon,
+            Quit
         };
 
         game();
@@ -47,7 +54,10 @@ class game
 
         void switch_State(const int Gamestate);
 
-        std::string get_Command(int Len, int Seconds);
+        Order get_Command(int Len, int Seconds);
+        void parse_Command(Order &Command);
+
+        void execute_Worldcommand(Order &Command);
 
         Allegro_Output *DDD_Output;
         Allegro_Input *DDD_Input;
