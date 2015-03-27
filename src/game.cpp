@@ -156,7 +156,7 @@ void game::init()
     Heropos_x = 67;
     Heropos_y = 85;
 
-    DDD_Map->generate_Battlemap("Gras");
+    DDD_Map->generate_Battlemap("Gras");    // only to test the Battlemap
 
     switch_State(World);
 
@@ -183,14 +183,6 @@ void game::run()
 
     while(running)
     {
-        //draw_Worldmap(Heropos_x, Heropos_y);
-        /*
-        if(DDD_Map->get_Battlemapstatus())
-        {
-            draw_Battlemap();
-        }
-        */
-
         switch(game_State)
         {
             case Menu:
@@ -199,7 +191,8 @@ void game::run()
                 Log("(" << ErrorLog.ALLOK << ") Gamestate Menu")
                 #endif // DEBUG
                 break;
-            }
+
+            } // case Menu
 
             case World:
             {
@@ -209,7 +202,8 @@ void game::run()
 
                 draw_Worldmap(Heropos_x, Heropos_y);
                 break;
-            }
+
+            } // case World
 
             case Battle:
             {
@@ -219,7 +213,8 @@ void game::run()
 
                 draw_Battlemap();
                 break;
-            }
+
+            } // case Battle
 
             case Town:
             {
@@ -228,7 +223,8 @@ void game::run()
                 #endif // DEBUG
 
                 break;
-            }
+
+            } // case Town
 
             case Dungeon:
             {
@@ -237,7 +233,8 @@ void game::run()
                 #endif // DEBUG
 
                 break;
-            }
+
+            } // case Dungeon
 
             default:
             {
@@ -246,8 +243,10 @@ void game::run()
                 #endif // DEBUG
 
                 break;
-            }
-        }
+
+            } // case Unknown
+
+        } // switch game_State
 
         draw_Frame();
         render_game();
@@ -257,11 +256,6 @@ void game::run()
 
         if(counting > 15)
         {
-            /*
-            Mapinterface::Tiledata Testtile;
-            DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
-            Testtile = DDD_Map->get_Tile(Mapinterface::Worldmaptile, Heropos_x, Heropos_y);
-            */
             running = false;
 
         } // if counting
