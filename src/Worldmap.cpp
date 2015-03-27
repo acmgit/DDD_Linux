@@ -106,9 +106,11 @@ char Worldmap::get_Tile(const int Pos_x, const int Pos_y)
 
     Tile = Map.at(Pos_y).at(Pos_x);
 
+    /*
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Tile: " << Tile << " at Pos_x: " << Pos_x << " Pos_y: " << Pos_y)
     #endif // DEBUG
+    */
 
     return Tile;
 

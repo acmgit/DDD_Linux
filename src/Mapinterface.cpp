@@ -88,7 +88,7 @@ Mapinterface::Tiledata Mapinterface::get_Tile(Tiletyp Map, const int Column, con
 
         case Tiletyp::Worldmaptile:
         {
-            convert_Tile(currMap, currWorldmapclass->get_Tile(Column, Row));
+            get_WorldmapTile(currMap, Column, Row);
             break;
 
         } // case Worldmaptile
@@ -182,6 +182,19 @@ void Mapinterface::get_BattlemapTile(Tiledata &Tile, const int Column, const int
     } // if else !validBattlemap
 
 } // get_BattlemapTile
+
+void Mapinterface::get_WorldmapTile(Tiledata &Tile, const int Column, const int Row)
+{
+    int curr_Column = Column;
+    int curr_Row = Row;
+    convert_WorldmapCoords(curr_Column, curr_Row);
+
+    Tile.Sheet = currDatafile->get_Bitmap("[SHE_Worldtile]");
+    char cTile = currWorldmapclass->get_Tile(curr_Column, curr_Row);
+
+    convert_Tile(Tile, cTile);
+
+} // get_WorldmapTile
 
 void Mapinterface::convert_Tile(Tiledata &Tile, const char TChar)
 {

@@ -88,6 +88,8 @@ game::game()
 
     running = false;
 
+    game_State = Menu;
+
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Gameclass opened.")
     #endif // DEBUG
@@ -156,6 +158,8 @@ void game::init()
 
     DDD_Map->generate_Battlemap("Gras");
 
+    switch_State(World);
+
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Game started.")
     #endif // DEBUG
@@ -180,12 +184,70 @@ void game::run()
     while(running)
     {
         //draw_Worldmap(Heropos_x, Heropos_y);
+        /*
         if(DDD_Map->get_Battlemapstatus())
         {
             draw_Battlemap();
         }
+        */
 
-        draw_Worldmap(Heropos_x, Heropos_y);
+        switch(game_State)
+        {
+            case Menu:
+            {
+                #ifdef DEBUG
+                Log("(" << ErrorLog.ALLOK << ") Gamestate Menu")
+                #endif // DEBUG
+                break;
+            }
+
+            case World:
+            {
+                #ifdef DEBUG
+                Log("(" << ErrorLog.ALLOK << ") Gamestate Worldmap")
+                #endif // DEBUG
+
+                draw_Worldmap(Heropos_x, Heropos_y);
+                break;
+            }
+
+            case Battle:
+            {
+                #ifdef DEBUG
+                Log("(" << ErrorLog.ALLOK << ") Gamestate Battle")
+                #endif // DEBUG
+
+                draw_Battlemap();
+                break;
+            }
+
+            case Town:
+            {
+                #ifdef DEBUG
+                Log("(" << ErrorLog.ALLOK << ") Gamestate Town")
+                #endif // DEBUG
+
+                break;
+            }
+
+            case Dungeon:
+            {
+                #ifdef DEBUG
+                Log("(" << ErrorLog.ALLOK << ") Gamestate Dungeon")
+                #endif // DEBUG
+
+                break;
+            }
+
+            default:
+            {
+                #ifdef DEBUG
+                Log("(" << ErrorLog.ALLOK << ") Gamestate Unknown")
+                #endif // DEBUG
+
+                break;
+            }
+        }
 
         draw_Frame();
         render_game();
@@ -195,9 +257,11 @@ void game::run()
 
         if(counting > 15)
         {
+            /*
             Mapinterface::Tiledata Testtile;
             DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
             Testtile = DDD_Map->get_Tile(Mapinterface::Worldmaptile, Heropos_x, Heropos_y);
+            */
             running = false;
 
         } // if counting
@@ -306,48 +370,43 @@ std::string game::get_Command(int Len, int Seconds)
 
 void game::draw_Worldmap(const int &Pos_x, const int &Pos_y)
 {
+    // Calculate and convert the Tile on the Worldmap
+    int world_x = Pos_x - (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2);
+    int world_y = Pos_y - (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2);
+    //DDD_Map->convert_WorldmapCoords(world_x, world_y);
 
+    // Set's constant Data for Output
     Allegro_Output::tileData Tile;
     Tile.Sheetpos_y = 0;
     Tile.transparency = false;
 
+    // Worldmaptile
     Mapinterface::Tiledata currTile;
 
-    int worldpos_x;
-    int worldpos_y;
+    // Calculatecounter
+    int draw_x = 0;
+    int draw_y = 0;
 
     for(int Tile_Row = 0; Tile_Row < DDD_Datafile->find_Index("[INI_Playfieldrows]").Number; ++Tile_Row)
     {
-        // Calculates the Y-Position on the Worldmap
-        worldpos_y = (Pos_y - ((DDD_Datafile->find_Index("[INI_Playfieldrows]").Number) / 2)) + Tile_Row;
-
         for(int Tile_Column = 0; Tile_Column < DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number; ++Tile_Column)
         {
-            // Calculates the X-Position on the Worldmap
-            worldpos_x = (Pos_x - ((DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number) / 2)) + Tile_Column;
-            DDD_Map->convert_WorldmapCoords(worldpos_x, worldpos_y);
+            // Calculate and convert new Tile on the Worldmap
+            draw_x = world_x + Tile_Column;
+            draw_y = world_y + Tile_Row;
+            //DDD_Map->convert_WorldmapCoords(draw_x, draw_y);
 
-            currTile = DDD_Map->get_Tile(Mapinterface::Worldmaptile, worldpos_x, worldpos_y);
-
+            // draw now the Tile on the Playfieldscreen
+            currTile = DDD_Map->get_Tile(Mapinterface::Worldmaptile, draw_x, draw_y);
             Tile.Sheet = currTile.Sheet;
             Tile.Sheetpos_x = currTile.Index;
             Tile.Column = Tile_Column;
             Tile.Row = Tile_Row;
-            /*
-            #ifdef DEBUG
-            Log("Tilesheet = " << Tile.Sheet)
-            Log("Tilesheet_x = " << Tile.Sheetpos_x)
-            Log("Tilesheet_y = " << Tile.Sheetpos_y)
-            Log("Tilepos_x = " << Tile.Column)
-            Log("Tilepos_y = " << Tile.Row)
-            Log("Tiletransparency = " << Tile.transparency)
-            #endif // DEBUG
-            */
             DDD_Output->render_Tile(Tile);
 
-        } // for Tile_Column
+        } // for Column
 
-    } // for Tile_Row
+    } // for Row
 
 } // draw_Worldmap
 
@@ -390,4 +449,8 @@ void game::delete_Battlemap()
 
 } // delete_Battlemap
 
+void game::switch_State(const int Gamestate)
+{
+    game_State = Gamestate;
+}
 #endif // GAME_CPP

@@ -63,6 +63,8 @@ class Mapinterface
     */
     void get_BattlemapTile(Tiledata &Tile, const int Column, const int Row);
 
+    void get_WorldmapTile(Tiledata &Tile, const int Column, const int Row);
+
     /*
         Fills the Data of the Typ Tiledata with Informations of the found Tile.
         It fills Tiledata.Index with the Position in the Tilesheet.

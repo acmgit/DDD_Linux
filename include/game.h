@@ -14,6 +14,16 @@
 class game
 {
     public:
+
+        enum State
+        {
+            Menu = 0,
+            World,
+            Battle,
+            Town,
+            Dungeon
+        };
+
         game();
         ~game();
 
@@ -34,6 +44,8 @@ class game
         void draw_Frame();                          // draws the global Frame of the Game
         void render_game();
         void clean_game();                           // deletes all valid Pointer
+
+        void switch_State(const int Gamestate);
 
         std::string get_Command(int Len, int Seconds);
 
@@ -59,6 +71,8 @@ class game
         // Gamedata
         Allegro_Output::gfx_Object global_Frame;
         bool running;
+
+        int game_State;
 
         // Herodata
         int Heropos_x;
