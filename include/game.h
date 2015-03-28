@@ -7,6 +7,7 @@
 #include "UniText.h"
 #include "Mapinterface.h"
 #include "Clock.h"
+#include "Hero.h"
 
 #include <string>
 
@@ -64,6 +65,7 @@ class game
         Allegro_Datafile *DDD_Datafile;
         UniText *DDD_Translator;
         Mapinterface *DDD_Map;
+        Hero *DDD_Hero;
 
         // Constants
 
@@ -84,9 +86,7 @@ class game
 
         int game_Mode;
 
-        // Herodata
-        int Heropos_x;
-        int Heropos_y;
+        Hero::Hero_Position Hero_Pos;
 
 }; // game
 

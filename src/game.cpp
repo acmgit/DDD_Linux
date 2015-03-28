@@ -86,6 +86,18 @@ game::game()
 
     } // if !DDD_Map
 
+    DDD_Hero = new Hero(DDD_Datafile, "Tethis", true);
+    if(!DDD_Hero)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Can't open Heroclass.")
+        #endif // DEBUG
+        allegro_message("Can't open Heroclass");
+        clean_game();
+        allegro_exit();
+
+    } // if !DDD_Hero
+
     running = false;
 
     game_Mode = Menu;
@@ -153,12 +165,12 @@ void game::init()
     DDD_Output->clear_Screen(true);
 
     running = true;
-    Heropos_x = 67;
-    Heropos_y = 85;
 
     DDD_Map->generate_Battlemap("Gras");    // only to test the Battlemap
 
     switch_Mode(World);
+
+    DDD_Hero->get_Position(Hero_Pos);
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Game started.")
@@ -218,7 +230,8 @@ void game::run()
                 Log("(" << ErrorLog.ALLOK << ") Gamemode Worldmap")
                 #endif // DEBUG
 
-                draw_Worldmap(Heropos_x, Heropos_y);
+
+                draw_Worldmap(Hero_Pos.Global_x, Hero_Pos.Global_y);
                 DDD_Output->render_Tile(Hero);
                 draw_Frame();
 
@@ -483,6 +496,48 @@ void game::delete_Battlemap()
 void game::switch_Mode(const int Gamemode)
 {
     game_Mode = Gamemode;
+    int Heromode;
+
+    switch(Gamemode)
+    {
+        case World:
+        {
+            Heromode = Hero::Hero_Global;
+            break;
+
+        } // case World
+
+        case Town:
+        {
+            Heromode = Hero::Hero_Town;
+            break;
+
+        } // case Town
+
+        case Battle:
+        {
+            Heromode = Hero::Hero_Battle;
+            break;
+
+        } // case Battle
+
+        case Dungeon:
+        {
+            Heromode = Hero::Hero_Dungeon;
+            break;
+
+        } // case World
+
+        default:
+        {
+            Heromode = Hero::Hero_Global;
+            break;
+
+        } // Unknown
+
+    } // switch Gamemode
+
+    DDD_Hero->switch_Heromode(Heromode);
 
 } // switch_Mode
 
@@ -555,8 +610,8 @@ void game::execute_Worldcommand(Order &Command)
             #endif // DEBUG
             */
             DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[North]"), true);
-            --Heropos_y;
-            DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
+            --Hero_Pos.Global_y;
+            DDD_Map->convert_WorldmapCoords(Hero_Pos.Global_x, Hero_Pos.Global_y);
             break;
 
         } // case N
@@ -565,8 +620,8 @@ void game::execute_Worldcommand(Order &Command)
         case 85:
         {
             DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[South]"), true);
-            ++Heropos_y;
-            DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
+            ++Hero_Pos.Global_y;
+            DDD_Map->convert_WorldmapCoords(Hero_Pos.Global_x, Hero_Pos.Global_y);
             break;
 
         } // case S
@@ -575,8 +630,8 @@ void game::execute_Worldcommand(Order &Command)
         case 82:
         {
             DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[West]"), true);
-            --Heropos_x;
-            DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
+            --Hero_Pos.Global_x;
+            DDD_Map->convert_WorldmapCoords(Hero_Pos.Global_x, Hero_Pos.Global_y);
             break;
 
         } // case W
@@ -585,8 +640,8 @@ void game::execute_Worldcommand(Order &Command)
         case 83:
         {
             DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[East]"), true);
-            ++Heropos_x;
-            DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
+            ++Hero_Pos.Global_x;
+            DDD_Map->convert_WorldmapCoords(Hero_Pos.Global_x, Hero_Pos.Global_y);
             break;
 
         } // case W
@@ -619,6 +674,8 @@ void game::execute_Worldcommand(Order &Command)
         } // Command unknown
 
     } // switch(Command)
+
+    DDD_Hero->set_Position(Hero_Pos.Global_x, Hero_Pos.Global_y);
 
     //render_game();
 

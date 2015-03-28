@@ -53,6 +53,7 @@
 		<Unit filename="include/Console.h" />
 		<Unit filename="include/DDD_Screen.h" />
 		<Unit filename="include/Datafileinterface.h" />
+		<Unit filename="include/Hero.h" />
 		<Unit filename="include/Inputinterface.h" />
 		<Unit filename="include/Keyboardinterface.h" />
 		<Unit filename="include/Logfile.h" />
@@ -71,6 +72,7 @@
 		<Unit filename="src/Clock.cpp" />
 		<Unit filename="src/Console.cpp" />
 		<Unit filename="src/DDD_Screen.cpp" />
+		<Unit filename="src/Hero.cpp" />
 		<Unit filename="src/Inputinterface.cpp" />
 		<Unit filename="src/Logfile.cpp" />
 		<Unit filename="src/Mapinterface.cpp" />
