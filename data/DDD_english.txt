@@ -34,8 +34,51 @@ East ...
 Blocked ...
 
 #------------------------------------------------
+
+# --------- Statustext
+[STA_Live]
+Vitality:
+
+[STA_Mana]
+Mana:
+
+[STA_Strength]
+Strength:
+
+[STA_Dexterity]
+Dexterity:
+
+[STA_Wisdom]
+Wisdom:
+
+[STA_Charisma]
+Charisma:
+
+[STA_Gold]
+Gold:
+
+[STA_Food]
+Food:
+
+[STA_Experience]
+Experience:
+
+[STA_Level]
+Level:
+
+[STA_Attack]
+Attack:
+
+[STA_Parade]
+Parade:
+
+#------------------------------------------------
+
 [Waiting]
 Wait ...
+
+[Please]
+Please ...
 
 # --------- Special Charakters
 [Male]

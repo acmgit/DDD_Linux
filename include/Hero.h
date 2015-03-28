@@ -19,9 +19,9 @@ class Hero
             Herostat_Experience_to_next_Level,
             Herostat_Level,
 
-            Herostat_Strengt,
+            Herostat_Strength,
             Herostat_Dexterity,
-            Herostat_Widsom,
+            Herostat_Wisdom,
             Herostat_Charisma,
 
             Herostat_Attack,

@@ -128,7 +128,7 @@ void Hero::set_Value(const int &Typ, const int &Value, const bool &Increment)
 
         } // Mana_max
 
-        case Herostat_Strengt:
+        case Herostat_Strength:
         {
             change_Value(Strength, Value, Increment);
             break;
@@ -142,7 +142,7 @@ void Hero::set_Value(const int &Typ, const int &Value, const bool &Increment)
 
         } // Dexterity
 
-        case Herostat_Widsom:
+        case Herostat_Wisdom:
         {
             change_Value(Wisdom, Value, Increment);
             break;
@@ -183,6 +183,27 @@ void Hero::set_Value(const int &Typ, const int &Value, const bool &Increment)
             break;
 
         } // Food
+
+        case Herostat_Level:
+        {
+            change_Value(Level, Value, Increment);
+            break;
+
+        } // Level
+
+        case Herostat_Experience_to_next_Level:
+        {
+            change_Value(Experience_to_next_Level, Value, Increment);
+            break;
+
+        } // Exp to next Level
+
+        case Hero_Experience:
+        {
+            change_Value(Experience, Value, Increment);
+            break;
+
+        } // Experience
 
         default:
         {
@@ -231,7 +252,7 @@ int Hero::get_Value(const int &Typ)
 
         } // Mana_max
 
-        case Herostat_Strengt:
+        case Herostat_Strength:
         {
             Value = Strength;
             break;
@@ -245,7 +266,7 @@ int Hero::get_Value(const int &Typ)
 
         } // Dexterity
 
-        case Herostat_Widsom:
+        case Herostat_Wisdom:
         {
             Value = Wisdom;
             break;
@@ -275,17 +296,38 @@ int Hero::get_Value(const int &Typ)
 
         case Hero_Gold:
         {
-            Gold = Gold;
+            Value = Gold;
             break;
 
         } // Gold
 
         case Hero_Food:
         {
-            Food = Food;
+            Value = Food;
             break;
 
         } // Food
+
+        case Herostat_Level:
+        {
+            Value = Level;
+            break;
+
+        } // Level
+
+        case Herostat_Experience_to_next_Level:
+        {
+            Value = Experience_to_next_Level;
+            break;
+
+        } // Exp to next Level
+
+        case Hero_Experience:
+        {
+            Value = Experience;
+            break;
+
+        } // Experience
 
         default:
         {

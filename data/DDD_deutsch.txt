@@ -34,6 +34,45 @@ Osten ...
 Blockiert ...
 
 #------------------------------------------------
+
+# --------- Statustext
+[STA_Live]
+Vitalität:
+
+[STA_Mana]
+Astral:
+
+[STA_Strength]
+Stärke:
+
+[STA_Dexterity]
+Geschick:
+
+[STA_Wisdom]
+Klugheit:
+
+[STA_Charisma]
+Charisma:
+
+[STA_Gold]
+Gold:
+
+[STA_Food]
+Nahrung:
+
+[STA_Experience]
+Erfahrung:
+
+[STA_Level]
+Level:
+
+[STA_Attack]
+Attacke:
+
+[STA_Parade]
+Parade:
+
+#------------------------------------------------
 [Waiting]
 Warte ...
 

@@ -213,6 +213,8 @@ void game::run()
     while(running)
     {
 
+        write_Status();
+
         switch(game_Mode)
         {
             case Menu:
@@ -680,5 +682,95 @@ void game::execute_Worldcommand(Order &Command)
     //render_game();
 
 } // execute_Worldcommand
+
+void game::write_Status()
+{
+
+    int startline = 1;
+    int pixeltab = 120;
+    int linecount = 0;
+
+    // Name + Gender
+    std::string Line = DDD_Hero->get_Name();
+    DDD_Output->add_StatusLine(startline + linecount, 0, get_Color("white"), get_Color("transparent"), Line);
+
+    if(DDD_Hero->is_Female())
+    {
+        Line = DDD_Translator->Print("[Female]");
+
+    }
+    else
+    {
+        Line = DDD_Translator->Print("[Male]");
+
+    } // if is_Female
+    DDD_Output->add_StatusLine(startline + linecount, pixeltab, get_Color("red"), get_Color("transparent"), Line);
+
+    // Experience and Level
+    ++linecount;
+    ++linecount;
+    build_Statusline(startline + linecount, 0, "silver", "transparent", "[STA_Experience]", Hero::Stats::Hero_Experience, Hero::Stats::Herostat_Experience_to_next_Level);
+    ++linecount;
+    build_Statusline(startline + linecount, 0, "lightgrey", "transparent", "[STA_Level]", Hero::Stats::Herostat_Level);
+
+    // Lifepoints
+    ++linecount;
+    ++linecount;
+    build_Statusline(startline + linecount, 0, "green", "transparent", "[STA_Live]", Hero::Stats::Hero_Live, Hero::Stats::Herostat_Live_max);
+
+    // Manapoints
+    ++linecount;
+    build_Statusline(startline + linecount, 0, "cyan", "transparent", "[STA_Mana]", Hero::Stats::Hero_Mana, Hero::Stats::Herostat_Mana_max);
+
+    // Attack and Parade
+    ++linecount;
+    ++linecount;
+    build_Statusline(startline + linecount, 0, "brown", "transparent", "[STA_Attack]", Hero::Stats::Herostat_Attack);
+    build_Statusline(startline + linecount, pixeltab, "orange", "transparent", "[STA_Parade]", Hero::Stats::Herostat_Parade);
+
+    // Strength & Dexterity
+    ++linecount;
+    build_Statusline(startline + linecount, 0, "yellow", "transparent", "[STA_Strength]", Hero::Stats::Herostat_Strength);
+    build_Statusline(startline + linecount, pixeltab, "brown", "transparent", "[STA_Dexterity]", Hero::Stats::Herostat_Dexterity);
+
+    // Wisdom & Charisma
+    ++linecount;
+    build_Statusline(startline + linecount, 0, "cyan", "transparent", "[STA_Wisdom]", Hero::Stats::Herostat_Wisdom);
+    build_Statusline(startline + linecount, pixeltab, "blue", "transparent", "[STA_Charisma]", Hero::Stats::Herostat_Charisma);
+
+    // Gold & Food
+    ++linecount;
+    ++linecount;
+    build_Statusline(startline + linecount, 0, "gold", "transparent", "[STA_Gold]", Hero::Stats::Hero_Gold);
+    build_Statusline(startline + linecount, pixeltab, "purple", "transparent", "[STA_Food]", Hero::Stats::Hero_Food);
+
+    DDD_Output->write_Status();
+
+} // write_Status
+
+void game::build_Statusline(    const int &Line, const int &Pixeltab,
+                                const std::string &Forgroundcolor,
+                                const std::string &Backgroundcolor,
+                                const std::string &Text,
+                                const int &Value, const int &Maxvalue)
+{
+    int currVal = DDD_Hero->get_Value(Value);
+    int currValMax = DDD_Hero->get_Value(Maxvalue);
+    std::string StatusLine = DDD_Translator->Print(Text) + " " + DDD_Datafile->valtostr(currVal) + " (" + DDD_Datafile->valtostr(currValMax) + ")";
+    DDD_Output->add_StatusLine(Line, Pixeltab, get_Color(Forgroundcolor), get_Color(Backgroundcolor), StatusLine);
+
+} // build_Statusline
+
+void game::build_Statusline(    const int &Line, const int &Pixeltab,
+                                const std::string &Forgroundcolor,
+                                const std::string &Backgroundcolor,
+                                const std::string &Text,
+                                const int &Value)
+{
+    int currVal = DDD_Hero->get_Value(Value);
+    std::string StatusLine = DDD_Translator->Print(Text) + " " + DDD_Datafile->valtostr(currVal);
+    DDD_Output->add_StatusLine(Line, Pixeltab, get_Color(Forgroundcolor), get_Color(Backgroundcolor), StatusLine);
+
+} // build_Statusline
 
 #endif // GAME_CPP

@@ -50,8 +50,22 @@ class game
 
         void draw_Worldmap(const int &Pos_x, const int &Pos_y);
         void draw_Frame();                          // draws the global Frame of the Game
+        void write_Status();
+
         void render_game();
         void clean_game();                           // deletes all valid Pointer
+
+        void build_Statusline(const int &Line, const int &Pixeltab,
+                                     const std::string &Forgroundcolor,
+                                     const std::string &Backgroundcolor,
+                                     const std::string &Text,
+                                     const int &Value, const int &Maxvalue);
+
+        void build_Statusline(const int &Line, const int &Pixeltab,
+                                     const std::string &Forgroundcolor,
+                                     const std::string &Backgroundcolor,
+                                     const std::string &Text,
+                                     const int &Value);
 
         void switch_Mode(const int Gamemode);
 
