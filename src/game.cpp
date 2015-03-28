@@ -88,7 +88,7 @@ game::game()
 
     running = false;
 
-    game_State = Menu;
+    game_Mode = Menu;
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Gameclass opened.")
@@ -158,7 +158,7 @@ void game::init()
 
     DDD_Map->generate_Battlemap("Gras");    // only to test the Battlemap
 
-    switch_State(World);
+    switch_Mode(World);
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Game started.")
@@ -187,17 +187,26 @@ void game::run()
     Command.Key.Shift = 0;
     Command.Key.Strg = 0;
 
+    Allegro_Output::tileData Hero;
+
+    Hero.Sheet = DDD_Datafile->get_Bitmap("[SHE_Hero]");
+    Hero.Sheetpos_x = DDD_Datafile->find_Index("[HER_Sword]").Number;
+    Hero.Sheetpos_y = 0;
+    Hero.transparency = true;
+    Hero.Column = DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2;
+    Hero.Row = DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2;
+
     //int counting = 0;
 
     while(running)
     {
 
-        switch(game_State)
+        switch(game_Mode)
         {
             case Menu:
             {
                 #ifdef DEBUG
-                Log("(" << ErrorLog.ALLOK << ") Gamestate Menu")
+                Log("(" << ErrorLog.ALLOK << ") Gamemode Menu")
                 #endif // DEBUG
                 break;
 
@@ -206,10 +215,17 @@ void game::run()
             case World:
             {
                 #ifdef DEBUG
-                Log("(" << ErrorLog.ALLOK << ") Gamestate Worldmap")
+                Log("(" << ErrorLog.ALLOK << ") Gamemode Worldmap")
                 #endif // DEBUG
 
                 draw_Worldmap(Heropos_x, Heropos_y);
+                DDD_Output->render_Tile(Hero);
+                draw_Frame();
+
+                Command = get_Command(1, 10);                   // 1 Char and 10 Seconds to wait ...
+                parse_Command(Command);
+
+
                 break;
 
             } // case World
@@ -217,7 +233,7 @@ void game::run()
             case Battle:
             {
                 #ifdef DEBUG
-                Log("(" << ErrorLog.ALLOK << ") Gamestate Battle")
+                Log("(" << ErrorLog.ALLOK << ") Gamemode Battle")
                 #endif // DEBUG
 
                 draw_Battlemap();
@@ -228,7 +244,7 @@ void game::run()
             case Town:
             {
                 #ifdef DEBUG
-                Log("(" << ErrorLog.ALLOK << ") Gamestate Town")
+                Log("(" << ErrorLog.ALLOK << ") Gamemode Town")
                 #endif // DEBUG
 
                 break;
@@ -238,7 +254,7 @@ void game::run()
             case Dungeon:
             {
                 #ifdef DEBUG
-                Log("(" << ErrorLog.ALLOK << ") Gamestate Dungeon")
+                Log("(" << ErrorLog.ALLOK << ") Gamemode Dungeon")
                 #endif // DEBUG
 
                 break;
@@ -248,7 +264,7 @@ void game::run()
             case Quit:
             {
                 #ifdef DEBUG
-                Log("(" << ErrorLog.ALLOK << ") Gamestate Quit")
+                Log("(" << ErrorLog.ALLOK << ") Gamemode Quit")
                 #endif // DEBUG
 
                 running = false;
@@ -259,30 +275,18 @@ void game::run()
             default:
             {
                 #ifdef DEBUG
-                Log("(" << ErrorLog.ALLOK << ") Gamestate Unknown")
+                Log("(" << ErrorLog.ALLOK << ") Gamemode Unknown")
                 #endif // DEBUG
 
                 break;
 
             } // case Unknown
 
-        } // switch game_State
+        } // switch game_Mode
 
-        draw_Frame();
+        //draw_Frame();
         render_game();
 
-        Command = get_Command(1, 10);                   // 1 Char and 10 Seconds to wait ...
-        parse_Command(Command);
-
-/*
-        ++counting;
-
-        if(counting > 15)
-        {
-            running = false;
-
-        } // if counting
-*/
     } // while running
 
     DDD_Map->destroy_Battlemap();
@@ -348,6 +352,7 @@ game::Order game::get_Command(int Len, int Seconds)
     int command_Count = 0;
     Keyboardinterface::Key currKey;
 
+    DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "", true);
     DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "#", false);
     render_game();
 
@@ -364,7 +369,7 @@ game::Order game::get_Command(int Len, int Seconds)
         else
         {
             command_Count = Len;
-            DDD_Output->write_OnConsole(get_Color("orange"), get_Color("transparent"), DDD_Translator->Print("[Waiting]"), true);
+            DDD_Output->write_OnConsole(get_Color("brown"), get_Color("transparent"), DDD_Translator->Print("[Waiting]"), false);
             currKey.Alt = false;
             currKey.Key = ' ';
             currKey.Scancode = 0;
@@ -372,13 +377,14 @@ game::Order game::get_Command(int Len, int Seconds)
             currKey.Strg = false;
         } // if readKey
 
+        /*
         if(command_Count >= Len)
         {
             DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "", true);
 
         } // if command_Count
-
-        render_game();
+        */
+        //render_game();
     } // while command_Count
 
     /*
@@ -474,15 +480,15 @@ void game::delete_Battlemap()
 
 } // delete_Battlemap
 
-void game::switch_State(const int Gamestate)
+void game::switch_Mode(const int Gamemode)
 {
-    game_State = Gamestate;
+    game_Mode = Gamemode;
 
-} // switch_State
+} // switch_Mode
 
 void game::parse_Command(Order &Command)
 {
-    switch(game_State)
+    switch(game_Mode)
     {
         case Menu:
         {
@@ -528,7 +534,7 @@ void game::parse_Command(Order &Command)
             break;
         }
 
-    } // switch game_State
+    } // switch game_Mode
 
 } // parse_Command
 
@@ -548,7 +554,7 @@ void game::execute_Worldcommand(Order &Command)
             Log("(" << ErrorLog.ALLOK << ") Go North.")
             #endif // DEBUG
             */
-            DDD_Output->write_OnConsole(get_Color("purple"), get_Color("transparent"), DDD_Translator->Print("[North]"), true);
+            DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[North]"), true);
             --Heropos_y;
             DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
             break;
@@ -558,8 +564,7 @@ void game::execute_Worldcommand(Order &Command)
         // South
         case 85:
         {
-
-            DDD_Output->write_OnConsole(get_Color("purple"), get_Color("transparent"), DDD_Translator->Print("[South]"), true);
+            DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[South]"), true);
             ++Heropos_y;
             DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
             break;
@@ -569,8 +574,7 @@ void game::execute_Worldcommand(Order &Command)
         // West
         case 82:
         {
-
-            DDD_Output->write_OnConsole(get_Color("purple"), get_Color("transparent"), DDD_Translator->Print("[West]"), true);
+            DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[West]"), true);
             --Heropos_x;
             DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
             break;
@@ -580,13 +584,27 @@ void game::execute_Worldcommand(Order &Command)
         // East
         case 83:
         {
-
-            DDD_Output->write_OnConsole(get_Color("purple"), get_Color("transparent"), DDD_Translator->Print("[East]"), true);
+            DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[East]"), true);
             ++Heropos_x;
             DDD_Map->convert_WorldmapCoords(Heropos_x, Heropos_y);
             break;
 
         } // case W
+
+        // case X
+        case 24:
+        {
+            switch_Mode(Mode::Quit);
+            break;
+
+        }
+
+        // no Key, only wait
+        case 0:
+        {
+            break;
+
+        } // case 0
 
         default:
         {
@@ -595,14 +613,14 @@ void game::execute_Worldcommand(Order &Command)
             Log("(" << ErrorLog.ALLOK << ") Unknown Command.")
             #endif // DEBUG
             */
-            DDD_Output->write_OnConsole(get_Color("purple"), get_Color("transparent"), DDD_Translator->Print("[Please]"), true);
+            DDD_Output->write_OnConsole(get_Color("cyan"), get_Color("transparent"), DDD_Translator->Print("[Please]"), true);
             break;
 
         } // Command unknown
 
     } // switch(Command)
 
-    render_game();
+    //render_game();
 
 } // execute_Worldcommand
 

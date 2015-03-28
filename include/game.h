@@ -21,7 +21,7 @@ class game
             Allegro_Input::Key Key;
         };
 
-        enum State
+        enum Mode
         {
             Menu = 0,
             World,
@@ -52,7 +52,7 @@ class game
         void render_game();
         void clean_game();                           // deletes all valid Pointer
 
-        void switch_State(const int Gamestate);
+        void switch_Mode(const int Gamemode);
 
         Order get_Command(int Len, int Seconds);
         void parse_Command(Order &Command);
@@ -82,7 +82,7 @@ class game
         Allegro_Output::gfx_Object global_Frame;
         bool running;
 
-        int game_State;
+        int game_Mode;
 
         // Herodata
         int Heropos_x;
