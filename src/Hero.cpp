@@ -3,6 +3,9 @@
 
 #include "Hero.h"
 #include "Allegro_Datafile.h"
+#include "Allegro_Output.h"
+#include "Mapinterface.h"
+#include "UniText.h"
 
 #include <string>
 
@@ -10,9 +13,13 @@
 #include "Logfile.h"
 #endif // DEBUG
 
-Hero::Hero(Allegro_Datafile *curr_Data, const std::string &HName, const bool &Gender)
+Hero::Hero(Allegro_Datafile *curr_Data, Allegro_Output *curr_Output, Mapinterface *curr_Map, UniText *curr_Language, const std::string &HName, const bool &Gender)
 {
-    Data = curr_Data;
+    DDD_Data = curr_Data;
+    DDD_Output = curr_Output;
+    DDD_Map = curr_Map;
+    DDD_Translator = curr_Language;
+
     Hero_Name = HName;
     Female = Gender;
     Playmode = Hero_Global;
@@ -38,6 +45,8 @@ Hero::Hero(Allegro_Datafile *curr_Data, const std::string &HName, const bool &Ge
     Gold = get_Const("Gold");
     Food = get_Const("Food");
 
+    Poisonfactor = 0;
+
     current_Postion.Battle_x = 0;
     current_Postion.Battle_y = 0;
 
@@ -50,6 +59,24 @@ Hero::Hero(Allegro_Datafile *curr_Data, const std::string &HName, const bool &Ge
     current_Postion.Global_x = get_Const("Startpos_x");
     current_Postion.Global_y = get_Const("Startpos_y");
 
+    Status.one_Hand = true;
+    Status.two_Hand = false;
+
+    Status.big_Shield = false;
+    Status.small_Shield = false;
+
+    Status.is_Shipping = false;
+    Status.on_Horse = false;
+    Status.on_Unicorn = false;
+    Status.on_Lizard = false;
+    Status.is_Flying = false;
+
+    Status.is_Poisoned = false;
+    Status.to_Hunger = false;
+    Status.is_Dead = false;
+
+    Poisonfactor = 0;
+
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Heroclass opened.")
     #endif // DEBUG
@@ -58,7 +85,10 @@ Hero::Hero(Allegro_Datafile *curr_Data, const std::string &HName, const bool &Ge
 
 Hero::~Hero()
 {
-    Data = nullptr;
+    DDD_Data = nullptr;
+    DDD_Output = nullptr;
+    DDD_Map = nullptr;
+    DDD_Translator = nullptr;
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Heroclass closed.")
@@ -68,7 +98,7 @@ Hero::~Hero()
 
 int Hero::get_Const(const std::string &Ini)
 {
-    return Data->find_Index("[INI_Hero_" + Ini + "]").Number;
+    return DDD_Data->find_Index("[INI_Hero_" + Ini + "]").Number;
 
 } // get_Const
 
@@ -205,6 +235,24 @@ void Hero::set_Value(const int &Typ, const int &Value, const bool &Increment)
 
         } // Experience
 
+        case Hero_Poison:
+        {
+            change_Value(Poisonfactor, Value, Increment);
+            if(Poisonfactor > 0)
+            {
+                Status.is_Poisoned = true;
+
+            }
+            else
+            {
+                Status.is_Poisoned = false;
+
+            } // if Poisonfactor
+
+            break;
+
+        } // Poisonfactor
+
         default:
         {
             #ifdef DEBUG
@@ -329,6 +377,13 @@ int Hero::get_Value(const int &Typ)
 
         } // Experience
 
+        case Hero_Poison:
+        {
+            Value = Poisonfactor;
+            break;
+
+        } // Poisonfactor
+
         default:
         {
             #ifdef DEBUG
@@ -356,19 +411,9 @@ void Hero::change_Value(int &Stat, const int &Val, const bool &Inc)
 
 } // change_Value
 
-void Hero::get_Position(Hero_Position &Position)
+Hero::Hero_Position Hero::get_Position()
 {
-    Position.Battle_x = current_Postion.Battle_x;
-    Position.Battle_y = current_Postion.Battle_y;
-
-    Position.Dungeon_x = current_Postion.Dungeon_x;
-    Position.Dungeon_y = current_Postion.Dungeon_y;
-
-    Position.Global_x = current_Postion.Global_x;
-    Position.Global_y = current_Postion.Global_y;
-
-    Position.Town_x = current_Postion.Town_x;
-    Position.Town_y = current_Postion.Town_y;
+    return current_Postion;
 
 } // get_Postion
 
@@ -424,4 +469,155 @@ void Hero::set_Position(const int &Pos_x, const int &Pos_y)
 
 } // set_Position
 
+void Hero::execute_Command(Order &Command)
+{
+    #ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Worldcommand: " << Command.Command.c_str())
+    #endif // DEBUG
+
+    switch(Command.Key.Scancode)
+    {
+        // North
+        case 84:
+        {
+            DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[North]"), true);
+            --current_Postion.Global_y;
+            DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            break;
+
+        } // case N
+
+        // South
+        case 85:
+        {
+            DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[South]"), true);
+            ++current_Postion.Global_y;
+            DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            break;
+
+        } // case S
+
+        // West
+        case 82:
+        {
+            DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[West]"), true);
+            --current_Postion.Global_x;
+            DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            break;
+
+        } // case W
+
+        // East
+        case 83:
+        {
+            DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[East]"), true);
+            ++current_Postion.Global_x;
+            DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            break;
+
+        } // case W
+
+        default:
+        {
+            #ifdef DEBUG
+            Log("(" << ErrorLog.ALLOK << ") Unknown Herocommand.")
+            #endif // DEBUG
+
+            DDD_Output->write_OnConsole(DDD_Data->get_Color("cyan"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[Please]"), true);
+            break;
+
+        } // Command unknown
+
+    } // switch(Command)
+
+} // execute_Command
+
+void Hero::draw_Hero(int Pos_x, int Pos_y)
+{
+    Allegro_Output::tileData Hero;
+
+    Hero.Sheet = DDD_Data->get_Bitmap("[SHE_Hero]");
+    //Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword]").Number;
+    Hero.Sheetpos_y = 0;
+    Hero.transparency = true;
+    Hero.Column = Pos_x;
+    Hero.Row = Pos_y;
+
+    //Hero.Column = DDD_Data->find_Index("[INI_Playfieldcolumns]").Number / 2;
+    //Hero.Row = DDD_Data->find_Index("[INI_Playfieldrows]").Number / 2;
+
+    if(Status.is_Dead)
+    {
+        Hero.Sheetpos_x = DDD_Data->find_Index("[HER_dead]").Number;
+
+    }
+    else
+    {
+        if(!Status.is_Shipping)
+        {
+            if(Status.on_Horse)
+            {
+                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Horse]").Number;
+
+            }
+            else
+            {
+                if(Status.on_Unicorn)
+                {
+                    Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Unicorn]").Number;
+
+                }
+                else
+                {
+                    if(Status.on_Lizard)
+                    {
+                        Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Dragon]").Number;
+
+                    }
+                    else
+                    {
+                        if(Status.is_Poisoned)
+                        {
+                            if((Status.small_Shield) || (Status.big_Shield))
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield_poisoned]").Number;
+                            }
+                            else
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword_poisoned]").Number;
+                            } // has Shield and is Poisoned
+                        }
+                        else
+                        {
+                            if((Status.small_Shield) || (Status.big_Shield))
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield]").Number;
+
+                            }
+                            else
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword]").Number;
+
+                            } // has Shield and isn't poisoned
+
+                        } // is_Poisoned
+
+                    } // on_Lizard
+
+                } // on_Unicorn
+
+            } // on_Horse
+
+        }
+        else  // Hero is on Ship
+        {
+            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Ship]").Number;
+
+        } // is_Shipping
+
+    } // if is_Dead
+
+    DDD_Output->render_Tile(Hero);
+
+} // draw_Hero
 #endif // HERO_CPP

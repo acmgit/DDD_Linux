@@ -43,6 +43,7 @@ class Allegro_Datafile: public Datafileinterface
         BITMAP* get_Bitmap(const std::string &Bitmapname);
         FONT* get_Font(const std::string &Fontname);
         PALETTE* get_Palette(const std::string &Palettename);
+        int get_Color(std::string Text);
 
         template <class X>
         void strtoval(std::string Value, X &Val);

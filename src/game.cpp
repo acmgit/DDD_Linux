@@ -86,7 +86,7 @@ game::game()
 
     } // if !DDD_Map
 
-    DDD_Hero = new Hero(DDD_Datafile, "Tethis", true);
+    DDD_Hero = new Hero(DDD_Datafile, DDD_Output, DDD_Map, DDD_Translator, "Tethis", true);
     if(!DDD_Hero)
     {
         #ifdef DEBUG
@@ -170,7 +170,8 @@ void game::init()
 
     switch_Mode(World);
 
-    DDD_Hero->get_Position(Hero_Pos);
+    DDD_Hero->set_Value(Hero::Stats::Hero_Poison, 2, true);
+    //DDD_Hero = get_Position(Hero_Pos);
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Game started.")
@@ -190,7 +191,7 @@ void game::exit()
 
 void game::run()
 {
-    Order Command;
+    Hero::Order Command;
 
     Command.Command = "";
     Command.Key.Alt = false;
@@ -199,6 +200,7 @@ void game::run()
     Command.Key.Shift = 0;
     Command.Key.Strg = 0;
 
+/*
     Allegro_Output::tileData Hero;
 
     Hero.Sheet = DDD_Datafile->get_Bitmap("[SHE_Hero]");
@@ -207,7 +209,7 @@ void game::run()
     Hero.transparency = true;
     Hero.Column = DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2;
     Hero.Row = DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2;
-
+*/
     //int counting = 0;
 
     while(running)
@@ -233,13 +235,15 @@ void game::run()
                 #endif // DEBUG
 
 
-                draw_Worldmap(Hero_Pos.Global_x, Hero_Pos.Global_y);
-                DDD_Output->render_Tile(Hero);
+                draw_Worldmap(DDD_Hero->get_Position());
+                DDD_Hero->draw_Hero(DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2,
+                                    DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2);
+
+                //DDD_Output->render_Tile(Hero);
                 draw_Frame();
 
                 Command = get_Command(1, 10);                   // 1 Char and 10 Seconds to wait ...
                 parse_Command(Command);
-
 
                 break;
 
@@ -354,21 +358,14 @@ void game::draw_Frame()
 
 } // draw_Frame
 
-int game::get_Color(std::string Text)
-{
-    int Color = DDD_Datafile->find_Index("[COL_" + Text + "]").Number;
-    return Color;
-
-} // get_Color
-
-game::Order game::get_Command(int Len, int Seconds)
+Hero::Order game::get_Command(int Len, int Seconds)
 {
     std::string Command = "";
     int command_Count = 0;
     Keyboardinterface::Key currKey;
 
-    DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "", true);
-    DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "#", false);
+    DDD_Output->write_OnConsole(DDD_Datafile->get_Color("yellow"), DDD_Datafile->get_Color("transparent"), "", true);
+    DDD_Output->write_OnConsole(DDD_Datafile->get_Color("yellow"), DDD_Datafile->get_Color("transparent"), "#", false);
     render_game();
 
     while(command_Count < Len)
@@ -378,13 +375,13 @@ game::Order game::get_Command(int Len, int Seconds)
             currKey = DDD_Input->get_Key();
             Command.append(1, currKey.Key);
             ++command_Count;
-            DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "#" + Command, false);
+            DDD_Output->write_OnConsole(DDD_Datafile->get_Color("yellow"), DDD_Datafile->get_Color("transparent"), "#" + Command, false);
 
         }
         else
         {
             command_Count = Len;
-            DDD_Output->write_OnConsole(get_Color("brown"), get_Color("transparent"), DDD_Translator->Print("[Waiting]"), false);
+            DDD_Output->write_OnConsole(DDD_Datafile->get_Color("brown"), DDD_Datafile->get_Color("transparent"), DDD_Translator->Print("[Waiting]"), false);
             currKey.Alt = false;
             currKey.Key = ' ';
             currKey.Scancode = 0;
@@ -407,18 +404,18 @@ game::Order game::get_Command(int Len, int Seconds)
     Log("Command: " << Command.c_str())
     #endif // DEBUG
     */
-    Order currCommand;
+    Hero::Order currCommand;
     currCommand.Command = Command;
     currCommand.Key = currKey;
 
     return currCommand;
 } // get_Command
 
-void game::draw_Worldmap(const int &Pos_x, const int &Pos_y)
+void game::draw_Worldmap(Hero::Hero_Position Pos)
 {
     // Calculate and convert the Tile on the Worldmap
-    int world_x = Pos_x - (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2);
-    int world_y = Pos_y - (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2);
+    int world_x = Pos.Global_x - (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2);
+    int world_y = Pos.Global_y - (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2);
     //DDD_Map->convert_WorldmapCoords(world_x, world_y);
 
     // Set's constant Data for Output
@@ -543,7 +540,7 @@ void game::switch_Mode(const int Gamemode)
 
 } // switch_Mode
 
-void game::parse_Command(Order &Command)
+void game::parse_Command(Hero::Order &Command)
 {
     switch(game_Mode)
     {
@@ -561,7 +558,7 @@ void game::parse_Command(Order &Command)
 
         case World:
         {
-            execute_Worldcommand(Command);
+            execute_Command(Command);
             break;
 
         } // case World
@@ -595,7 +592,7 @@ void game::parse_Command(Order &Command)
 
 } // parse_Command
 
-void game::execute_Worldcommand(Order &Command)
+void game::execute_Command(Hero::Order &Command)
 {
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Worldcommand: " << Command.Command.c_str())
@@ -603,51 +600,6 @@ void game::execute_Worldcommand(Order &Command)
 
     switch(Command.Key.Scancode)
     {
-        // North
-        case 84:
-        {
-            /*
-            #ifdef DEBUG
-            Log("(" << ErrorLog.ALLOK << ") Go North.")
-            #endif // DEBUG
-            */
-            DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[North]"), true);
-            --Hero_Pos.Global_y;
-            DDD_Map->convert_WorldmapCoords(Hero_Pos.Global_x, Hero_Pos.Global_y);
-            break;
-
-        } // case N
-
-        // South
-        case 85:
-        {
-            DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[South]"), true);
-            ++Hero_Pos.Global_y;
-            DDD_Map->convert_WorldmapCoords(Hero_Pos.Global_x, Hero_Pos.Global_y);
-            break;
-
-        } // case S
-
-        // West
-        case 82:
-        {
-            DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[West]"), true);
-            --Hero_Pos.Global_x;
-            DDD_Map->convert_WorldmapCoords(Hero_Pos.Global_x, Hero_Pos.Global_y);
-            break;
-
-        } // case W
-
-        // East
-        case 83:
-        {
-            DDD_Output->write_OnConsole(get_Color("gold"), get_Color("transparent"), DDD_Translator->Print("[East]"), true);
-            ++Hero_Pos.Global_x;
-            DDD_Map->convert_WorldmapCoords(Hero_Pos.Global_x, Hero_Pos.Global_y);
-            break;
-
-        } // case W
-
         // case X
         case 24:
         {
@@ -670,14 +622,16 @@ void game::execute_Worldcommand(Order &Command)
             Log("(" << ErrorLog.ALLOK << ") Unknown Command.")
             #endif // DEBUG
             */
-            DDD_Output->write_OnConsole(get_Color("cyan"), get_Color("transparent"), DDD_Translator->Print("[Please]"), true);
+            DDD_Hero->execute_Command(Command);
+
+            //DDD_Output->write_OnConsole(get_Color("cyan"), get_Color("transparent"), DDD_Translator->Print("[Please]"), true);
             break;
 
         } // Command unknown
 
     } // switch(Command)
 
-    DDD_Hero->set_Position(Hero_Pos.Global_x, Hero_Pos.Global_y);
+    //DDD_Hero->set_Position(Hero_Pos.Global_x, Hero_Pos.Global_y);
 
     //render_game();
 
@@ -692,7 +646,7 @@ void game::write_Status()
 
     // Name + Gender
     std::string Line = DDD_Hero->get_Name();
-    DDD_Output->add_StatusLine(startline + linecount, 0, get_Color("white"), get_Color("transparent"), Line);
+    DDD_Output->add_StatusLine(startline + linecount, 0, DDD_Datafile->get_Color("white"), DDD_Datafile->get_Color("transparent"), Line);
 
     if(DDD_Hero->is_Female())
     {
@@ -704,7 +658,7 @@ void game::write_Status()
         Line = DDD_Translator->Print("[Male]");
 
     } // if is_Female
-    DDD_Output->add_StatusLine(startline + linecount, pixeltab, get_Color("red"), get_Color("transparent"), Line);
+    DDD_Output->add_StatusLine(startline + linecount, pixeltab, DDD_Datafile->get_Color("red"), DDD_Datafile->get_Color("transparent"), Line);
 
     // Experience and Level
     ++linecount;
@@ -738,12 +692,18 @@ void game::write_Status()
     build_Statusline(startline + linecount, 0, "cyan", "transparent", "[STA_Wisdom]", Hero::Stats::Herostat_Wisdom);
     build_Statusline(startline + linecount, pixeltab, "blue", "transparent", "[STA_Charisma]", Hero::Stats::Herostat_Charisma);
 
-    // Gold & Food
+    // Gold & Food & Poisoned with Factor
     ++linecount;
     ++linecount;
     build_Statusline(startline + linecount, 0, "gold", "transparent", "[STA_Gold]", Hero::Stats::Hero_Gold);
     build_Statusline(startline + linecount, pixeltab, "purple", "transparent", "[STA_Food]", Hero::Stats::Hero_Food);
+    if(DDD_Hero->get_Value(Hero::Hero_Poison) > 0)
+    {
+        ++linecount;
+        build_Statusline(startline + linecount, 0, "green", "transparent", "[STA_Poison]", Hero::Stats::Hero_Poison);
+    }
 
+    // Statusline
     DDD_Output->write_Status();
 
 } // write_Status
@@ -757,7 +717,7 @@ void game::build_Statusline(    const int &Line, const int &Pixeltab,
     int currVal = DDD_Hero->get_Value(Value);
     int currValMax = DDD_Hero->get_Value(Maxvalue);
     std::string StatusLine = DDD_Translator->Print(Text) + " " + DDD_Datafile->valtostr(currVal) + " (" + DDD_Datafile->valtostr(currValMax) + ")";
-    DDD_Output->add_StatusLine(Line, Pixeltab, get_Color(Forgroundcolor), get_Color(Backgroundcolor), StatusLine);
+    DDD_Output->add_StatusLine(Line, Pixeltab, DDD_Datafile->get_Color(Forgroundcolor), DDD_Datafile->get_Color(Backgroundcolor), StatusLine);
 
 } // build_Statusline
 
@@ -769,7 +729,7 @@ void game::build_Statusline(    const int &Line, const int &Pixeltab,
 {
     int currVal = DDD_Hero->get_Value(Value);
     std::string StatusLine = DDD_Translator->Print(Text) + " " + DDD_Datafile->valtostr(currVal);
-    DDD_Output->add_StatusLine(Line, Pixeltab, get_Color(Forgroundcolor), get_Color(Backgroundcolor), StatusLine);
+    DDD_Output->add_StatusLine(Line, Pixeltab, DDD_Datafile->get_Color(Forgroundcolor), DDD_Datafile->get_Color(Backgroundcolor), StatusLine);
 
 } // build_Statusline
 

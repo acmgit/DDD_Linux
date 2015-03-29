@@ -4,6 +4,10 @@
 #include <string>
 
 #include "Allegro_Datafile.h"
+#include "Allegro_Output.h"
+#include "Mapinterface.h"
+#include "Allegro_Input.h"
+#include "UniText.h"
 
 class Hero
 {
@@ -28,7 +32,8 @@ class Hero
             Herostat_Parade,
 
             Hero_Gold,
-            Hero_Food
+            Hero_Food,
+            Hero_Poison
         };
 
         struct Hero_Position
@@ -59,9 +64,33 @@ class Hero
             Hero_Cheating
         };
 
-        Hero(Allegro_Datafile *curr_Data, const std::string &HName, const bool &Gender);
+        struct Order
+        {
+            std::string Command;
+            Allegro_Input::Key Key;
+        };
+
+        struct Hero_Status
+        {
+            bool one_Hand;
+            bool small_Shield;
+            bool big_Shield;
+            bool two_Hand;
+            bool is_Poisoned;
+            bool is_Shipping;
+            bool on_Horse;
+            bool on_Unicorn;
+            bool on_Lizard;
+            bool is_Flying;
+            bool to_Hunger;
+            bool is_Dead;
+        };
+
+        Hero(Allegro_Datafile *curr_Data, Allegro_Output *curr_Output, Mapinterface *curr_Map, UniText *curr_Language, const std::string &HName, const bool &Gender);
 
         ~Hero();
+
+    void execute_Command(Order &Command);
 
     void set_Gender(const bool &set_Female);
     bool is_Female();
@@ -73,24 +102,32 @@ class Hero
     int get_Value(const int &Typ);
 
     void set_Position(const int &Pos_x, const int &Pos_y);
-    void get_Position(Hero_Position &Pos);
+    Hero_Position get_Position();
 
     void switch_Heromode(const int &Hero_Mode);
     int get_Heromode();
+
+    void draw_Hero(int Pos_x, int Pos_y);
 
     private:
 
     int get_Const(const std::string &Ini);
     void change_Value(int &Stat, const int &Val, const bool &Inc);
 
-    Allegro_Datafile *Data;
+    Allegro_Datafile *DDD_Data;
+    Allegro_Output *DDD_Output;
+    Mapinterface *DDD_Map;
+    UniText *DDD_Translator;
 
     std::string Hero_Name;
     bool Female;
 
+    Hero_Status Status;
+
     int Playmode;
     Hero_Position current_Postion;
 
+    int Poisonfactor;
     int Maximal_Live;
     int Live;
     int Maximal_Mana;

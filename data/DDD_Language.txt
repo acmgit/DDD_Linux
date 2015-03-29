@@ -1,1 +1,1 @@
-/home/acm/mygit/DDD_Linux/data/DDD_deutsch.txt
+/home/acm/mygit/DDD_Linux/data/DDD_english.txt

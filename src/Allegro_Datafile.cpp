@@ -216,3 +216,11 @@ void Allegro_Datafile::load_Index(std::string Indexfile)
 
 } // load_Index
 
+int Allegro_Datafile::get_Color(std::string Text)
+{
+    int Color = find_Index("[COL_" + Text + "]").Number;
+    return Color;
+
+} // get_Color
+
+

@@ -72,6 +72,8 @@ Attack:
 [STA_Parade]
 Parade:
 
+[STA_Poison]
+Poison:
 #------------------------------------------------
 
 [Waiting]

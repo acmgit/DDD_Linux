@@ -16,11 +16,6 @@ class game
 {
     public:
 
-        struct Order
-        {
-            std::string Command;
-            Allegro_Input::Key Key;
-        };
 
         enum Mode
         {
@@ -42,13 +37,11 @@ class game
 
     private:
 
-        int get_Color(std::string ColText);
-
         void generate_Battlemap(const std::string &Typ);
         void draw_Battlemap();
         void delete_Battlemap();
 
-        void draw_Worldmap(const int &Pos_x, const int &Pos_y);
+        void draw_Worldmap(Hero::Hero_Position Pos);
         void draw_Frame();                          // draws the global Frame of the Game
         void write_Status();
 
@@ -69,10 +62,10 @@ class game
 
         void switch_Mode(const int Gamemode);
 
-        Order get_Command(int Len, int Seconds);
-        void parse_Command(Order &Command);
+        Hero::Order get_Command(int Len, int Seconds);
+        void parse_Command(Hero::Order &Command);
 
-        void execute_Worldcommand(Order &Command);
+        void execute_Command(Hero::Order &Command);
 
         Allegro_Output *DDD_Output;
         Allegro_Input *DDD_Input;
@@ -100,7 +93,7 @@ class game
 
         int game_Mode;
 
-        Hero::Hero_Position Hero_Pos;
+        //Hero::Hero_Position Hero_Pos;
 
 }; // game
 
