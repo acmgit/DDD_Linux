@@ -1,12 +1,12 @@
-## DDD_Linux
+# DDD_Linux
 
 A 2D-Roleplaying Game for Linux, Windows and Mac.
 
-# *Changing Language:*
+## *Changing Language:*
 
 Simply change the Target of the Link in data/DDD_Language.txt to the correct Language-file.
 
-# *Compiling:*
+## *Compiling:*
 
 Start the added Makefile with the following commands:
 
@@ -21,10 +21,10 @@ This Version strips the Debugsymbols from the File.
 * Make clean
 clears the Directory from not more required Files.
 
-# *Depends on:*
+## *Depends on:*
 
 Allegro 4
 http://wiki.allegro.cc
 
 Bass
-http://http://www.un4seen.com/
+http://www.un4seen.com/
