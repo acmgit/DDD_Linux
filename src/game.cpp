@@ -171,6 +171,9 @@ void game::init()
     switch_Mode(World);
 
     DDD_Hero->set_Value(Hero::Stats::Hero_Poison, 2, true);
+
+    DDD_Output->play_Music("mus/zero-project - Moonlight requiem.ogg");
+
     //DDD_Hero = get_Position(Hero_Pos);
 
     #ifdef DEBUG
@@ -600,6 +603,14 @@ void game::execute_Command(Hero::Order &Command)
 
     switch(Command.Key.Scancode)
     {
+        // case Y
+        case 25:
+        {
+            DDD_Output->play_Memsound();
+            break;
+
+        }
+
         // case X
         case 24:
         {

@@ -53,6 +53,17 @@ Allegro_Output::Allegro_Output(const screenData &Data)
     outputStatus = nullptr;
     outputPlayfield = nullptr;
 
+    outputSound = new Sound();
+    if(!outputSound)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Soundclass.")
+        #endif // DEBUG
+
+        allegro_message("Fail to open Soundclass.");
+
+    } // if !outputSound
+
 #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Allegro_Output opened.")
 #endif // DEBUG
@@ -112,6 +123,13 @@ Allegro_Output::~Allegro_Output()
         outputScreen = nullptr;
 
     } // if outputScreen
+
+    if(outputSound)
+    {
+        delete outputSound;
+        outputSound = nullptr;
+
+    } // if outputSound
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Allegro_Output closed.")
@@ -372,5 +390,31 @@ void Allegro_Output::screen_FadeOut(const int Speed, BITMAP *to_Fadeout)
     outputScreen->fade_Out(Speed, to_Fadeout);
 
 } // screen_FadeOut
+
+void Allegro_Output::play_Music(std::string Filename)
+{
+    if(outputSound)
+    {
+        outputSound->play_Music(Filename);
+
+    } // if outputSound
+
+} // play_Music
+
+void Allegro_Output::play_Sound(std::string Filename)
+{
+    if(outputSound)
+    {
+        outputSound->play_Sound(Filename);
+
+    } // if outputSound
+
+} // play_Sound
+
+void Allegro_Output::play_Memsound()
+{
+    outputSound->play_Memorysound();
+
+} // play_Memsound
 
 #endif // ALLEGRO_OUTPUT_CPP

@@ -7,12 +7,12 @@ CC = g++
 # to Release
 PROGNAME = DDD_Linux
 CCFLAGSRELEASE = -Wall -Wextra -O3 -std=c++11 -fexceptions -fexpensive-optimizations
-LIBS = -lalleg
+LIBS = -lalleg -lbass
 
 #to Debug
 PROGNAME_DEBUG = $(PROGNAME)_Debug
 CCFLAGSDEBUG = -Wall -Wextra -std=c++11 -fexceptions
-DLIBS = -lalleg
+DLIBS = -lalleg -lbass
 DEBFLAG = -DDEBUG
 
 #general
@@ -22,6 +22,7 @@ OBJ = *.o
 SRC = *.cpp
 INC = *.h
 INCOBJ = *.gch
+LIBDIR = lib
 OBJDIR = .
 
 #Foregroundcolors
@@ -49,25 +50,25 @@ DRIGHT = $(FBLUE) >=====-----$(STANDARD)
 
 release:rel
 	@echo -e ' $(DLEFT) linking Programm [$(FPURPLE)$(PROGNAME)$(FBLUE)],$(DRIGHT)'
-	$(CC) -o $(PROGNAME) $(OBJDIR)/$(OBJ) -s -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSRELEASE) $(LIBS)
+	$(CC) -o $(PROGNAME) $(OBJDIR)/$(OBJ) -s -I$(INCLUDE) -I$(SOURCE) -L$(LIBDIR) $(CCFLAGSRELEASE) $(LIBS)
 	@echo -e '$(DLEFT) done, now enjoy $(FGREEN)$(PROGNAME)$(FBLUE).$(DRIGHT)'
 
 rel:*.cpp
 	@echo -e '$(DLEFT) Compiling [$(FRED)$(SRC)$(FBLUE)],$(DRIGHT)'
 	$(CC) -c $(SRC) $(INCLUDE)/$(INC)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSRELEASE) $(LIBS)
 	@echo -e '$(DLEFT) compiling [$(FRED)$(SOURCE)/$(SRC)$(FBLUE)],$(DRIGHT)'
-	$(CC) -c $(SOURCE)/$(SRC) $(INCLUDE)/$(INC)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSRELEASE) $(LIBS)
+	$(CC) -c $(SOURCE)/$(SRC) $(INCLUDE)/$(INC)  -I$(INCLUDE) -I$(SOURCE) -L$(LIBDIR) $(CCFLAGSRELEASE) $(LIBS)
 
 debug:deb
 	@echo -e '$(DLEFT) linking Programm [$(FPURPLE)$(PROGNAME_DEBUG)$(FBLUE)],$(DRIGHT)'
-	$(CC) -o $(PROGNAME_DEBUG) $(OBJDIR)/$(OBJ) -g -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(DLIBS)
+	$(CC) -o $(PROGNAME_DEBUG) $(OBJDIR)/$(OBJ) -g -I$(INCLUDE) -I$(SOURCE) -L$(LIBDIR) $(CCFLAGSDEBUG) $(DLIBS)
 	@echo -e '$(DLEFT) be care, this is to Debug $(FGREEN)$(PROGNAME)$(FBLUE).$(DRIGHT)'
 
 deb:*.cpp
 	@echo -e '$(DLEFT) Compiling [$(FRED)$(SRC)$(FBLUE)],$(DRIGHT)'
 	$(CC) -c $(SRC) $(INCLUDE)/$(INC) $(DEBFLAG)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(DLIBS)
 	@echo -e '$(DLEFT) compiling [$(FRED)$(SOURCE)/$(SRC)$(FBLUE)],$(DRIGHT)'
-	$(CC) -c $(SOURCE)/$(SRC) $(INCLUDE)/$(INC) $(DEBFLAG)  -I$(INCLUDE) -I$(SOURCE) $(CCFLAGSDEBUG) $(DLIBS)
+	$(CC) -c $(SOURCE)/$(SRC) $(INCLUDE)/$(INC) $(DEBFLAG)  -I$(INCLUDE) -I$(SOURCE) -L$(LIBDIR) $(CCFLAGSDEBUG) $(DLIBS)
 
 clean:
 	@echo -e '$(DLEFT) Cleaning [$(FRED)$(OBJDIR)/$(OBJ)$(FBLUE)],$(DRIGHT)'

@@ -43,6 +43,9 @@
 		</Compiler>
 		<Linker>
 			<Add library="alleg" />
+			<Add library="bass" />
+			<Add directory="/home/acm/mygit/DDD_Linux/" />
+			<Add directory="lib" />
 		</Linker>
 		<Unit filename="include/Allegro_Datafile.h" />
 		<Unit filename="include/Allegro_Input.h" />
@@ -60,9 +63,11 @@
 		<Unit filename="include/Mapinterface.h" />
 		<Unit filename="include/Mouseinterface.h" />
 		<Unit filename="include/Playfield.h" />
+		<Unit filename="include/Sound.h" />
 		<Unit filename="include/Statuswindow.h" />
 		<Unit filename="include/UniText.h" />
 		<Unit filename="include/Worldmap.h" />
+		<Unit filename="include/bass.h" />
 		<Unit filename="include/game.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Allegro_Datafile.cpp" />
@@ -77,6 +82,7 @@
 		<Unit filename="src/Logfile.cpp" />
 		<Unit filename="src/Mapinterface.cpp" />
 		<Unit filename="src/Playfield.cpp" />
+		<Unit filename="src/Sound.cpp" />
 		<Unit filename="src/Statuswindow.cpp" />
 		<Unit filename="src/UniText.cpp" />
 		<Unit filename="src/Worldmap.cpp" />

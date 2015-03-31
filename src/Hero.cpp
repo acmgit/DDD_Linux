@@ -483,6 +483,8 @@ void Hero::execute_Command(Order &Command)
             DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[North]"), true);
             --current_Postion.Global_y;
             DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            DDD_Output->play_Sound("snd/step.ogg");
+
             break;
 
         } // case N
@@ -493,6 +495,8 @@ void Hero::execute_Command(Order &Command)
             DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[South]"), true);
             ++current_Postion.Global_y;
             DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            DDD_Output->play_Sound("snd/step.ogg");
+
             break;
 
         } // case S
@@ -503,6 +507,8 @@ void Hero::execute_Command(Order &Command)
             DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[West]"), true);
             --current_Postion.Global_x;
             DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            DDD_Output->play_Sound("snd/step.ogg");
+
             break;
 
         } // case W
@@ -513,6 +519,8 @@ void Hero::execute_Command(Order &Command)
             DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[East]"), true);
             ++current_Postion.Global_x;
             DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            DDD_Output->play_Sound("snd/step.ogg");
+
             break;
 
         } // case W

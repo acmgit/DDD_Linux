@@ -10,9 +10,8 @@
 
 #ifdef DEBUG
 #include "Logfile.h"
-#include <allegro/system.h>
-
 #endif // DEBUG
+
 #include <string>
 #include <map>
 
