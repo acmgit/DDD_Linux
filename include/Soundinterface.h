@@ -21,6 +21,7 @@ class Soundinterface
         void stream_Music(const std::string &Filename, const float &Volume);
         void pause_Music();
         void stop_Music();
+        void play_Music();
 
         void play_Sound(const std::string &Soundname);
         void play_Sound(const std::string &Soundname, const float &Volume);
@@ -42,6 +43,7 @@ class Soundinterface
     float Vol;
     Sound *DDD_Sound;
     DATAFILE *Sounddata;
+    bool streaming;
 
     std::map<std::string, int> Soundindex;
 

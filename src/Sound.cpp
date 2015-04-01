@@ -114,4 +114,10 @@ void Sound::pause_Music()
 
 } // pause_Music
 
+void Sound::play_Music()
+{
+    BASS_ChannelPlay(music, false);
+
+} // play_Music
+
 #endif // SOUND_CPP

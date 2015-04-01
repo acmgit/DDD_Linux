@@ -416,4 +416,22 @@ void Allegro_Output::set_Volume(const float &Volume, const bool &increment)
 
 } // set_Volume
 
+void Allegro_Output::play_Music()
+{
+    outputSound->play_Music();
+
+} // play_Music
+
+void Allegro_Output::stop_Music()
+{
+    outputSound->stop_Music();
+
+} // stop_Music
+
+void Allegro_Output::pause_Music()
+{
+    outputSound->pause_Music();
+
+} // pause_Music
+
 #endif // ALLEGRO_OUTPUT_CPP

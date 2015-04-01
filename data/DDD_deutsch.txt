@@ -82,6 +82,21 @@ Warte ...
 [Please]
 Wie bitte ...
 
+[Sound_decrement]
+Lautstärke erniedrigen.
+
+[Sound_increment]
+Lautstärke erhöhen.
+
+[Music_pause]
+Musik pausiert.
+
+[Music_stop]
+Musik gestoppt.
+
+[Music_play]
+Musik weiter spielen.
+
 # --------- Spezielle Zeichen
 [Male]
 *

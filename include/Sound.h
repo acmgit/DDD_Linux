@@ -18,6 +18,7 @@ class Sound
         void stream_Music(const std::string &Filename, const float &Volume);
         void pause_Music();
         void stop_Music();
+        void play_Music();
 
         void play_Sound(const std::string &Filename);
         void play_Memorysound(DATAFILE *MemSound, const int &Index, const float &Volume);

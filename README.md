@@ -21,6 +21,16 @@ This Version strips the Debugsymbols from the File.
 * Make clean
 clears the Directory from not more required Files.
 
+### Commands:
+
+The Cursor-Keys for the Direction to go.
+
+<+> increments the Soundvolume.
+<-> decrements the Soundvolume.
+
+<*> stop's the Music.
+</> play's the Music again.
+
 ## *Depends on:*
 
 Allegro 4

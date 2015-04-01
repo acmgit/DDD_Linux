@@ -82,6 +82,21 @@ Wait ...
 [Please]
 Please ...
 
+[Sound_decrement]
+Volume decrementing.
+
+[Sound_increment]
+Volume incrementing.
+
+[Music_pause]
+Music pausing.
+
+[Music_stop]
+Music stopped.
+
+[Music_play]
+Play music again.
+
 # --------- Special Charakters
 [Male]
 *

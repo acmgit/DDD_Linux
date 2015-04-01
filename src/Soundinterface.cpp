@@ -47,6 +47,7 @@ Soundinterface::Soundinterface(const std::string &Datafile, const std::string &I
     load_Index(Indexfile);
 
     Vol = 1.0f;
+    streaming = false;
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Soundinterface opened.")
@@ -174,31 +175,46 @@ void Soundinterface::set_Globalvolume(const float &Volume, const bool &increment
 
     } // if increment
 
+    DDD_Sound->set_Globalvolume(Vol);
+    #ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Global Sound setted to " << Vol)
+    #endif // DEBUG
+
 } // set_Globalvolume
 
 void Soundinterface::stream_Music(const std::string &Filename, const float &Volume)
 {
     DDD_Sound->stream_Music(Filename, Volume);
+    streaming = true;
 
 } // stream_Music(Filname, Volume)
 
 void Soundinterface::stream_Music(const std::string &Filename)
 {
-    DDD_Sound->stream_Music(Filename, Vol);
+    stream_Music(Filename, Vol);
 
 } // stream_Music(Filname)
 
 void Soundinterface::pause_Music()
 {
     DDD_Sound->pause_Music();
+    streaming = false;
 
 } // pause_Music
 
 void Soundinterface::stop_Music()
 {
     DDD_Sound->stop_Music();
+    streaming = false;
 
 } // stop_Music
+
+void Soundinterface::play_Music()
+{
+    DDD_Sound->play_Music();
+    streaming = true;
+
+} // play_Music
 
 void Soundinterface::play_Sound(const std::string &Soundname)
 {

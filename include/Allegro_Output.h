@@ -93,6 +93,10 @@ class Allegro_Output
         // Soundfunctions
         void set_Volume(const float &Volume, const bool &increment);
         void play_Music(const std::string Filename, const float &Volume);
+        void pause_Music();
+        void stop_Music();
+        void play_Music();
+
         void play_Sound(const std::string Soundname);
 
         // div. Getter
