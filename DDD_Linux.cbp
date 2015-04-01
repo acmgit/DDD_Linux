@@ -64,6 +64,7 @@
 		<Unit filename="include/Mouseinterface.h" />
 		<Unit filename="include/Playfield.h" />
 		<Unit filename="include/Sound.h" />
+		<Unit filename="include/Soundinterface.h" />
 		<Unit filename="include/Statuswindow.h" />
 		<Unit filename="include/UniText.h" />
 		<Unit filename="include/Worldmap.h" />
@@ -83,6 +84,7 @@
 		<Unit filename="src/Mapinterface.cpp" />
 		<Unit filename="src/Playfield.cpp" />
 		<Unit filename="src/Sound.cpp" />
+		<Unit filename="src/Soundinterface.cpp" />
 		<Unit filename="src/Statuswindow.cpp" />
 		<Unit filename="src/UniText.cpp" />
 		<Unit filename="src/Worldmap.cpp" />

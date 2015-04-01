@@ -53,14 +53,14 @@ Allegro_Output::Allegro_Output(const screenData &Data)
     outputStatus = nullptr;
     outputPlayfield = nullptr;
 
-    outputSound = new Sound();
+    outputSound = new Soundinterface("snd/sound.dat", "snd/sound.idx");
     if(!outputSound)
     {
         #ifdef DEBUG
-        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Soundclass.")
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Fail to open Soundinterfaceclass.")
         #endif // DEBUG
 
-        allegro_message("Fail to open Soundclass.");
+        allegro_message("Fail to open Soundinterfaceclass.");
 
     } // if !outputSound
 
@@ -391,12 +391,11 @@ void Allegro_Output::screen_FadeOut(const int Speed, BITMAP *to_Fadeout)
 
 } // screen_FadeOut
 
-void Allegro_Output::play_Music(std::string Filename)
+void Allegro_Output::play_Music(const std::string Filename, const float &Volume)
 {
     if(outputSound)
     {
-        outputSound->play_Music(Filename);
-
+            outputSound->stream_Music(Filename, Volume);
     } // if outputSound
 
 } // play_Music
@@ -411,10 +410,10 @@ void Allegro_Output::play_Sound(std::string Filename)
 
 } // play_Sound
 
-void Allegro_Output::play_Memsound()
+void Allegro_Output::set_Volume(const float &Volume, const bool &increment)
 {
-    outputSound->play_Memorysound();
+    outputSound->set_Globalvolume(Volume, increment);
 
-} // play_Memsound
+} // set_Volume
 
 #endif // ALLEGRO_OUTPUT_CPP

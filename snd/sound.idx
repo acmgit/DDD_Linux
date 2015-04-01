@@ -1,0 +1,21 @@
+# Soundindex
+
+[SND_Step]
+0
+[SND_Poison]
+1
+[SND_Inventory]
+2
+[SND_Hunger]
+3
+[SND_Gas]
+4
+[SND_Search]
+5
+[SND_Fight]
+6
+[SND_Weapon]
+7
+[SND_Armour]
+8
+

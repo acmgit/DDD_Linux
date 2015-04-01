@@ -172,7 +172,7 @@ void game::init()
 
     DDD_Hero->set_Value(Hero::Stats::Hero_Poison, 2, true);
 
-    DDD_Output->play_Music("mus/zero-project - Moonlight requiem.ogg");
+    DDD_Output->play_Music("mus/zero-project - Moonlight requiem.ogg", 0.2f);
 
     //DDD_Hero = get_Position(Hero_Pos);
 
@@ -606,7 +606,7 @@ void game::execute_Command(Hero::Order &Command)
         // case Y
         case 25:
         {
-            DDD_Output->play_Memsound();
+            DDD_Output->play_Sound("Poison");
             break;
 
         }

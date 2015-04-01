@@ -11,35 +11,8 @@
 #include "Logfile.h"
 #endif // DEBUG
 
-#define DATA_0 0
-#define DATA_1 1
-#define DATA_2 2
-
-
 Sound::Sound()
 {
-
-    Samples = load_datafile("snd/sound.dat");
-
-    if(!Samples)
-    {
-        std::string DataError = "Could not load snd/sound.dat";
-
-        #ifdef DEBUG
-        Log("(" << ErrorLog.FILE_NOT_FOUND << ") " << DataError.c_str())
-        #endif // DEBUG
-
-        allegro_message(DataError.c_str());
-        //allegro_exit();
-
-    } // if !Pictures
-    else
-    {
-        #ifdef DEBUG
-        Log("(" << ErrorLog.ALLOK << ") Sounddata loaded.")
-        #endif // DEBUG
-
-    } // if !Samples
 
     if(!BASS_Init(-1, 44100, 0, 0, 0))
     {
@@ -48,12 +21,9 @@ Sound::Sound()
         #endif // DEBUG
         allegro_message("Couldn't initalize Soundsystem.");
 
-    }
+    } // if !BASS_Init
 
     music = 0;
-    music_channel = 0;
-
-    sound_channel = 0;
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Soundclass opened.")
@@ -63,8 +33,6 @@ Sound::Sound()
 
 Sound::~Sound()
 {
-
-    unload_datafile(Samples);
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Samples unloaded.")
@@ -78,41 +46,72 @@ Sound::~Sound()
 
 } // ~Sound
 
-void Sound::play_Music(std::string &Filename)
+void Sound::stream_Music(const std::string &Filename, const float &Volume)
 {
     BASS_StreamFree(music);
 
-    if(music = BASS_StreamCreateFile(false, Filename.c_str(), 0, 0, BASS_SAMPLE_LOOP))
+    #ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Streaming File: " << Filename.c_str() << " @ Volume: " << Volume)
+    #endif // DEBUG
+
+    music = BASS_StreamCreateFile(false, Filename.c_str(), 0, 0, BASS_SAMPLE_LOOP);
+
+    if(music != 0)
     {
-        BASS_ChannelSetAttribute(music, BASS_ATTRIB_VOL, .2f);
+        BASS_ChannelSetAttribute(music, BASS_ATTRIB_VOL, Volume);
         BASS_ChannelPlay(music, true);
 
-    } // if mus = CreateStream
+    } // if mus != 0
 
 } // play_Music
 
-void Sound::play_Sound(std::string &Filename)
+void Sound::play_Sound(const std::string &Filename)
 {
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Playing Sound: " << Filename.c_str())
     #endif // DEBUG
     sound = BASS_SampleLoad(false, Filename.c_str(), 0L, 0, 1, 0);
-    int channel = BASS_SampleGetChannel(sound, false);
+
+    HCHANNEL channel = BASS_SampleGetChannel(sound, false);
     BASS_ChannelPlay(channel, false);
 
 } // play_Sound
 
-void Sound::play_Memorysound()
+void Sound::play_Memorysound(DATAFILE *MemSound, const int &Index, const float &Volume)
 {
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Playing Memorysound.")
     #endif // DEBUG
 
     HSAMPLE mem_sample;
-    mem_sample = BASS_SampleLoad(true, Samples[1].dat, 0L, Samples[1].size, 1, 0);
+    mem_sample = BASS_SampleLoad(true, MemSound[Index].dat, 0L, MemSound[Index].size, 1, 0);
 
-    int channel = BASS_SampleGetChannel(mem_sample, false);
+    HCHANNEL channel = BASS_SampleGetChannel(mem_sample, false);
+    BASS_ChannelSetAttribute(mem_sample, BASS_ATTRIB_VOL, Volume);
+
     BASS_ChannelPlay(channel, false);
 
-}
+} // play_Memorysound
+
+void Sound::set_Globalvolume(const float &Volume)
+{
+    BASS_SetVolume(Volume);
+    #ifdef DEBUG
+    Log("(" << ErrorLog.ALLOK << ") Global Soundvolume setted to: " << Volume)
+    #endif // DEBUG
+
+} // set_Globalvolume
+
+void Sound::stop_Music()
+{
+    BASS_ChannelStop(music);
+
+} // stop_Music
+
+void Sound::pause_Music()
+{
+    BASS_ChannelPause(music);
+
+} // pause_Music
+
 #endif // SOUND_CPP

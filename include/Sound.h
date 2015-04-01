@@ -13,20 +13,20 @@ class Sound
         Sound();
         ~Sound();
 
-        void play_Music(std::string &Filename);
-        void play_Sound(std::string &Filename);
-        void play_Memorysound();
+        void set_Globalvolume(const float &Volume);
+
+        void stream_Music(const std::string &Filename, const float &Volume);
+        void pause_Music();
+        void stop_Music();
+
+        void play_Sound(const std::string &Filename);
+        void play_Memorysound(DATAFILE *MemSound, const int &Index, const float &Volume);
 
     protected:
     private:
 
-    DATAFILE *Samples;
-
     HSAMPLE sound;
-    DWORD sound_channel;
-
     HSTREAM music;
-    DWORD music_channel;
 
 };
 

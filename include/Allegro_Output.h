@@ -5,7 +5,7 @@
 #include "Statuswindow.h"
 #include "Playfield.h"
 #include "DDD_Screen.h"
-#include "Sound.h"
+#include "Soundinterface.h"
 
 #include <allegro/gfx.h>
 #include <allegro/graphics.h>
@@ -90,9 +90,10 @@ class Allegro_Output
         void set_Statuswindow(const int &Pos_x, const int &Pos_y, const int &TextHeight, const int &Rows);
         void set_Playfieldwindow(const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
 
-        void play_Music(std::string Filename);
-        void play_Sound(std::string Filename);
-        void play_Memsound();
+        // Soundfunctions
+        void set_Volume(const float &Volume, const bool &increment);
+        void play_Music(const std::string Filename, const float &Volume);
+        void play_Sound(const std::string Soundname);
 
         // div. Getter
         int get_ScreenWidth();
@@ -115,7 +116,7 @@ class Allegro_Output
         Console *outputConsole;
         Statuswindow *outputStatus;
         Playfield *outputPlayfield;
-        Sound *outputSound;
+        Soundinterface *outputSound;
 
         int Screenwidth;
         int Screenheight;
