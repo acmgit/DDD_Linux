@@ -57,7 +57,7 @@ void Sound::stream_Music(const std::string &Filename, const float &Volume)
     music = BASS_StreamCreateFile(false, Filename.c_str(), 0, 0, BASS_SAMPLE_LOOP);
 
     BASS_ChannelPlay(music, true);
-    BASS_ChannelSetAttribute(music, BASS_ATTRIB_VOL, Volume);
+    BASS_ChannelSlideAttribute(music, BASS_ATTRIB_VOL, Volume, 50);
 
 #ifdef DEBUG
     LogError();
@@ -91,8 +91,8 @@ void Sound::play_Memorysound(DATAFILE *MemSound, const int &Index, const float &
     mem_sample = BASS_SampleLoad(true, MemSound[Index].dat, 0L, MemSound[Index].size, 1, 0);
 
     HCHANNEL channel = BASS_SampleGetChannel(mem_sample, false);
-    BASS_ChannelSetAttribute(mem_sample, BASS_ATTRIB_VOL, Volume);
 
+    BASS_ChannelSetAttribute(mem_sample, BASS_ATTRIB_VOL, Volume);
     BASS_ChannelPlay(channel, false);
 
 #ifdef DEBUG
