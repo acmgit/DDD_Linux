@@ -53,7 +53,7 @@ Allegro_Output::Allegro_Output(const screenData &Data)
     outputStatus = nullptr;
     outputPlayfield = nullptr;
 
-    outputSound = new Soundinterface("snd/sound.dat", "snd/sound.idx", "mus/music.idx");
+    outputSound = new Soundinterface("snd/sound.dat", "data/sound.idx", "data/music.idx");
     if(!outputSound)
     {
         #ifdef DEBUG
