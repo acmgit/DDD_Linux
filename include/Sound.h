@@ -26,6 +26,10 @@ class Sound
     protected:
     private:
 
+        #ifdef DEBUG
+        void LogError();
+        #endif // DEBUG
+
     HSAMPLE sound;
     HSTREAM music;
 

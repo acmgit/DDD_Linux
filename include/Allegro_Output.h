@@ -91,8 +91,10 @@ class Allegro_Output
         void set_Playfieldwindow(const int &Pos_x, const int &Pos_y, const int &Tilewidth, const int &Tileheight, const int &Tilecolumns, const int &Tilerows);
 
         // Soundfunctions
-        void set_Volume(const float &Volume, const bool &increment);
-        void play_Music(const std::string Filename, const float &Volume);
+        void change_Volume(const float &Volume, const bool &increment);
+        void play_Musicfile(const std::string &Filename, const float &Volume);
+        void play_Musickey(const std::string &Keyname, const float &Volume);
+
         void pause_Music();
         void stop_Music();
         void play_Music();

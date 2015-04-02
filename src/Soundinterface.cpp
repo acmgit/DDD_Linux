@@ -13,7 +13,7 @@
 #include "Logfile.h"
 #endif // DEBUG
 
-Soundinterface::Soundinterface(const std::string &Datafile, const std::string &Indexfile)
+Soundinterface::Soundinterface(const std::string &Datafile, const std::string &Indexfile, const std::string &Musicidx)
 {
     DDD_Sound = new Sound();
     if(!DDD_Sound)
@@ -45,6 +45,7 @@ Soundinterface::Soundinterface(const std::string &Datafile, const std::string &I
     } // if !Sounddata
 
     load_Index(Indexfile);
+    load_Musicindex(Musicidx);
 
     Vol = 1.0f;
     streaming = false;
@@ -76,7 +77,7 @@ Soundinterface::~Soundinterface()
 
 } // ~Soundinterface
 
-void Soundinterface::load_Index(const std::string Indexfile)
+void Soundinterface::load_Index(const std::string &Indexfile)
 {
     std::ifstream File(Indexfile.c_str());
 
@@ -129,6 +130,56 @@ void Soundinterface::load_Index(const std::string Indexfile)
 
 } // load_Index
 
+void Soundinterface::load_Musicindex(const std::string &Indexfile)
+{
+    std::ifstream File(Indexfile.c_str());
+
+    if(File.is_open())
+    {
+#ifdef DEBUG
+    Log("Musicindexfile " << Indexfile.c_str() << " opened.")
+#endif // DEBUG
+        std::string Keyname;
+
+        while(File.good())
+        {
+            std::getline(File, Keyname);
+
+            if((Keyname.find("[") != Keyname.npos) && (Keyname.find("]") != Keyname.npos))
+            {
+                std::string Value;
+                std::getline(File, Value);
+                Musicindex.insert(std::pair<std::string, std::string>(Keyname, Value));
+                /*
+                #ifdef DEBUG
+                Log("Soundname:   " << Config.Name.c_str())
+                Log("Soundindex : " << Config.Number)
+                #endif // DEBUG
+                */
+
+            } // if find
+
+        } // while File.good
+
+        File.close();
+
+#ifdef DEBUG
+    Log("Musicindexfile " << Indexfile.c_str() << " closed.")
+#endif // DEBUG
+
+    } // if File isopen
+    else
+    {
+#ifdef DEBUG
+        Log("(" << ErrorLog.FILE_NOT_FOUND << ") " << Indexfile.c_str())
+#endif // DEBUG
+
+        std::string Err = "Can't open File: " + Indexfile;
+        throw std::runtime_error(Err);
+    }
+
+} // load_Musicindex
+
 Soundinterface::Index Soundinterface::find_Index(const std::string &Keyname)
 {
     std::map<std::string, int>::iterator Entry;
@@ -152,7 +203,28 @@ Soundinterface::Index Soundinterface::find_Index(const std::string &Keyname)
 
 } // find_Index
 
-void Soundinterface::set_Globalvolume(const float &Volume, const bool &increment)
+std::string Soundinterface::find_Music(const std::string &Keyname)
+{
+    std::map<std::string, std::string>::iterator Entry;
+    Entry = Musicindex.find(Keyname);
+    std::string Path;
+
+    if(Entry != Musicindex.end())
+    {
+        Path = (*Entry).second;
+
+    }
+    else
+    {
+        Path = "";
+
+    } // if delEntry != end()
+
+    return Path;
+
+} // find_Music
+
+void Soundinterface::change_Globalvolume(const float &Volume, const bool &increment)
 {
     if(increment)
     {
@@ -194,6 +266,21 @@ void Soundinterface::stream_Music(const std::string &Filename)
     stream_Music(Filename, Vol);
 
 } // stream_Music(Filname)
+
+void Soundinterface::stream_Musickey(const std::string &Keyname, const float &Volume)
+{
+    std::string Filename = find_Music("[MUS_" + Keyname + "]");
+
+    stream_Music(Filename, Volume);
+
+} // stream_Musickey(Keyname, Volume)
+
+void Soundinterface::stream_Musickey(const std::string &Keyname)
+{
+
+    stream_Musickey(Keyname, Vol);
+
+} // stream_Musickey(Keyname)
 
 void Soundinterface::pause_Music()
 {

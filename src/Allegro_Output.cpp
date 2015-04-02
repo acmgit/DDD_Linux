@@ -53,7 +53,7 @@ Allegro_Output::Allegro_Output(const screenData &Data)
     outputStatus = nullptr;
     outputPlayfield = nullptr;
 
-    outputSound = new Soundinterface("snd/sound.dat", "snd/sound.idx");
+    outputSound = new Soundinterface("snd/sound.dat", "snd/sound.idx", "mus/music.idx");
     if(!outputSound)
     {
         #ifdef DEBUG
@@ -391,11 +391,20 @@ void Allegro_Output::screen_FadeOut(const int Speed, BITMAP *to_Fadeout)
 
 } // screen_FadeOut
 
-void Allegro_Output::play_Music(const std::string Filename, const float &Volume)
+void Allegro_Output::play_Musicfile(const std::string &Filename, const float &Volume)
 {
     if(outputSound)
     {
             outputSound->stream_Music(Filename, Volume);
+    } // if outputSound
+
+} // play_Music
+
+void Allegro_Output::play_Musickey(const std::string &Keyname, const float &Volume)
+{
+    if(outputSound)
+    {
+            outputSound->stream_Musickey(Keyname, Volume);
     } // if outputSound
 
 } // play_Music
@@ -410,9 +419,9 @@ void Allegro_Output::play_Sound(std::string Filename)
 
 } // play_Sound
 
-void Allegro_Output::set_Volume(const float &Volume, const bool &increment)
+void Allegro_Output::change_Volume(const float &Volume, const bool &increment)
 {
-    outputSound->set_Globalvolume(Volume, increment);
+    outputSound->change_Globalvolume(Volume, increment);
 
 } // set_Volume
 

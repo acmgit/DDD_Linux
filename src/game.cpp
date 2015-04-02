@@ -172,7 +172,8 @@ void game::init()
 
     DDD_Hero->set_Value(Hero::Stats::Hero_Poison, 2, true);
 
-    DDD_Output->play_Music("mus/zero-project - Moonlight requiem.ogg", 0.2f);
+    //DDD_Output->play_Music("mus/zero-project - Moonlight requiem.ogg", 0.2f);
+    DDD_Output->play_Musickey("Worldmap", 0.2f);
 
     //DDD_Hero = get_Position(Hero_Pos);
 
@@ -616,7 +617,7 @@ void game::execute_Command(Hero::Order &Command)
         // case /
         case 86:
         {
-            DDD_Output->pause_Music();
+            DDD_Output->play_Music();
             DDD_Output->write_OnConsole(DDD_Datafile->get_Color("darkgrey"), DDD_Datafile->get_Color("transparent"), DDD_Translator->Print("[Music_play]"),true);
             break;
 
@@ -625,7 +626,7 @@ void game::execute_Command(Hero::Order &Command)
         // case -
         case 88:
         {
-            DDD_Output->set_Volume(.1f, false);
+            DDD_Output->change_Volume(.1f, false);
             DDD_Output->write_OnConsole(DDD_Datafile->get_Color("darkgrey"), DDD_Datafile->get_Color("transparent"), DDD_Translator->Print("[Sound_decrement]"),true);
             break;
 
@@ -634,7 +635,7 @@ void game::execute_Command(Hero::Order &Command)
         // case +
         case 89:
         {
-            DDD_Output->set_Volume(.1f, true);
+            DDD_Output->change_Volume(.1f, true);
             DDD_Output->write_OnConsole(DDD_Datafile->get_Color("darkgrey"), DDD_Datafile->get_Color("transparent"), DDD_Translator->Print("[Sound_increment]"),true);
             break;
 
