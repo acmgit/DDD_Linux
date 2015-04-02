@@ -148,154 +148,265 @@ void Sound::play_Music()
 void Sound::LogError()
 {
     int Error = BASS_ErrorGetCode();
+    std::string Err;
+    Err = "BASS_Error: ";
+
     switch(Error)
     {
-        case BASS_ERROR_UNKNOWN:
-        {
-            Log("BASS_Error: unknown.")
-            break;
-
-        } // unknown
-
         case BASS_ERROR_MEM:
         {
-            Log("BASS_Error: Memoryfailure.")
+            Log(Err.c_str() << " Memory error.")
             break;
 
         } // Memoryfailure
 
+        case BASS_ERROR_FILEOPEN:
+        {
+            Log(Err.c_str() << " Can't open the file.")
+            break;
+
+        } // Fileopen
+
+        case BASS_ERROR_DRIVER:
+        {
+            Log(Err.c_str() << " Can't find a free/valid driver.")
+            break;
+
+        } // Driver
+
+        case BASS_ERROR_BUFLOST:
+        {
+            Log(Err.c_str() << " The sample buffer was lost.")
+            break;
+
+        } // Bufflost
+
+        case BASS_ERROR_HANDLE:
+        {
+            Log(Err.c_str() << " Invalid handle.")
+            break;
+
+        } // Handle
+
+        case BASS_ERROR_FORMAT:
+        {
+            Log(Err.c_str() << " Unsupported sample format.")
+            break;
+
+        } // Format
+
+        case BASS_ERROR_POSITION:
+        {
+            Log(Err.c_str() << " Invalid playback position.")
+            break;
+
+        } // Position
+
+        case BASS_ERROR_INIT:
+        {
+            Log(Err.c_str() << " BASS_Init has not been successfully called.")
+            break;
+
+        } // Init
+
+        case BASS_ERROR_START:
+        {
+            Log(Err.c_str() << " BASS_Start has not been successfully called.")
+            break;
+
+        } // Start
+
+        case BASS_ERROR_ALREADY:
+        {
+            Log(Err.c_str() << " Already initialized/paused/whatever.")
+            break;
+
+        } // Already
+
+        case BASS_ERROR_NOCHAN:
+        {
+            Log(Err.c_str() << " Can't get a free channel.")
+            break;
+
+        } // Nochan
+
+        case BASS_ERROR_ILLTYPE:
+        {
+            Log(Err.c_str() << " An illegal type was specified.")
+            break;
+
+        } // Illtype
+
+        case BASS_ERROR_ILLPARAM:
+        {
+            Log(Err.c_str() << " An illegal parameter was specified.")
+            break;
+
+        } // Illparam
+
+        case BASS_ERROR_NO3D:
+        {
+            Log(Err.c_str() << " No 3D support.")
+            break;
+
+        } // No3d
+
+        case BASS_ERROR_NOEAX:
+        {
+            Log(Err.c_str() << " No EAX support.")
+            break;
+
+        } // Noeax
+
+        case BASS_ERROR_DEVICE:
+        {
+            Log(Err.c_str() << " Illegal device number.")
+            break;
+
+        } // Device
+
+        case BASS_ERROR_NOPLAY:
+        {
+            Log(Err.c_str() << " Not playing.")
+            break;
+
+        } // Noplay
+
+        case BASS_ERROR_FREQ:
+        {
+            Log(Err.c_str() << " Illegal sample rate.")
+            break;
+
+        } // Freq
+
+        case BASS_ERROR_NOTFILE:
+        {
+            Log(Err.c_str() << " The stream is not a file stream.")
+            break;
+
+        } // Notfile
+
+        case BASS_ERROR_NOHW:
+        {
+            Log(Err.c_str() << " No hardware voices available.")
+            break;
+
+        } // Nohw
+
+        case BASS_ERROR_EMPTY:
+        {
+            Log(Err.c_str() << " The MOD music has no sequence data.")
+            break;
+
+        } // Empty
+
+        case BASS_ERROR_NONET:
+        {
+            Log(Err.c_str() << " No internet connection could be opened.")
+            break;
+
+        } // Nonet
+
+        case BASS_ERROR_CREATE:
+        {
+            Log(Err.c_str() << " Couldn't create the file.")
+            break;
+
+        } // Create
+
+        case BASS_ERROR_NOFX:
+        {
+            Log(Err.c_str() << " Effects are not available.")
+            break;
+
+        } // Nofx
+
+        case BASS_ERROR_NOTAVAIL:
+        {
+            Log(Err.c_str() << " Requested data is not available.")
+            break;
+
+        } // Notavail
+
+        case BASS_ERROR_DECODE:
+        {
+            Log(Err.c_str() << " The channel is a 'decoding channel'.")
+            break;
+
+        } // Decode
+
+        case BASS_ERROR_DX:
+        {
+            Log(Err.c_str() << " A sufficient DirectX version is not installed.")
+            break;
+
+        } // Dx
+
+        case BASS_ERROR_TIMEOUT:
+        {
+            Log(Err.c_str() << "Connection timedout.")
+            break;
+
+        } // Timeout
+
+        case BASS_ERROR_FILEFORM:
+        {
+            Log(Err.c_str() << " Unsupported file format.")
+            break;
+
+        } // Fileform
+
+        case BASS_ERROR_SPEAKER:
+        {
+            Log(Err.c_str() << " Unavailable speaker.")
+            break;
+
+        } // Speaker
+
+        case BASS_ERROR_VERSION:
+        {
+            Log(Err.c_str() << " Invalid BASS version (used by add-ons).")
+            break;
+
+        } // Version
+
+        case BASS_ERROR_CODEC:
+        {
+            Log(Err.c_str() << " Codec is not available/supported.")
+            break;
+
+        } // Codec
+
+        case BASS_ERROR_ENDED:
+        {
+            Log(Err.c_str() << " The channel/file has ended.")
+            break;
+
+        } // Ended
+
         case BASS_ERROR_BUSY:
         {
-            Log("BASS_Error: Busy.")
+            Log(Err.c_str() << " The device is busy (eg. in \"exclusive\" use by another process) .")
             break;
 
         } // Busy
 
-        case BASS_ERROR_CREATE:
+
+        case BASS_ERROR_UNKNOWN:
         {
-            Log("BASS_Error: Fail to create.")
+            Log(Err.c_str() << " Some other mystery error.")
             break;
 
-        } // Createfailure
-
-        case BASS_ERROR_DEVICE:
-        {
-            Log("BASS_Error: Devicefailure.")
-            break;
-
-        } // Memoryfailure
-
-        case BASS_ERROR_FORMAT:
-        {
-            Log("BASS_Error: Formatfailure.")
-            break;
-
-        } // Memoryfailure
-
-        case BASS_ERROR_FILEFORM:
-        {
-            Log("BASS_Error: Fileformat.")
-            break;
-
-        }
-
-        case BASS_ERROR_EMPTY:
-        {
-            Log("BASS_Error: Empty buffer.")
-            break;
-
-        }
-
-        case BASS_ERROR_ENDED:
-        {
-            Log("BASS_Error: Ended.")
-            break;
-
-        }
-
-        case BASS_ERROR_HANDLE:
-        {
-            Log("BASS_Error: Handle")
-            break;
-
-        }
-
-        case BASS_ERROR_FILEOPEN:
-        {
-            Log("BASS_Error: File open")
-            break;
-
-        }
-
-        case BASS_ERROR_ALREADY:
-        {
-            Log("BASS_Error: Already.")
-            break;
-
-        }
-
-        case BASS_ERROR_BUFLOST:
-        {
-            Log("BASS_Error: Buffer lost.")
-            break;
-
-        }
-
-        case BASS_ERROR_CODEC:
-        {
-            Log("BASS_Error: Codec.")
-            break;
-
-        }
-
-        case BASS_ERROR_DECODE:
-        {
-            Log("BASS_Error: Decode.")
-            break;
-
-        }
-
-        case BASS_ERROR_FREQ:
-        {
-            Log("BASS_Error: Frequency.")
-            break;
-        }
-
-        case BASS_ERROR_ILLPARAM:
-        {
-            Log("BASS_Error: Illegal Parameter.")
-            break;
-
-        }
-
-        case BASS_ERROR_ILLTYPE:
-        {
-            Log("BASS_Error: Illegal Typ.")
-            break;
-
-        }
-
-        case BASS_ERROR_VERSION:
-        {
-            Log("BASS_Error: Version")
-            break;
-
-        }
-
-        case BASS_ERROR_NOCHAN:
-        {
-            Log("BASS_Error: No Channel")
-            break;
-
-        }
+        } // Unknown
 
         case 0:
         {
                 break;
         }
+
         default:
         {
-            Log("BASS_Error: " << Error)
+            Log(Err.c_str() << " " << Error)
             break;
         } // default
 
