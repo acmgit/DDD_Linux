@@ -66,6 +66,7 @@
 		<Unit filename="include/Sound.h" />
 		<Unit filename="include/Soundinterface.h" />
 		<Unit filename="include/Statuswindow.h" />
+		<Unit filename="include/Townsmap.h" />
 		<Unit filename="include/UniText.h" />
 		<Unit filename="include/Worldmap.h" />
 		<Unit filename="include/bass.h" />
@@ -86,6 +87,7 @@
 		<Unit filename="src/Sound.cpp" />
 		<Unit filename="src/Soundinterface.cpp" />
 		<Unit filename="src/Statuswindow.cpp" />
+		<Unit filename="src/Townsmap.cpp" />
 		<Unit filename="src/UniText.cpp" />
 		<Unit filename="src/Worldmap.cpp" />
 		<Unit filename="src/game.cpp" />

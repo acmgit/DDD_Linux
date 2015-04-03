@@ -74,6 +74,7 @@ Hero::Hero(Allegro_Datafile *curr_Data, Allegro_Output *curr_Output, Mapinterfac
     Status.is_Poisoned = false;
     Status.to_Hunger = false;
     Status.is_Dead = false;
+    Status.cheater = false;
 
     Poisonfactor = 0;
 
@@ -253,6 +254,23 @@ void Hero::set_Value(const int &Typ, const int &Value, const bool &Increment)
 
         } // Poisonfactor
 
+        case Hero_Cheater:
+        {
+            if(Status.cheater)
+            {
+                Status.cheater = false;
+
+            }
+            else
+            {
+                Status.cheater = true;
+
+            } // if Cheating
+
+            break;
+
+        } // Cheating
+
         default:
         {
             #ifdef DEBUG
@@ -384,6 +402,23 @@ int Hero::get_Value(const int &Typ)
 
         } // Poisonfactor
 
+        case Hero_Cheater:
+        {
+            if(Status.cheater)
+            {
+                Value = -1;
+
+            }
+            else
+            {
+                Value = 0;
+
+            } // if Status.cheater
+
+            break;
+
+        } // Cheater
+
         default:
         {
             #ifdef DEBUG
@@ -398,6 +433,7 @@ int Hero::get_Value(const int &Typ)
     return Value;
 
 } // get_Value
+
 void Hero::change_Value(int &Stat, const int &Val, const bool &Inc)
 {
     if(Inc)
@@ -525,6 +561,23 @@ void Hero::execute_Command(Order &Command)
 
         } // case W
 
+        // cheating
+        case 58:
+        {
+            set_Value(Stats::Hero_Cheater, 1, true);
+            break;
+
+        } // case F12
+
+        // e (enter)
+        case 5:
+        {
+            DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[Enter]"), false);
+            Enter_Object();
+            break;
+
+        } // case E
+
         default:
         {
             #ifdef DEBUG
@@ -628,4 +681,24 @@ void Hero::draw_Hero(int Pos_x, int Pos_y)
     DDD_Output->render_Tile(Hero);
 
 } // draw_Hero
+
+void Hero::Enter_Object()
+{
+    std::string Entering;
+    Entering = DDD_Map->check_Town(current_Postion.Global_x, current_Postion.Global_y);
+
+    if(Entering.size() > 0)
+    {
+        DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[POI_" + Entering + "]"), true);
+
+    }
+    else
+    {
+        DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), "", true);
+        DDD_Output->write_OnConsole(DDD_Data->get_Color("cyan"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[Please]"), true);
+
+    } // Town was entered
+
+} // Enter_Object
+
 #endif // HERO_CPP

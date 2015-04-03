@@ -11,3 +11,6 @@ PAL = Palettes (Palletten für die z.b. Fonts)
 INI = Initialkonstanten
 BTI = Battlemaptiles (Die Tiles der Kampfkarte)
 SND = Sounds (Namen der Sounds)
+MUS = Musicstreams (Dateien für Hintergrundmusik)
+POI = Points of Interest (Schatz und Stadtlokationen)
+

@@ -31,6 +31,8 @@ class Statuswindow
     protected:
     private:
 
+        void clear_Statuswindow();
+
     DDD_Screen *outputScreen;
     BITMAP *statusScreen;
     FONT *statusFont;

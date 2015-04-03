@@ -33,7 +33,9 @@ class Hero
 
             Hero_Gold,
             Hero_Food,
-            Hero_Poison
+            Hero_Poison,
+
+            Hero_Cheater
         };
 
         struct Hero_Position
@@ -61,7 +63,6 @@ class Hero
             Hero_Unicorn,
             Hero_Shipping,
             Hero_Flying,
-            Hero_Cheating
         };
 
         struct Order
@@ -84,6 +85,7 @@ class Hero
             bool is_Flying;
             bool to_Hunger;
             bool is_Dead;
+            bool cheater;
         };
 
         Hero(Allegro_Datafile *curr_Data, Allegro_Output *curr_Output, Mapinterface *curr_Map, UniText *curr_Language, const std::string &HName, const bool &Gender);
@@ -113,6 +115,8 @@ class Hero
 
     int get_Const(const std::string &Ini);
     void change_Value(int &Stat, const int &Val, const bool &Inc);
+
+    void Enter_Object();
 
     Allegro_Datafile *DDD_Data;
     Allegro_Output *DDD_Output;

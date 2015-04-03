@@ -60,6 +60,11 @@ class game
                                      const std::string &Text,
                                      const int &Value);
 
+        void build_Cheaterline(const int &Line, const int &Pixeltab,
+                                     const std::string &Forgroundcolor,
+                                     const std::string &Backgroundcolor,
+                                     const std::string &Text);
+
         void switch_Mode(const int Gamemode);
 
         Hero::Order get_Command(int Len, int Seconds);

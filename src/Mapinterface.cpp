@@ -42,6 +42,19 @@ Mapinterface::Mapinterface(Allegro_Datafile *Data)
 
     } // if !currWorldmapclass
 
+    currTownsclass = new Townsmap("data/DDD_Towns.idx");
+
+    if(!currTownsclass)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Couldn't open Townsmapclass.")
+        #endif // DEBUG
+
+        allegro_message("Couldn't open Townsmapclass.");
+        allegro_exit();
+
+    } // if !currWorldmapclass
+
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Mapinterface opened.")
     #endif // DEBUG
@@ -50,6 +63,20 @@ Mapinterface::Mapinterface(Allegro_Datafile *Data)
 
 Mapinterface::~Mapinterface()
 {
+
+    if(currTownsclass)
+    {
+        delete currTownsclass;
+        currTownsclass = nullptr;
+
+    } // if currTownsclass
+
+    if(currWorldmapclass)
+    {
+        delete currWorldmapclass;
+        currWorldmapclass = nullptr;
+
+    } // if currWorldmapclass
 
     if(currBattlemapclass)
     {
@@ -80,8 +107,7 @@ Mapinterface::Tiledata Mapinterface::get_Tile(Tiletyp Map, const int Column, con
 
         case Tiletyp::Townmaptile:
         {
-            currMap.Sheet = nullptr;
-            currMap.Index = 0;
+            get_TownTile(currMap, Column, Row);
             break;
 
         } // case Townmaptile
@@ -196,6 +222,22 @@ void Mapinterface::get_WorldmapTile(Tiledata &Tile, const int Column, const int 
 
 } // get_WorldmapTile
 
+void Mapinterface::get_TownTile(Tiledata &Tile, const int Column, const int Row)
+{
+    int curr_Column = Column;
+    int curr_Row = Row;
+    convert_WorldmapCoords(curr_Column, curr_Row);
+
+    Tile.Sheet = currDatafile->get_Bitmap("[SHE_Towntile]");
+    std::string Town = currTownsclass->find_Town(curr_Column, curr_Row);
+
+    Town = "[TWN_" + Town + "]";
+    Tile.Index = currDatafile->find_Index(Town).Number;
+    Tile.flyable = true;
+    Tile.shipable = false;
+    Tile.walkable = true;
+
+}
 void Mapinterface::convert_Tile(Tiledata &Tile, const char TChar)
 {
 
@@ -338,4 +380,13 @@ void Mapinterface::convert_WorldmapCoords(int &Pos_x, int &Pos_y)
 
 } // convert_WorldmapCoords
 
+std::string Mapinterface::check_Town(const int Column, const int Row)
+{
+    int curr_Column = Column;
+    int curr_Row = Row;
+    convert_WorldmapCoords(curr_Column, curr_Row);
+
+    return currTownsclass->find_Town(curr_Column, curr_Row);
+
+} // get_Town
 #endif // MAPINTERFACE_CPP

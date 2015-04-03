@@ -121,7 +121,6 @@ game::~game()
 void game::render_game()
 {
     DDD_Output->render_Screen();
-
 } // render_game()
 
 void game::init()
@@ -166,11 +165,12 @@ void game::init()
 
     running = true;
 
-    DDD_Map->generate_Battlemap("Gras");    // only to test the Battlemap
+    //DDD_Map->generate_Battlemap("Gras");    // only to test the Battlemap
 
     switch_Mode(World);
 
     DDD_Hero->set_Value(Hero::Stats::Hero_Poison, 2, true);
+    //DDD_Hero->set_Value(Hero::Stats::Hero_Cheater, 1, false);
 
     //DDD_Output->play_Music("mus/zero-project - Moonlight requiem.ogg", 0.2f);
     DDD_Output->play_Musickey("Worldmap", 0.2f);
@@ -178,7 +178,7 @@ void game::init()
     //DDD_Hero = get_Position(Hero_Pos);
 
     #ifdef DEBUG
-    Log("(" << ErrorLog.ALLOK << ") Game started.")
+    Log("(" << ErrorLog.ALLOK << ") ---===< Game started. >===--- ")
     #endif // DEBUG
 
 } // init()
@@ -188,7 +188,7 @@ void game::exit()
     running = false;
 
     #ifdef DEBUG
-    Log("(" << ErrorLog.ALLOK << ") Game exited.")
+    Log("(" << ErrorLog.ALLOK << ") ---===< Game exited. >===--- ")
     #endif // DEBUG
 
 } // exit()
@@ -427,6 +427,10 @@ void game::draw_Worldmap(Hero::Hero_Position Pos)
     Tile.Sheetpos_y = 0;
     Tile.transparency = false;
 
+    Allegro_Output::tileData Towntile;
+    Towntile.Sheetpos_y = 0;
+    Towntile.transparency = true;
+
     // Worldmaptile
     Mapinterface::Tiledata currTile;
 
@@ -450,6 +454,20 @@ void game::draw_Worldmap(Hero::Hero_Position Pos)
             Tile.Column = Tile_Column;
             Tile.Row = Tile_Row;
             DDD_Output->render_Tile(Tile);
+
+            std::string Town;
+            Town = DDD_Map->check_Town(world_x + Tile_Column, world_y + Tile_Row);
+
+            if(Town.size() > 0)
+            {
+                currTile = DDD_Map->get_Tile(Mapinterface::Townmaptile, world_x + Tile_Column, world_y + Tile_Row);
+                Towntile.Sheet =  currTile.Sheet;
+                Towntile.Sheetpos_x = currTile.Index;
+                Towntile.Column = Tile_Column;
+                Towntile.Row = Tile_Row;
+                DDD_Output->render_Tile(Towntile);
+
+            } // if Town.size
 
         } // for Column
 
@@ -743,6 +761,13 @@ void game::write_Status()
         build_Statusline(startline + linecount, 0, "green", "transparent", "[STA_Poison]", Hero::Stats::Hero_Poison);
     }
 
+    // Cheater
+    if(DDD_Hero->get_Value(Hero::Stats::Hero_Cheater) < 0)
+    {
+        ++linecount;
+        ++linecount;
+        build_Cheaterline(startline + linecount, 0, "white", "transparent", "CHEATERSTATUS [");
+    }
     // Statusline
     DDD_Output->write_Status();
 
@@ -769,6 +794,16 @@ void game::build_Statusline(    const int &Line, const int &Pixeltab,
 {
     int currVal = DDD_Hero->get_Value(Value);
     std::string StatusLine = DDD_Translator->Print(Text) + " " + DDD_Datafile->valtostr(currVal);
+    DDD_Output->add_StatusLine(Line, Pixeltab, DDD_Datafile->get_Color(Forgroundcolor), DDD_Datafile->get_Color(Backgroundcolor), StatusLine);
+
+} // build_Statusline
+
+void game::build_Cheaterline(   const int &Line, const int &Pixeltab,
+                                const std::string &Forgroundcolor,
+                                const std::string &Backgroundcolor,
+                                const std::string &Text)
+{
+    std::string StatusLine = Text + "true]";
     DDD_Output->add_StatusLine(Line, Pixeltab, DDD_Datafile->get_Color(Forgroundcolor), DDD_Datafile->get_Color(Backgroundcolor), StatusLine);
 
 } // build_Statusline

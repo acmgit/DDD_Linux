@@ -59,6 +59,8 @@ void Statuswindow::add_Row(const StatusText &newLine)
 
 void Statuswindow::write_Status()
 {
+    clear_Statuswindow();
+
     std::vector<StatusText>::iterator currLine;
 
     for(currLine = Rows.begin(); currLine != Rows.end(); ++currLine)
@@ -89,4 +91,10 @@ void Statuswindow::write_Status()
     #endif // DEBUG
 
 } // write_Status
+
+void Statuswindow::clear_Statuswindow()
+{
+    rectfill(statusScreen, statusPos_x, statusPos_y, SCREEN_W - 10, statusPos_y + maxRows * 8, makecol(0, 0, 0));
+
+} // clear_Statuswindow
 #endif // STATUSWINDOW_CPP

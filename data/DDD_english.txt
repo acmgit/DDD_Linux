@@ -97,11 +97,98 @@ Music stopped.
 [Music_play]
 Play music again.
 
+[Gold]
+Gold
+
+[Exp]
+Experiencepoints
+
+[Getting]
+You get
+
+[Paying]
+You want to pay?
+
+[Cost]
+This costs you
+
+[Enter]
+Enter
+
 # --------- Special Charakters
 [Male]
 *
 
 [Female]
 +
+
+#------------------------------------------------
+# --------- Locations
+
+[POI_Druidshack]
+Druidshack.
+
+[POI_Madraskan]
+Madrascan.
+
+[POI_Trisdisk]
+Trisdisc.
+
+[POI_Worthal]
+Worthal.
+
+[POI_Gaht]
+Gaht.
+
+[POI_Muspel]
+Muspel.
+
+[POI_Ackbah]
+Ackbah.
+
+[POI_Madraskan]
+Madrascan.
+
+[POI_Mubrak]
+Mubrac.
+
+[POI_Royalpalace]
+the royal Castle.
+
+[POI_Fulgarpalace]
+the Castle of the Fireking.
+
+[POI_Whitetower]
+the white Tower.
+
+[POI_Blacktower]
+the black Tower.
+
+[POI_Secretcave]
+the Dragoncave.
+
+[POI_Crystaldungeon]
+the Skullcastle.
+
+[POI_Swampdungeon]
+Krolocs Tomb.
+
+[POI_Uyrp]
+the Treasure of Uyrp.
+
+[POI_Magic_Axe]
+the magical Axe.
+
+[POI_Magic_Sword]
+the magical Dragonlever.
+
+[POI_Alraune]
+the rare Alraune.
+
+[POI_Dragoncave]
+the Shelter of the Dragon.
+
+[POI_Secretcave]
+the Cave of the Dragon.
 
 #------------------------------------------------

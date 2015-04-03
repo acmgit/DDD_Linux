@@ -97,10 +97,97 @@ Musik gestoppt.
 [Music_play]
 Musik weiter spielen.
 
+[Gold]
+Gold
+
+[Exp]
+Erfahrungspunkte
+
+[Getting]
+Du erhältst
+
+[Paying]
+Willst du bezahlen?
+
+[Cost]
+Es kostet dich
+
+[Enter]
+Betrete
+
 # --------- Spezielle Zeichen
 [Male]
 *
 [Female]
 +
+
+#------------------------------------------------
+# --------- Lokationen
+
+[POI_Druidshack]
+Druidenhütte.
+
+[POI_Madraskan]
+Madraskan.
+
+[POI_Trisdisk]
+Trisdisk.
+
+[POI_Worthal]
+Worthal.
+
+[POI_Gaht]
+Gaht.
+
+[POI_Muspel]
+Muspel.
+
+[POI_Ackbah]
+Ackbah.
+
+[POI_Madraskan]
+Madraskan.
+
+[POI_Mubrak]
+Mubrak.
+
+[POI_Royalpalace]
+den königlichen Palast.
+
+[POI_Fulgarpalace]
+den Palast des Feuerfürsten.
+
+[POI_Whitetower]
+den weissen Turm.
+
+[POI_Blacktower]
+den schwarzen Turm.
+
+[POI_Secretcave]
+die Drachenhöhle.
+
+[POI_Crystaldungeon]
+die Schädelfeste.
+
+[POI_Swampdungeon]
+Krolocs Gruft.
+
+[POI_Uyrp]
+den Schatz von Uyrp.
+
+[POI_Magic_Axe]
+die magische Axt.
+
+[POI_Magic_Sword]
+die magische Drachenschwinge.
+
+[POI_Alraune]
+die seltene Alraune.
+
+[POI_Dragoncave]
+den Drachenhort.
+
+[POI_Secretcave]
+die Drachenhöhle.
 
 #------------------------------------------------

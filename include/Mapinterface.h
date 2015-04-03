@@ -7,6 +7,7 @@
 
 #include "Battlemap.h"
 #include "Worldmap.h"
+#include "Townsmap.h"
 
 #include "Allegro_Datafile.h"
 
@@ -46,6 +47,8 @@ class Mapinterface
 
         void convert_WorldmapCoords(int &Pos_x, int &Pos_y);
 
+        std::string check_Town(const int Column, const int Row);
+
     private:
 
     std::vector<std::string> currBattlemap;
@@ -72,11 +75,15 @@ class Mapinterface
                     .flyable
                     .shipable
     */
+
+    void get_TownTile(Tiledata &Tile, const int Column, const int Row);
+
     void convert_Tile(Tiledata &Tile, const char TChar);
 
     Allegro_Datafile *currDatafile;
     Battlemap *currBattlemapclass;
     Worldmap *currWorldmapclass;
+    Townsmap *currTownsclass;
 
 }; // Mapinterface
 
