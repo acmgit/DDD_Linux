@@ -25,14 +25,14 @@ clears the Directory from not more required Files.
 
 The Cursor-Keys for the Direction to go.
 
-<+> increments the Soundvolume.<br>
-<-> decrements the Soundvolume.<br>
-<br>
-<*> stop's the Music.<br>
-</> play's the Music again.<br>
-<br>
-<s> Searching .... (Treasures)<br>
-<e> Enter ... (Towns ..)<br>
+ + = increments the Soundvolume.
+ - = decrements the Soundvolume.
+
+ * = stop's the Music.
+ / = play's the Music again.
+
+ s = Searching .... (Treasures)
+ e = Enter ... (Towns ..)
 
 ## *Depends on:*
 
