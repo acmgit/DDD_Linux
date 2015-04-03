@@ -658,6 +658,7 @@ void game::execute_Command(Hero::Order &Command)
             break;
 
         }
+
         // case X
         case 24:
         {
@@ -666,6 +667,30 @@ void game::execute_Command(Hero::Order &Command)
 
         }
 
+        // case s
+        case 19:
+        {
+            std::string result = DDD_Translator->Print("[Found]");
+
+            DDD_Output->play_Sound("Search");
+            DDD_Output->write_OnConsole(DDD_Datafile->get_Color("gold"), DDD_Datafile->get_Color("transparent"), DDD_Translator->Print("[Searching]"), true);
+
+            for(int i = 1; i < 5; ++i)
+            {
+                DDD_Output->write_OnConsole(DDD_Datafile->get_Color("gold"), DDD_Datafile->get_Color("transparent"), ".", true);
+                DDD_Input->set_Seconds(1);
+                while(!DDD_Input->wait())
+                {
+                    render_game();
+                } // while(wait)
+
+            } // for i
+
+            result = result + DDD_Hero->find_Treasure();
+            DDD_Output->write_OnConsole(DDD_Datafile->get_Color("gold"), DDD_Datafile->get_Color("transparent"), result, true);
+            break;
+
+        }
         // no Key, only wait
         case 0:
         {

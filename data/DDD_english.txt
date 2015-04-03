@@ -115,6 +115,15 @@ This costs you
 [Enter]
 Enter
 
+[Searching]
+Searching
+
+[Found]
+You find 
+
+[Nothing]
+nothing.
+
 # --------- Special Charakters
 [Male]
 *

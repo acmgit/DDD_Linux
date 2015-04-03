@@ -110,6 +110,7 @@ class Hero
     int get_Heromode();
 
     void draw_Hero(int Pos_x, int Pos_y);
+    std::string find_Treasure();
 
     private:
 

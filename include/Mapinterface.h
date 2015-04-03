@@ -8,6 +8,7 @@
 #include "Battlemap.h"
 #include "Worldmap.h"
 #include "Townsmap.h"
+#include "Treasuremap.h"
 
 #include "Allegro_Datafile.h"
 
@@ -48,6 +49,7 @@ class Mapinterface
         void convert_WorldmapCoords(int &Pos_x, int &Pos_y);
 
         std::string check_Town(const int Column, const int Row);
+        std::string find_Treasure(const int Column, const int Row);
 
     private:
 
@@ -84,6 +86,7 @@ class Mapinterface
     Battlemap *currBattlemapclass;
     Worldmap *currWorldmapclass;
     Townsmap *currTownsclass;
+    Treasuremap *currTreasures;
 
 }; // Mapinterface
 

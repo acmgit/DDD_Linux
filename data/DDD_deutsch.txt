@@ -115,6 +115,15 @@ Es kostet dich
 [Enter]
 Betrete
 
+[Searching]
+Suchen
+
+[Found]
+Du findest 
+
+[Nothing]
+nichts.
+
 # --------- Spezielle Zeichen
 [Male]
 *

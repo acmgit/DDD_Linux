@@ -1,0 +1,30 @@
+#Locations of Treasures
+# Keyname
+# Pos_x
+# Pos_y
+# Translatorkey
+# available (1 = once, -1 = infinity)
+
+[LOC_Uyrp]
+48
+133
+Uyrp
+1
+
+[LOC_Axe]
+19
+56
+Magic_Axe
+1
+
+[LOC_Sword]
+48
+101
+Magic_Sword
+1
+
+[LOC_Alraune]
+76
+116
+Alraune
+-1

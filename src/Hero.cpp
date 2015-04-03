@@ -6,6 +6,7 @@
 #include "Allegro_Output.h"
 #include "Mapinterface.h"
 #include "UniText.h"
+#include "Allegro_Input.h"
 
 #include <string>
 
@@ -700,5 +701,56 @@ void Hero::Enter_Object()
     } // Town was entered
 
 } // Enter_Object
+
+std::string Hero::find_Treasure()
+{
+    std::string Result;
+
+    switch(Playmode)
+    {
+        case Hero_Global:
+        {
+            Result = DDD_Map->find_Treasure(current_Postion.Global_x, current_Postion.Global_y);
+            break;
+
+        } // case Global
+
+        case Hero_Battle:
+        {
+            Result = DDD_Map->find_Treasure(current_Postion.Battle_x, current_Postion.Battle_y);
+            break;
+
+        } // case Battle
+
+        case Hero_Town:
+        {
+            Result = DDD_Map->find_Treasure(current_Postion.Town_x, current_Postion.Town_y);
+            break;
+
+        } // case Town
+
+        case Hero_Dungeon:
+        {
+            Result = DDD_Map->find_Treasure(current_Postion.Dungeon_x, current_Postion.Dungeon_y);
+            break;
+
+        } // case Dungeon
+
+    } // switch(Playmode)
+
+    if(Result.size() > 0)
+    {
+        Result = DDD_Translator->Print("[POI_" + Result + "]");
+        return Result;
+
+    }
+    else
+    {
+        Result = DDD_Translator->Print("[Nothing]");
+        return Result;
+
+    } // if Result > 0
+
+} // find_Treasure
 
 #endif // HERO_CPP

@@ -55,6 +55,19 @@ Mapinterface::Mapinterface(Allegro_Datafile *Data)
 
     } // if !currWorldmapclass
 
+    currTreasures = new Treasuremap("data/DDD_Treasures.idx");
+
+    if(!currTreasures)
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.MEMORY_FAILURE << ") Couldn't open Treasuremapclass.")
+        #endif // DEBUG
+
+        allegro_message("Couldn't open Treasuremapclass.");
+        allegro_exit();
+
+    } // if !currWorldmapclass
+
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Mapinterface opened.")
     #endif // DEBUG
@@ -63,6 +76,13 @@ Mapinterface::Mapinterface(Allegro_Datafile *Data)
 
 Mapinterface::~Mapinterface()
 {
+
+    if(currTreasures)
+    {
+        delete currTreasures;
+        currTreasures = nullptr;
+
+    } // if currTreasures
 
     if(currTownsclass)
     {
@@ -389,4 +409,15 @@ std::string Mapinterface::check_Town(const int Column, const int Row)
     return currTownsclass->find_Town(curr_Column, curr_Row);
 
 } // get_Town
+
+std::string Mapinterface::find_Treasure(const int Column, const int Row)
+{
+    int curr_Column = Column;
+    int curr_Row = Row;
+    convert_WorldmapCoords(curr_Column, curr_Row);
+
+    return currTreasures->find_Secret(curr_Column, curr_Row);
+
+} // find_Treasure
+
 #endif // MAPINTERFACE_CPP
