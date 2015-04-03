@@ -29,10 +29,10 @@ The Cursor-Keys for the Direction to go.
  \- = decrements the Soundvolume.
 
  \* = stop's the Music.
- \/ = play's the Music again.
+ / = play's the Music again.
 
- \s = Searching .... (Treasures)
- \e = Enter ... (Towns ..)
+ s = Searching .... (Treasures)
+ e = Enter ... (Towns ..)
 
 ## *Depends on:*
 
