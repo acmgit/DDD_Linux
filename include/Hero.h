@@ -11,32 +11,105 @@
 
 class Hero
 {
+        private:
+
+        struct Hero_Status
+        {
+            // Int-Values
+            int Live;
+            int Maximal_Live;
+            int Mana;
+            int Maximal_Mana;
+
+            int Level;
+            int Experience;
+            int Experience_to_next_Level;
+
+            int Strength;
+            int Dexterity;
+            int Wisdom;
+            int Charisma;
+
+            int Attack;
+            int Parade;
+
+            int Gold;
+            int Food;
+            int Poisonfactor;
+
+            int on_Map;
+            int on_Vehicle;
+            int has_Shield;
+            int handle_Weapon;
+
+            // Bool-Values
+            bool is_Female;
+
+            bool is_Riding;
+            bool is_Flying;
+
+            bool is_Cheating;
+
+        }; // Hero_Status
+
     public:
         enum Stats
         {
             Hero_Live,
-            Herostat_Live_max,
+            Hero_Live_max,
             Hero_Mana,
-            Herostat_Mana_max,
+            Hero_Mana_max,
 
+            Hero_Level,
             Hero_Experience,
-            Herostat_Experience_to_next_Level,
-            Herostat_Level,
+            Hero_Experience_to_next_Level,
 
-            Herostat_Strength,
-            Herostat_Dexterity,
-            Herostat_Wisdom,
-            Herostat_Charisma,
+            Hero_Strength,
+            Hero_Dexterity,
+            Hero_Wisdom,
+            Hero_Charisma,
 
-            Herostat_Attack,
-            Herostat_Parade,
+            Hero_Attack,
+            Hero_Parade,
 
             Hero_Gold,
             Hero_Food,
-            Hero_Poison,
+            Hero_Poisonfactor,
 
-            Hero_Cheater
-        };
+            Hero_Map,
+            Hero_use_Vehicle,
+
+            Hero_use_Shield,
+
+            Hero_use_no_Shield,
+            Hero_use_small_Shield,
+            Hero_use_big_Shield,
+
+            Hero_use_Weapon,
+
+            Hero_use_one_Hand_Weapon,
+            Hero_use_two_Hand_Weapon,
+
+            // Bool-Values
+            Hero_is_Female,
+
+            Hero_on_Worldmap,
+            Hero_on_Townmap,
+            Hero_on_Battlemap,
+            Hero_on_Dungeonmap,
+
+            Hero_use_Nothing,
+            Hero_use_Horse,
+            Hero_use_Unicorn,
+            Hero_use_Ship,
+            Hero_use_Lizard,
+
+            Hero_is_Riding,
+            Hero_is_Flying,
+
+            Hero_is_Cheating
+
+        }; // Stats
 
         struct Hero_Position
         {
@@ -51,42 +124,15 @@ class Hero
 
             int Dungeon_x;
             int Dungeon_y;
-        };
 
-        enum Hero_Mode
-        {
-            Hero_Global,
-            Hero_Battle,
-            Hero_Town,
-            Hero_Dungeon,
-            Hero_Horse,
-            Hero_Unicorn,
-            Hero_Shipping,
-            Hero_Flying,
-        };
+        }; // Hero_Position
 
         struct Order
         {
             std::string Command;
             Allegro_Input::Key Key;
-        };
 
-        struct Hero_Status
-        {
-            bool one_Hand;
-            bool small_Shield;
-            bool big_Shield;
-            bool two_Hand;
-            bool is_Poisoned;
-            bool is_Shipping;
-            bool on_Horse;
-            bool on_Unicorn;
-            bool on_Lizard;
-            bool is_Flying;
-            bool to_Hunger;
-            bool is_Dead;
-            bool cheater;
-        };
+        }; // Order
 
         Hero(Allegro_Datafile *curr_Data, Allegro_Output *curr_Output, Mapinterface *curr_Map, UniText *curr_Language, const std::string &HName, const bool &Gender);
 
@@ -94,20 +140,22 @@ class Hero
 
     void execute_Command(Order &Command);
 
-    void set_Gender(const bool &set_Female);
-    bool is_Female();
-
     void set_Name(const std::string &Name);
     std::string get_Name();
 
-    void set_Value(const int &Typ, const int &Value, const bool &Increment);
-    int get_Value(const int &Typ);
-
+    /*
+    Map and Vehicle takes the the second Parameter the Hero_on_ Keys.
+    This will stored in Hero_Status.on_Map or Hero_Status.on_Vehicle.
+    To check, compare the Map with Hero_on_<Map> or the Vehicle with Hero_on_<Vehicle>
+    When the flag change is true, the Value will be added to the Key, else it will be setted directly
+    */
+    void set_Value(const int &Typ, const int &Value, const bool &change);
+    void set_Status(const int &Typ, const bool &Value, const bool &change);
     void set_Position(const int &Pos_x, const int &Pos_y);
-    Hero_Position get_Position();
 
-    void switch_Heromode(const int &Hero_Mode);
-    int get_Heromode();
+    int get_Value(const int &Typ);
+    bool get_Status(const int &Typ);
+    Hero_Position get_Position();
 
     void draw_Hero(int Pos_x, int Pos_y);
     std::string find_Treasure();
@@ -115,9 +163,8 @@ class Hero
     private:
 
     int get_Const(const std::string &Ini);
-    void change_Value(int &Stat, const int &Val, const bool &Inc);
 
-    void Enter_Object();
+    void enter_Object();
 
     Allegro_Datafile *DDD_Data;
     Allegro_Output *DDD_Output;
@@ -125,33 +172,10 @@ class Hero
     UniText *DDD_Translator;
 
     std::string Hero_Name;
-    bool Female;
 
     Hero_Status Status;
 
-    int Playmode;
     Hero_Position current_Postion;
-
-    int Poisonfactor;
-    int Maximal_Live;
-    int Live;
-    int Maximal_Mana;
-    int Mana;
-
-    int Level;
-    int Experience;
-    int Experience_to_next_Level;
-
-    int Strength;
-    int Dexterity;
-    int Wisdom;
-    int Charisma;
-
-    int Attack;
-    int Parade;
-
-    int Gold;
-    int Food;
 
 }; // Hero
 

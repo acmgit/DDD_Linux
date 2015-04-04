@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="include/Inputinterface.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/Statuswindow.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="799" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/Hero.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2500" topLine="41" />
-		</Cursor>
-	</File>
-	<File name="include/Treasuremap.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="263" topLine="0" />
+			<Cursor1 position="1280" topLine="13" />
 		</Cursor>
 	</File>
 	<File name="include/DDD_Screen.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -21,24 +11,14 @@
 			<Cursor1 position="457" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/Logfile.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/Sound.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="43" topLine="72" />
+			<Cursor1 position="648" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src/Sound.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/Inputinterface.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1258" topLine="366" />
-		</Cursor>
-	</File>
-	<File name="include/UniText.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="863" topLine="10" />
-		</Cursor>
-	</File>
-	<File name="include/Statuswindow.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1280" topLine="13" />
+			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src/Soundinterface.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -46,83 +26,26 @@
 			<Cursor1 position="5806" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include/Keyboardinterface.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="406" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/Playfield.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1338" topLine="50" />
-		</Cursor>
-	</File>
-	<File name="include/Worldmap.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="337" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/Sound.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="648" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/Battlemap.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1329" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="include/Allegro_Output.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3144" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="include/Townsmap.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="254" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/Allegro_Input.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1853" topLine="38" />
-		</Cursor>
-		<Folding>
-			<Collapse line="42" />
-			<Collapse line="56" />
-		</Folding>
-	</File>
 	<File name="include/game.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1882" topLine="57" />
+			<Cursor1 position="1882" topLine="6" />
 		</Cursor>
 	</File>
-	<File name="src/Clock.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/Battlemap.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="725" topLine="31" />
+			<Cursor1 position="918" topLine="0" />
 		</Cursor>
+		<Folding>
+			<Collapse line="18" />
+			<Collapse line="45" />
+			<Collapse line="55" />
+			<Collapse line="226" />
+			<Collapse line="242" />
+		</Folding>
 	</File>
-	<File name="include/Mapinterface.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/Logfile.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1323" topLine="57" />
-		</Cursor>
-	</File>
-	<File name="include/Console.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1352" topLine="17" />
-		</Cursor>
-	</File>
-	<File name="include/Allegro_Datafile.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1463" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/Worldmap.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1326" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/Inputinterface.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="140" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src/Allegro_Datafile.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -138,14 +61,186 @@
 			<Cursor1 position="2139" topLine="70" />
 		</Cursor>
 	</File>
-	<File name="src/Statuswindow.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/Mapinterface.cpp" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2224" topLine="64" />
+			<Cursor1 position="9657" topLine="124" />
+		</Cursor>
+		<Folding>
+			<Collapse line="115" />
+			<Collapse line="164" />
+			<Collapse line="185" />
+			<Collapse line="200" />
+			<Collapse line="206" />
+			<Collapse line="232" />
+			<Collapse line="245" />
+			<Collapse line="261" />
+			<Collapse line="397" />
+		</Folding>
+	</File>
+	<File name="include/Inputinterface.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="799" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Townsmap.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="254" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Battlemap.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1329" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1652" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="1" />
+			<Collapse line="30" />
+		</Folding>
+	</File>
+	<File name="src/Sound.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1258" topLine="366" />
+		</Cursor>
+	</File>
+	<File name="include/Clock_Interface.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="210" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Allegro_Output.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3144" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="src/Allegro_Input.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1853" topLine="38" />
+		</Cursor>
+		<Folding>
+			<Collapse line="42" />
+			<Collapse line="56" />
+		</Folding>
+	</File>
+	<File name="include/Datafileinterface.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="113" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/UniText.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="863" topLine="10" />
+		</Cursor>
+	</File>
+	<File name="include/Hero.h" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3304" topLine="36" />
+		</Cursor>
+		<Folding>
+			<Collapse line="16" />
+			<Collapse line="56" />
+			<Collapse line="130" />
+		</Folding>
+	</File>
+	<File name="src/Clock.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="725" topLine="31" />
 		</Cursor>
 	</File>
 	<File name="src/DDD_Screen.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2876" topLine="101" />
+		</Cursor>
+	</File>
+	<File name="src/Playfield.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1338" topLine="50" />
+		</Cursor>
+	</File>
+	<File name="src/Hero.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="16280" topLine="212" />
+		</Cursor>
+		<Folding>
+			<Collapse line="66" />
+			<Collapse line="79" />
+			<Collapse line="85" />
+			<Collapse line="91" />
+			<Collapse line="97" />
+			<Collapse line="507" />
+			<Collapse line="654" />
+			<Collapse line="709" />
+			<Collapse line="846" />
+			<Collapse line="955" />
+			<Collapse line="974" />
+		</Folding>
+	</File>
+	<File name="src/Treasuremap.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3317" topLine="119" />
+		</Cursor>
+	</File>
+	<File name="src/game.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="14746" topLine="406" />
+		</Cursor>
+		<Folding>
+			<Collapse line="111" />
+			<Collapse line="121" />
+			<Collapse line="186" />
+			<Collapse line="196" />
+		</Folding>
+	</File>
+	<File name="include/Keyboardinterface.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="406" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Clock.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="317" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Playfield.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="696" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Allegro_Datafile.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1463" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/Logfile.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="43" topLine="72" />
+		</Cursor>
+	</File>
+	<File name="include/Worldmap.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="337" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src/Console.cpp" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3509" topLine="61" />
+		</Cursor>
+		<Folding>
+			<Collapse line="17" />
+			<Collapse line="30" />
+		</Folding>
+	</File>
+	<File name="include/Treasuremap.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="263" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Soundinterface.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="358" topLine="9" />
 		</Cursor>
 	</File>
 	<File name="src/Allegro_Output.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -185,140 +280,39 @@
 			<Collapse line="440" />
 		</Folding>
 	</File>
-	<File name="include/Mouseinterface.h" open="0" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include/Console.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="514" topLine="0" />
+			<Cursor1 position="1352" topLine="17" />
 		</Cursor>
 	</File>
-	<File name="include/Playfield.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/Statuswindow.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="696" topLine="0" />
+			<Cursor1 position="2224" topLine="64" />
 		</Cursor>
-	</File>
-	<File name="src/Battlemap.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="918" topLine="0" />
-		</Cursor>
-		<Folding>
-			<Collapse line="18" />
-			<Collapse line="45" />
-			<Collapse line="55" />
-			<Collapse line="226" />
-			<Collapse line="242" />
-		</Folding>
-	</File>
-	<File name="include/Clock.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="317" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include/Datafileinterface.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="113" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/Mapinterface.cpp" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9657" topLine="124" />
-		</Cursor>
-		<Folding>
-			<Collapse line="115" />
-			<Collapse line="164" />
-			<Collapse line="185" />
-			<Collapse line="200" />
-			<Collapse line="206" />
-			<Collapse line="232" />
-			<Collapse line="245" />
-			<Collapse line="261" />
-			<Collapse line="397" />
-		</Folding>
-	</File>
-	<File name="include/Logfile.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="140" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src/game.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="17756" topLine="198" />
-		</Cursor>
-		<Folding>
-			<Collapse line="111" />
-			<Collapse line="121" />
-			<Collapse line="126" />
-			<Collapse line="186" />
-			<Collapse line="196" />
-			<Collapse line="319" />
-			<Collapse line="359" />
-			<Collapse line="365" />
-			<Collapse line="418" />
-			<Collapse line="478" />
-			<Collapse line="505" />
-			<Collapse line="511" />
-			<Collapse line="517" />
-			<Collapse line="565" />
-		</Folding>
-	</File>
-	<File name="src/Treasuremap.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3317" topLine="119" />
-		</Cursor>
-	</File>
-	<File name="include/Clock_Interface.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="210" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1652" topLine="8" />
-		</Cursor>
-		<Folding>
-			<Collapse line="1" />
-			<Collapse line="30" />
-		</Folding>
-	</File>
-	<File name="src/Hero.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="16275" topLine="347" />
-		</Cursor>
-		<Folding>
-			<Collapse line="101" />
-			<Collapse line="107" />
-			<Collapse line="113" />
-			<Collapse line="119" />
-			<Collapse line="125" />
-			<Collapse line="131" />
-			<Collapse line="288" />
-			<Collapse line="438" />
-			<Collapse line="451" />
-			<Collapse line="457" />
-			<Collapse line="463" />
-			<Collapse line="469" />
-		</Folding>
-	</File>
-	<File name="src/Townsmap.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3356" topLine="102" />
-		</Cursor>
-	</File>
-	<File name="src/Console.cpp" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3509" topLine="61" />
-		</Cursor>
-		<Folding>
-			<Collapse line="17" />
-			<Collapse line="30" />
-		</Folding>
 	</File>
 	<File name="include/Allegro_Input.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="469" topLine="3" />
 		</Cursor>
 	</File>
-	<File name="include/Soundinterface.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src/Townsmap.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="358" topLine="9" />
+			<Cursor1 position="3356" topLine="102" />
+		</Cursor>
+	</File>
+	<File name="include/Mouseinterface.h" open="0" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="514" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include/Mapinterface.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1323" topLine="24" />
+		</Cursor>
+	</File>
+	<File name="src/Worldmap.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1326" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

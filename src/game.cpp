@@ -169,7 +169,7 @@ void game::init()
 
     switch_Mode(World);
 
-    DDD_Hero->set_Value(Hero::Stats::Hero_Poison, 2, true);
+    DDD_Hero->set_Value(Hero::Hero_Poisonfactor, 2, false);
     //DDD_Hero->set_Value(Hero::Stats::Hero_Cheater, 1, false);
 
     //DDD_Output->play_Music("mus/zero-project - Moonlight requiem.ogg", 0.2f);
@@ -523,42 +523,42 @@ void game::switch_Mode(const int Gamemode)
     {
         case World:
         {
-            Heromode = Hero::Hero_Global;
+            Heromode = Hero::Hero_on_Worldmap;
             break;
 
         } // case World
 
         case Town:
         {
-            Heromode = Hero::Hero_Town;
+            Heromode = Hero::Hero_on_Townmap;
             break;
 
         } // case Town
 
         case Battle:
         {
-            Heromode = Hero::Hero_Battle;
+            Heromode = Hero::Hero_on_Battlemap;
             break;
 
         } // case Battle
 
         case Dungeon:
         {
-            Heromode = Hero::Hero_Dungeon;
+            Heromode = Hero::Hero_on_Dungeonmap;
             break;
 
         } // case World
 
         default:
         {
-            Heromode = Hero::Hero_Global;
+            Heromode = Hero::Hero_on_Worldmap;
             break;
 
         } // Unknown
 
     } // switch Gamemode
 
-    DDD_Hero->switch_Heromode(Heromode);
+    DDD_Hero->set_Value(Hero::Hero_Map, Heromode, false);
 
 } // switch_Mode
 
@@ -731,7 +731,7 @@ void game::write_Status()
     std::string Line = DDD_Hero->get_Name();
     DDD_Output->add_StatusLine(startline + linecount, 0, DDD_Datafile->get_Color("white"), DDD_Datafile->get_Color("transparent"), Line);
 
-    if(DDD_Hero->is_Female())
+    if(DDD_Hero->get_Status(Hero::Hero_is_Female))
     {
         Line = DDD_Translator->Print("[Female]");
 
@@ -746,48 +746,48 @@ void game::write_Status()
     // Experience and Level
     ++linecount;
     ++linecount;
-    build_Statusline(startline + linecount, 0, "silver", "transparent", "[STA_Experience]", Hero::Stats::Hero_Experience, Hero::Stats::Herostat_Experience_to_next_Level);
+    build_Statusline(startline + linecount, 0, "silver", "transparent", "[STA_Experience]", Hero::Hero_Experience, Hero::Hero_Experience_to_next_Level);
     ++linecount;
-    build_Statusline(startline + linecount, 0, "lightgrey", "transparent", "[STA_Level]", Hero::Stats::Herostat_Level);
+    build_Statusline(startline + linecount, 0, "lightgrey", "transparent", "[STA_Level]", Hero::Hero_Level);
 
     // Lifepoints
     ++linecount;
     ++linecount;
-    build_Statusline(startline + linecount, 0, "green", "transparent", "[STA_Live]", Hero::Stats::Hero_Live, Hero::Stats::Herostat_Live_max);
+    build_Statusline(startline + linecount, 0, "green", "transparent", "[STA_Live]", Hero::Hero_Live, Hero::Hero_Live_max);
 
     // Manapoints
     ++linecount;
-    build_Statusline(startline + linecount, 0, "cyan", "transparent", "[STA_Mana]", Hero::Stats::Hero_Mana, Hero::Stats::Herostat_Mana_max);
+    build_Statusline(startline + linecount, 0, "cyan", "transparent", "[STA_Mana]", Hero::Hero_Mana, Hero::Hero_Mana_max);
 
     // Attack and Parade
     ++linecount;
     ++linecount;
-    build_Statusline(startline + linecount, 0, "brown", "transparent", "[STA_Attack]", Hero::Stats::Herostat_Attack);
-    build_Statusline(startline + linecount, pixeltab, "orange", "transparent", "[STA_Parade]", Hero::Stats::Herostat_Parade);
+    build_Statusline(startline + linecount, 0, "brown", "transparent", "[STA_Attack]", Hero::Hero_Attack);
+    build_Statusline(startline + linecount, pixeltab, "orange", "transparent", "[STA_Parade]", Hero::Hero_Parade);
 
     // Strength & Dexterity
     ++linecount;
-    build_Statusline(startline + linecount, 0, "yellow", "transparent", "[STA_Strength]", Hero::Stats::Herostat_Strength);
-    build_Statusline(startline + linecount, pixeltab, "brown", "transparent", "[STA_Dexterity]", Hero::Stats::Herostat_Dexterity);
+    build_Statusline(startline + linecount, 0, "yellow", "transparent", "[STA_Strength]", Hero::Hero_Strength);
+    build_Statusline(startline + linecount, pixeltab, "brown", "transparent", "[STA_Dexterity]", Hero::Hero_Dexterity);
 
     // Wisdom & Charisma
     ++linecount;
-    build_Statusline(startline + linecount, 0, "cyan", "transparent", "[STA_Wisdom]", Hero::Stats::Herostat_Wisdom);
-    build_Statusline(startline + linecount, pixeltab, "blue", "transparent", "[STA_Charisma]", Hero::Stats::Herostat_Charisma);
+    build_Statusline(startline + linecount, 0, "cyan", "transparent", "[STA_Wisdom]", Hero::Hero_Wisdom);
+    build_Statusline(startline + linecount, pixeltab, "blue", "transparent", "[STA_Charisma]", Hero::Hero_Wisdom);
 
     // Gold & Food & Poisoned with Factor
     ++linecount;
     ++linecount;
-    build_Statusline(startline + linecount, 0, "gold", "transparent", "[STA_Gold]", Hero::Stats::Hero_Gold);
-    build_Statusline(startline + linecount, pixeltab, "purple", "transparent", "[STA_Food]", Hero::Stats::Hero_Food);
-    if(DDD_Hero->get_Value(Hero::Hero_Poison) > 0)
+    build_Statusline(startline + linecount, 0, "gold", "transparent", "[STA_Gold]", Hero::Hero_Gold);
+    build_Statusline(startline + linecount, pixeltab, "purple", "transparent", "[STA_Food]", Hero::Hero_Food);
+    if(DDD_Hero->get_Value(Hero::Hero_Poisonfactor) > 0)
     {
         ++linecount;
-        build_Statusline(startline + linecount, 0, "green", "transparent", "[STA_Poison]", Hero::Stats::Hero_Poison);
+        build_Statusline(startline + linecount, 0, "green", "transparent", "[STA_Poison]", Hero::Hero_Poisonfactor);
     }
 
     // Cheater
-    if(DDD_Hero->get_Value(Hero::Stats::Hero_Cheater) < 0)
+    if(DDD_Hero->get_Status(Hero::Hero_is_Cheating))
     {
         ++linecount;
         ++linecount;

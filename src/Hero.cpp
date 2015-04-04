@@ -22,62 +22,40 @@ Hero::Hero(Allegro_Datafile *curr_Data, Allegro_Output *curr_Output, Mapinterfac
     DDD_Translator = curr_Language;
 
     Hero_Name = HName;
-    Female = Gender;
-    Playmode = Hero_Global;
 
-    Live = get_Const("Live");
-    Maximal_Live = get_Const("Maxlive");
+    set_Value(Hero_Live, get_Const("Live"), false);
+    set_Value(Hero_Live_max, get_Const("Maxlive"), false);
 
-    Mana = get_Const("Mana");
-    Maximal_Mana = get_Const("Maxmana");
+    set_Value(Hero_Mana, get_Const("Mana"), false);
+    set_Value(Hero_Mana_max, get_Const("Maxmana"), false);
 
-    Level = get_Const("Level");
-    Experience = get_Const("Experience");
-    Experience_to_next_Level = get_Const("Nextlevel");
+    set_Value(Hero_Level, get_Const("Level"), false);
+    set_Value(Hero_Experience, get_Const("Experience"), false);
+    set_Value(Hero_Experience_to_next_Level, get_Const("Nextlevel"), false);
 
-    Strength = get_Const("Strength");
-    Dexterity = get_Const("Dexterity");
-    Wisdom = get_Const("Wisdom");
-    Charisma = get_Const("Charisma");
+    set_Value(Hero_Strength, get_Const("Strength"), false);
+    set_Value(Hero_Dexterity, get_Const("Dexterity"), false);
+    set_Value(Hero_Wisdom, get_Const("Wisdom"), false);
+    set_Value(Hero_Charisma, get_Const("Charisma"), false);
 
-    Attack = get_Const("Attack");
-    Parade = get_Const("Parade");
+    set_Value(Hero_Attack, get_Const("Attack"), false);
+    set_Value(Hero_Parade, get_Const("Parade"), false);
 
-    Gold = get_Const("Gold");
-    Food = get_Const("Food");
+    set_Value(Hero_Gold, get_Const("Gold"), false);
+    set_Value(Hero_Food, get_Const("Food"), false);
+    set_Value(Hero_Poisonfactor, get_Const("Poisonfactor"), false);
 
-    Poisonfactor = 0;
+    set_Value(Hero_use_Weapon, Hero_use_one_Hand_Weapon, false);
+    set_Value(Hero_use_Shield, Hero_use_no_Shield, false);
 
-    current_Postion.Battle_x = 0;
-    current_Postion.Battle_y = 0;
+    set_Value(Hero_use_Vehicle, Hero_use_Nothing, false);
 
-    current_Postion.Dungeon_x = 0;
-    current_Postion.Dungeon_y = 0;
+    set_Status(Hero_is_Cheating, false, false);
+    set_Status(Hero_is_Female, Gender, false);
 
-    current_Postion.Town_x = 0;
-    current_Postion.Town_y = 0;
+    set_Value(Hero_Map, Hero_on_Worldmap, false);
 
-    current_Postion.Global_x = get_Const("Startpos_x");
-    current_Postion.Global_y = get_Const("Startpos_y");
-
-    Status.one_Hand = true;
-    Status.two_Hand = false;
-
-    Status.big_Shield = false;
-    Status.small_Shield = false;
-
-    Status.is_Shipping = false;
-    Status.on_Horse = false;
-    Status.on_Unicorn = false;
-    Status.on_Lizard = false;
-    Status.is_Flying = false;
-
-    Status.is_Poisoned = false;
-    Status.to_Hunger = false;
-    Status.is_Dead = false;
-    Status.cheater = false;
-
-    Poisonfactor = 0;
+    set_Position(get_Const("Startpos_x"), get_Const("Startpos_y"));
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Heroclass opened.")
@@ -104,23 +82,11 @@ int Hero::get_Const(const std::string &Ini)
 
 } // get_Const
 
-bool Hero::is_Female()
-{
-    return Female;
-
-} // is_Female
-
 std::string Hero::get_Name()
 {
     return Hero_Name;
 
 } // get_Name
-
-void Hero::set_Gender(const bool &set_Female)
-{
-    Female = set_Female;
-
-} // set_Gender
 
 void Hero::set_Name(const std::string &Name)
 {
@@ -128,154 +94,322 @@ void Hero::set_Name(const std::string &Name)
 
 } // set_Name
 
-void Hero::set_Value(const int &Typ, const int &Value, const bool &Increment)
+void Hero::set_Value(const int &Typ, const int &Value, const bool &change)
 {
     switch(Typ)
     {
         case Hero_Live:
         {
-            change_Value(Live, Value, Increment);
+            if(change)
+            {
+                Status.Live = Status.Live + Value;
+
+            }
+            else
+            {
+                Status.Live = Value;
+
+            } // if change
+
             break;
 
         } // Hero_Live
 
-        case Herostat_Live_max:
+        case Hero_Live_max:
         {
-            change_Value(Maximal_Live, Value, Increment);
+            if(change)
+            {
+                Status.Maximal_Live = Status.Maximal_Live + Value;
+
+            }
+            else
+            {
+                Status.Maximal_Live = Value;
+
+            }// if change
+
             break;
 
         } // Live_max
 
         case Hero_Mana:
         {
-            change_Value(Mana, Value, Increment);
+            if(change)
+            {
+                Status.Mana = Status.Mana + Value;
+
+            }
+            else
+            {
+                Status.Mana = Value;
+
+            }// if change
+
             break;
 
         } // Mana
 
-        case Herostat_Mana_max:
+        case Hero_Mana_max:
         {
-            change_Value(Maximal_Mana, Value, Increment);
+            if(change)
+            {
+                Status.Maximal_Mana = Status.Mana + Value;
+
+            }
+            else
+            {
+                Status.Maximal_Mana = Value;
+
+            }// if change
+
             break;
 
         } // Mana_max
 
-        case Herostat_Strength:
+        case Hero_Strength:
         {
-            change_Value(Strength, Value, Increment);
+            if(change)
+            {
+                Status.Strength = Status.Strength + Value;
+
+            }
+            else
+            {
+                Status.Strength = Value;
+
+            }// if change
+
             break;
 
         } // Strength
 
-        case Herostat_Dexterity:
+        case Hero_Dexterity:
         {
-            change_Value(Dexterity, Value, Increment);
+            if(change)
+            {
+                Status.Dexterity = Status.Dexterity + Value;
+
+            }
+            else
+            {
+                Status.Dexterity = Value;
+
+            } // if change
+
             break;
 
         } // Dexterity
 
-        case Herostat_Wisdom:
+        case Hero_Wisdom:
         {
-            change_Value(Wisdom, Value, Increment);
+            if(change)
+            {
+                Status.Wisdom = Status.Wisdom + Value;
+
+            }
+            else
+            {
+                Status.Wisdom = Value;
+
+            }// if change
+
             break;
 
         } // Wisdom
 
-        case Herostat_Charisma:
+        case Hero_Charisma:
         {
-            change_Value(Charisma, Value, Increment);
+            if(change)
+            {
+                Status.Charisma = Status.Charisma + Value;
+
+            }
+            else
+            {
+                Status.Charisma = Value;
+
+            }// if change
+
             break;
 
         } // Charisma
 
-        case Herostat_Attack:
+        case Hero_Attack:
         {
-            change_Value(Attack, Value, Increment);
+            if(change)
+            {
+                Status.Attack = Status.Attack + Value;
+
+            }
+            else
+            {
+                Status.Charisma = Value;
+
+            }// if change
+
             break;
 
         } // Attack
 
-        case Herostat_Parade:
+        case Hero_Parade:
         {
-            change_Value(Parade, Value, Increment);
+            if(change)
+            {
+                Status.Parade = Status.Parade + Value;
+
+            }
+            else
+            {
+                Status.Parade = Value;
+
+            }// if change
+
             break;
 
         } // Parade
 
         case Hero_Gold:
         {
-            change_Value(Gold, Value, Increment);
+            if(change)
+            {
+                Status.Gold = Status.Gold + Value;
+
+            }
+            else
+            {
+                Status.Gold = Value;
+
+            }// if change
+
             break;
 
         } // Gold
 
         case Hero_Food:
         {
-            change_Value(Food, Value, Increment);
+            if(change)
+            {
+                Status.Food = Status.Food + Value;
+
+            }
+            else
+            {
+                Status.Food = Value;
+
+            }// if change
+
             break;
 
         } // Food
 
-        case Herostat_Level:
+        case Hero_Level:
         {
-            change_Value(Level, Value, Increment);
+            if(change)
+            {
+                Status.Level = Status.Level + Value;
+
+            }
+            else
+            {
+                Status.Level = Value;
+
+            }// if change
+
             break;
 
         } // Level
 
-        case Herostat_Experience_to_next_Level:
+        case Hero_Experience_to_next_Level:
         {
-            change_Value(Experience_to_next_Level, Value, Increment);
+            if(change)
+            {
+                Status.Experience_to_next_Level = Status.Experience_to_next_Level + Value;
+
+            }
+            else
+            {
+                Status.Experience_to_next_Level = Value;
+
+            }// if change
+
             break;
 
         } // Exp to next Level
 
         case Hero_Experience:
         {
-            change_Value(Experience, Value, Increment);
-            break;
-
-        } // Experience
-
-        case Hero_Poison:
-        {
-            change_Value(Poisonfactor, Value, Increment);
-            if(Poisonfactor > 0)
+            if(change)
             {
-                Status.is_Poisoned = true;
+                Status.Experience = Status.Experience + Value;
 
             }
             else
             {
-                Status.is_Poisoned = false;
+                Status.Experience = Value;
 
-            } // if Poisonfactor
+            }// if change
+
+            break;
+
+        } // Experience
+
+        case Hero_Poisonfactor:
+        {
+            if(change)
+            {
+                Status.Poisonfactor = Status.Poisonfactor + Value;
+
+            }
+            else
+            {
+                Status.Poisonfactor = Value;
+
+            }// if change
 
             break;
 
         } // Poisonfactor
 
-        case Hero_Cheater:
+        case Hero_Map:
         {
-            if(Status.cheater)
-            {
-                Status.cheater = false;
-
-            }
-            else
-            {
-                Status.cheater = true;
-
-            } // if Cheating
-
+            Status.on_Map = Value;
             break;
 
-        } // Cheating
+        } // on Map
+
+        case Hero_use_Vehicle:
+        {
+
+            Status.is_Riding = false;
+            Status.is_Flying = false;
+            Status.on_Vehicle = Value;
+            break;
+
+        } // on Vehicle
+
+        case Hero_use_Shield:
+        {
+            Status.has_Shield = Value;
+            break;
+
+        } // use_Shield
+
+        case Hero_use_Weapon:
+        {
+            // With a two-Hand-Weapon it's impossible to use a Shield
+            if(Value == Hero_use_two_Hand_Weapon)
+            {
+                Status.has_Shield = Hero_use_no_Shield;
+            }
+            Status.handle_Weapon = Value;
+            break;
+
+        } // use_Weapon
 
         default:
         {
             #ifdef DEBUG
-            Log("(" << ErrorLog.ILLEGAL_ACCESS << ") Unknown Herostat: " << Typ)
+            Log("(" << ErrorLog.ILLEGAL_ACCESS << ") Unknown Herovalue setted: " << Typ)
             #endif // DEBUG
             break;
 
@@ -285,145 +419,227 @@ void Hero::set_Value(const int &Typ, const int &Value, const bool &Increment)
 
 } // set_Value
 
+void Hero::set_Status(const int &Typ, const bool &Value, const bool &change)
+{
+    switch (Typ)
+    {
+        case Hero_is_Female:
+        {
+            if(change)
+            {
+                Status.is_Female = !Status.is_Female;
+
+            }
+            else
+            {
+                Status.is_Female = Value;
+
+            }// if change
+
+            break;
+
+        } // is_Female
+
+        case Hero_is_Flying:
+        {
+            if(change)
+            {
+                Status.is_Flying = !Status.is_Flying;
+
+            }
+            else
+            {
+                Status.is_Flying = Value;
+
+            }// if change
+
+            break;
+
+        } // is_Flying
+
+        case Hero_is_Riding:
+        {
+            if(change)
+            {
+                Status.is_Riding = !Status.is_Riding;
+
+            }
+            else
+            {
+                Status.is_Riding = Value;
+
+            }// if change
+
+            break;
+
+        } // is_Riding
+
+        case Hero_is_Cheating:
+        {
+            if(change)
+            {
+                Status.is_Cheating = !Status.is_Cheating;
+
+            }
+            else
+            {
+                Status.is_Cheating = Value;
+
+            }// if change
+
+            break;
+
+        } // is_Cheating
+
+        default:
+        {
+            #ifdef DEBUG
+            Log("(" << ErrorLog.ILLEGAL_ACCESS << ") Unknown Herostatus setted: " << Typ)
+            #endif // DEBUG
+            break;
+
+        } // Unknown
+
+    } // switch Typ
+
+} // set_Status
+
 int Hero::get_Value(const int &Typ)
 {
-    int Value = 0;
+    int Value = -1;
 
     switch(Typ)
     {
         case Hero_Live:
         {
-            Value = Live;
+            Value = Status.Live;
             break;
 
         } // Hero_Live
 
-        case Herostat_Live_max:
+        case Hero_Live_max:
         {
-            Value = Maximal_Live;
+            Value = Status.Maximal_Live;
             break;
 
         } // Live_max
 
         case Hero_Mana:
         {
-            Value = Mana;
+            Value = Status.Mana;
             break;
 
         } // Mana
 
-        case Herostat_Mana_max:
+        case Hero_Mana_max:
         {
-            Value = Maximal_Mana;
+            Value = Status.Maximal_Mana;
             break;
 
         } // Mana_max
 
-        case Herostat_Strength:
+        case Hero_Strength:
         {
-            Value = Strength;
+            Value = Status.Strength;
             break;
 
         } // Strength
 
-        case Herostat_Dexterity:
+        case Hero_Dexterity:
         {
-            Value = Dexterity;
+            Value = Status.Dexterity;
             break;
 
         } // Dexterity
 
-        case Herostat_Wisdom:
+        case Hero_Wisdom:
         {
-            Value = Wisdom;
+            Value = Status.Wisdom;
             break;
 
         } // Wisdom
 
-        case Herostat_Charisma:
+        case Hero_Charisma:
         {
-            Value = Charisma;
+            Value = Status.Charisma;
             break;
 
         } // Charisma
 
-        case Herostat_Attack:
+        case Hero_Attack:
         {
-            Value = Attack;
+            Value = Status.Attack;
             break;
 
         } // Attack
 
-        case Herostat_Parade:
+        case Hero_Parade:
         {
-            Value = Parade;
+            Value = Status.Parade;
             break;
 
         } // Parade
 
         case Hero_Gold:
         {
-            Value = Gold;
+            Value = Status.Gold;
             break;
 
         } // Gold
 
         case Hero_Food:
         {
-            Value = Food;
+            Value = Status.Food;
             break;
 
         } // Food
 
-        case Herostat_Level:
+        case Hero_Level:
         {
-            Value = Level;
+            Value = Status.Level;
             break;
 
         } // Level
 
-        case Herostat_Experience_to_next_Level:
+        case Hero_Experience_to_next_Level:
         {
-            Value = Experience_to_next_Level;
+            Value = Status.Experience_to_next_Level;
             break;
 
         } // Exp to next Level
 
         case Hero_Experience:
         {
-            Value = Experience;
+            Value = Status.Experience;
             break;
 
         } // Experience
 
-        case Hero_Poison:
+        case Hero_Poisonfactor:
         {
-            Value = Poisonfactor;
+            Value = Status.Poisonfactor;
             break;
 
         } // Poisonfactor
 
-        case Hero_Cheater:
+        case Hero_Map:
         {
-            if(Status.cheater)
-            {
-                Value = -1;
-
-            }
-            else
-            {
-                Value = 0;
-
-            } // if Status.cheater
-
+            Value = Status.on_Map;
             break;
 
-        } // Cheater
+        } // on Map
+
+        case Hero_use_Vehicle:
+        {
+            Value = Status.on_Vehicle;
+            break;
+
+        } // on Vehicle
 
         default:
         {
             #ifdef DEBUG
-            Log("(" << ErrorLog.ILLEGAL_ACCESS << ") Unknown Herostat: " << Typ)
+            Log("(" << ErrorLog.ILLEGAL_ACCESS << ") Unknown Herovalue getted: " << Typ)
             #endif // DEBUG
             break;
 
@@ -435,18 +651,54 @@ int Hero::get_Value(const int &Typ)
 
 } // get_Value
 
-void Hero::change_Value(int &Stat, const int &Val, const bool &Inc)
+bool Hero::get_Status(const int &Typ)
 {
-    if(Inc)
-    {
-        Stat = Stat + Val;
-    }
-    else
-    {
-        Stat = Stat - Val;
-    } // if Inc
+    bool Val = false;
 
-} // change_Value
+    switch(Typ)
+    {
+        case Hero_is_Female:
+        {
+            Val = Status.is_Female;
+            break;
+
+        } // is_Female
+
+        case Hero_is_Riding:
+        {
+            Val = Status.is_Riding;
+            break;
+
+        } // is_Riding
+
+        case Hero_is_Flying:
+        {
+            Val = Status.is_Flying;
+            break;
+
+        } // is_Flying
+
+        case Hero_is_Cheating:
+        {
+            Val = Status.is_Cheating;
+            break;
+
+        } // is_Cheating
+
+        default:
+        {
+            #ifdef DEBUG
+            Log("(" << ErrorLog.ILLEGAL_ACCESS << ") Unknown Herostatus getted: " << Typ)
+            #endif // DEBUG
+            break;
+
+        } // Unknown
+
+    } // switch(Typ)
+
+    return Val;
+
+} // get_Status;
 
 Hero::Hero_Position Hero::get_Position()
 {
@@ -454,23 +706,11 @@ Hero::Hero_Position Hero::get_Position()
 
 } // get_Postion
 
-void Hero::switch_Heromode(const int &Typ)
-{
-    Playmode = Typ;
-
-} // switch_Heromode
-
-int Hero::get_Heromode()
-{
-    return Playmode;
-
-} // get_Heromode
-
 void Hero::set_Position(const int &Pos_x, const int &Pos_y)
 {
-    switch(Playmode)
+    switch(Status.on_Map)
     {
-        case Hero_Global:
+        case Hero_on_Worldmap:
         {
             current_Postion.Global_x = Pos_x;
             current_Postion.Global_y = Pos_y;
@@ -478,7 +718,7 @@ void Hero::set_Position(const int &Pos_x, const int &Pos_y)
 
         } // Global
 
-        case Hero_Battle:
+        case Hero_on_Battlemap:
         {
             current_Postion.Battle_x = Pos_x;
             current_Postion.Battle_y = Pos_y;
@@ -486,7 +726,7 @@ void Hero::set_Position(const int &Pos_x, const int &Pos_y)
 
         } // Battle
 
-        case Hero_Town:
+        case Hero_on_Townmap:
         {
             current_Postion.Battle_x = Pos_x;
             current_Postion.Battle_y = Pos_y;
@@ -494,13 +734,22 @@ void Hero::set_Position(const int &Pos_x, const int &Pos_y)
 
         } // Battle
 
-        case Hero_Dungeon:
+        case Hero_on_Dungeonmap:
         {
             current_Postion.Dungeon_x = Pos_x;
             current_Postion.Dungeon_y = Pos_y;
             break;
 
         } // Dungeon
+
+        default:
+        {
+            #ifdef DEBUG
+            Log("(" << ErrorLog.ILLEGAL_ACCESS << ") Unknown Position setted: " << Status.on_Map)
+            #endif // DEBUG
+            break;
+
+        } // Unknown
 
     } // switch Typ
 
@@ -565,7 +814,7 @@ void Hero::execute_Command(Order &Command)
         // cheating
         case 58:
         {
-            set_Value(Stats::Hero_Cheater, 1, true);
+            set_Status(Hero_is_Cheating, true, true);
             break;
 
         } // case F12
@@ -574,7 +823,7 @@ void Hero::execute_Command(Order &Command)
         case 5:
         {
             DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[Enter]"), false);
-            Enter_Object();
+            enter_Object();
             break;
 
         } // case E
@@ -608,74 +857,94 @@ void Hero::draw_Hero(int Pos_x, int Pos_y)
     //Hero.Column = DDD_Data->find_Index("[INI_Playfieldcolumns]").Number / 2;
     //Hero.Row = DDD_Data->find_Index("[INI_Playfieldrows]").Number / 2;
 
-    if(Status.is_Dead)
+    if(Status.Live <= 0)
     {
         Hero.Sheetpos_x = DDD_Data->find_Index("[HER_dead]").Number;
 
     }
     else
     {
-        if(!Status.is_Shipping)
+        switch(Status.on_Vehicle)
         {
-            if(Status.on_Horse)
+            case Hero_use_Ship:
+            {
+                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Ship]").Number;
+                break;
+
+            } // on Ship
+
+            case Hero_use_Horse:
             {
                 Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Horse]").Number;
+                break;
 
-            }
-            else
+            } // on Horse
+
+            case Hero_use_Unicorn:
             {
-                if(Status.on_Unicorn)
+                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Unicorn]").Number;
+                break;
+
+            } // on Unicorn
+
+            case Hero_use_Lizard:
+            {
+                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Dragon]").Number;
+                break;
+
+            } // on Dragon
+
+            case Hero_use_Nothing:
+            {
+                if(Status.Poisonfactor <= 0) // Hero is healty
                 {
-                    Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Unicorn]").Number;
+                    switch(Status.has_Shield)
+                    {
+                        case Hero_use_no_Shield:
+                        {
+                            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword]").Number;
+                            break;
+
+                        } // no Shield and healty
+
+                        case Hero_use_big_Shield:
+                        case Hero_use_small_Shield:
+                        {
+                            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield]").Number;
+                            break;
+
+                        } // with Shield and healty
+
+                    } // switch (has_Shield)
 
                 }
                 else
                 {
-                    if(Status.on_Lizard)
+
+                    switch(Status.has_Shield)
                     {
-                        Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Dragon]").Number;
-
-                    }
-                    else
-                    {
-                        if(Status.is_Poisoned)
+                        case Hero_use_no_Shield:
                         {
-                            if((Status.small_Shield) || (Status.big_Shield))
-                            {
-                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield_poisoned]").Number;
-                            }
-                            else
-                            {
-                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword_poisoned]").Number;
-                            } // has Shield and is Poisoned
-                        }
-                        else
+                            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword_poisoned]").Number;
+                            break;
+
+                        } // no Shield and poisoned
+
+                        case Hero_use_big_Shield:
+                        case Hero_use_small_Shield:
                         {
-                            if((Status.small_Shield) || (Status.big_Shield))
-                            {
-                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield]").Number;
+                            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield_poisoned]").Number;
+                            break;
 
-                            }
-                            else
-                            {
-                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword]").Number;
+                        } // with Shield and poisoned
 
-                            } // has Shield and isn't poisoned
+                    } // switch (has_Shield)
 
-                        } // is_Poisoned
+                } // if Hero is Poisoned
 
-                    } // on_Lizard
+            } // Hero is on no Vehicle
 
-                } // on_Unicorn
-
-            } // on_Horse
-
-        }
-        else  // Hero is on Ship
-        {
-            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_on_Ship]").Number;
-
-        } // is_Shipping
+        } // switch (Vehicle)
 
     } // if is_Dead
 
@@ -683,7 +952,7 @@ void Hero::draw_Hero(int Pos_x, int Pos_y)
 
 } // draw_Hero
 
-void Hero::Enter_Object()
+void Hero::enter_Object()
 {
     std::string Entering;
     Entering = DDD_Map->check_Town(current_Postion.Global_x, current_Postion.Global_y);
@@ -706,30 +975,30 @@ std::string Hero::find_Treasure()
 {
     std::string Result;
 
-    switch(Playmode)
+    switch(Status.on_Map)
     {
-        case Hero_Global:
+        case Hero_on_Worldmap:
         {
             Result = DDD_Map->find_Treasure(current_Postion.Global_x, current_Postion.Global_y);
             break;
 
         } // case Global
 
-        case Hero_Battle:
+        case Hero_on_Battlemap:
         {
             Result = DDD_Map->find_Treasure(current_Postion.Battle_x, current_Postion.Battle_y);
             break;
 
         } // case Battle
 
-        case Hero_Town:
+        case Hero_on_Townmap:
         {
             Result = DDD_Map->find_Treasure(current_Postion.Town_x, current_Postion.Town_y);
             break;
 
         } // case Town
 
-        case Hero_Dungeon:
+        case Hero_on_Dungeonmap:
         {
             Result = DDD_Map->find_Treasure(current_Postion.Dungeon_x, current_Postion.Dungeon_y);
             break;
