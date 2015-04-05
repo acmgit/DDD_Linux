@@ -1022,4 +1022,44 @@ std::string Hero::find_Treasure()
 
 } // find_Treasure
 
+bool Hero::get_Blocked(const int &Pos_x, const int &Pos_y)
+{
+    bool blocked = false;
+    Mapinterface::Tiledata checkTile;
+
+    switch(Status.on_Map)
+    {
+        case Hero_on_Worldmap:
+        {
+            checkTile = DDD_Map->get_Tile(Mapinterface::Worldmaptile, Pos_x, Pos_y);
+
+
+            break;
+
+        } // on_Worldmap
+
+        case Hero_on_Battlemap:
+        {
+            break;
+
+        } // on_Battlemap
+
+        case Hero_on_Townmap:
+        {
+            break;
+
+        } // on_Townmap
+
+        case Hero_on_Dungeonmap:
+        {
+            break;
+
+        } // on_Dungeonmap
+
+    } // switch(on_Map)
+
+    return blocked;
+
+} // get_Blocked
+
 #endif // HERO_CPP

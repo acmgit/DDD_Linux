@@ -5,6 +5,9 @@
 #include <allegro/gfx.h>
 #include <vector>
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 #include "Mapinterface.h"
 #include "Battlemap.h"
@@ -17,6 +20,7 @@
 Mapinterface::Mapinterface(Allegro_Datafile *Data)
 {
     currDatafile = Data;
+
     currBattlemapclass = new Battlemap(currDatafile);
     if(!currBattlemapclass)
     {
@@ -67,6 +71,8 @@ Mapinterface::Mapinterface(Allegro_Datafile *Data)
         allegro_exit();
 
     } // if !currWorldmapclass
+
+    load_Tiles("data/DDD_Tiledata.txt");
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Mapinterface opened.")
@@ -209,9 +215,9 @@ void Mapinterface::get_BattlemapTile(Tiledata &Tile, const int Column, const int
     {
         Tile.Sheet = nullptr;               // No Battlemap generated
         Tile.Index = 0;
-        Tile.walkable = false;
-        Tile.shipable = false;
-        Tile.flyable = false;
+        //Tile.walkable = false;
+        //Tile.shipable = false;
+        //Tile.flyable = false;
         #ifdef DEBUG
         Log("(" << ErrorLog.ILLEGAL_ACCESS << ") No Battlemap generated.")
         #endif // DEBUG
@@ -253,144 +259,30 @@ void Mapinterface::get_TownTile(Tiledata &Tile, const int Column, const int Row)
 
     Town = "[TWN_" + Town + "]";
     Tile.Index = currDatafile->find_Index(Town).Number;
-    Tile.flyable = true;
-    Tile.shipable = false;
-    Tile.walkable = true;
+    //Tile.flyable = true;
+    //Tile.shipable = false;
+    //Tile.walkable = true;
 
-}
+} // get_Towntile
+
 void Mapinterface::convert_Tile(Tiledata &Tile, const char TChar)
 {
 
-    switch(TChar)
+    std::map<char, Tilecheck>::iterator Entry;
+
+    Entry = Tiles.find(TChar);
+
+    if(Entry != Tiles.end())
     {
-    case 'g':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Gras]").Number;
-            Tile.walkable = true;
-            Tile.flyable = true;
-            Tile.shipable = false;
-            break;
-        } // Case 'G'
+        Tile.Index = currDatafile->find_Index((*Entry).second.Keyname).Number;
 
-    case 'w':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Shrubbery]").Number;
-            Tile.walkable = true;
-            Tile.flyable = true;
-            Tile.shipable = false;
-            break;
+    }
+    else
+    {
+        // Unknown Tile
+        Tile.Index = currDatafile->find_Index("[WTI_Fog]").Number;
 
-        } // Case 'S'
-
-    case 'W':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Forest]").Number;
-            Tile.walkable = true;
-            Tile.flyable = true;
-            Tile.shipable = false;
-            break;
-
-        } // Case 'F'
-
-    case 'n':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Boulders]").Number;
-            Tile.walkable = true;
-            Tile.flyable = true;
-            Tile.shipable = false;
-            break;
-
-        } // case 'B'
-
-    case 'B':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Mountain]").Number;
-            Tile.walkable = false;
-            Tile.flyable = true;
-            Tile.shipable = false;
-            break;
-
-        } // case 'M'
-
-    case 'x':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Dessert]").Number;
-            Tile.walkable = true;
-            Tile.flyable = true;
-            Tile.shipable = false;
-            break;
-
-        } // case 'D'
-
-    case 'm':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Swamp]").Number;
-            Tile.walkable = true;
-            Tile.flyable = true;
-            Tile.shipable = false;
-            break;
-
-        } // case 'm'
-
-    case 's':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_River]").Number;
-            Tile.walkable = false;
-            Tile.flyable = true;
-            Tile.shipable = false;
-            break;
-
-        } // case 'w'
-
-    case 'S':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Sea]").Number;
-            Tile.walkable = false;
-            Tile.shipable = true;
-            Tile.flyable = true;
-            break;
-
-        } // case 'W'
-
-    case 'l':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Lava]").Number;
-            Tile.walkable = false;
-            Tile.shipable = false;
-            Tile.flyable = true;
-            break;
-
-        } // case 'l'
-
-    case 'b':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Bridge_horizontal]").Number;
-            Tile.walkable = true;
-            Tile.shipable = false;
-            Tile.flyable = true;
-            break;
-        }
-
-    case '#':
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Bridge_vertical]").Number;
-            Tile.walkable = true;
-            Tile.shipable = false;
-            Tile.flyable = true;
-            break;
-        }
-
-    default: // Unknown Tile
-        {
-            Tile.Index = currDatafile->find_Index("[WTI_Fog]").Number;
-            Tile.walkable = false;
-            Tile.shipable = false;
-            Tile.flyable = false;
-            break;
-
-        } // default
-
-    } // switch TChar
+    } // if(Entry)
 
 } // convert_Tile
 
@@ -419,5 +311,117 @@ std::string Mapinterface::find_Treasure(const int Column, const int Row)
     return currTreasures->find_Secret(curr_Column, curr_Row);
 
 } // find_Treasure
+
+void Mapinterface::load_Tiles(std::string Filename)
+{
+    std::ifstream File(Filename.c_str());
+
+    if(File.is_open())
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") <" << Filename.c_str() << "> opened.")
+        #endif // DEBUG
+
+        Tilecheck Entry;
+        std::string Line;
+
+        while(File.good())
+        {
+            std::getline(File, Line);
+
+            if((Line.find("[") != Line.npos) && (Line.find("]") != Line.npos))
+            {
+                // get Keyname
+                Entry.Keyname = Line;
+
+                // get Char
+                std::getline(File, Line);
+
+                Entry.Rawtile = (char) Line.at(0);
+
+                // get walkable
+                std::getline(File, Line);
+                Entry.walkable = convert_Bool(Line);
+
+                // get shipable
+                std::getline(File, Line);
+                Entry.shipable = convert_Bool(Line);
+
+
+                // get flyable
+                std::getline(File, Line);
+                Entry.flyable = convert_Bool(Line);
+
+                // get poison
+                std::getline(File, Line);
+                Entry.poison = convert_Bool(Line);
+
+                // get danger
+                std::getline(File, Line);
+                Entry.danger = convert_Bool(Line);
+
+                // get secret
+                std::getline(File, Line);
+                Entry.secret = convert_Bool(Line);
+
+                #ifdef DEBUG
+                Log("(" << ErrorLog.ALLOK << ") Tileentry loaded:")
+                Log("Keyname: " << Entry.Keyname.c_str())
+                Log("Rawtile: " << Entry.Rawtile)
+                Log("walkable: " << Entry.walkable)
+                Log("shipable: " << Entry.shipable)
+                Log("flyable: " << Entry.flyable)
+                Log("poison: " << Entry.poison)
+                Log("danger: " << Entry.danger)
+                Log("secret: " << Entry.secret)
+                #endif // DEBUG
+
+                // Stores the Entry
+                Tiles.insert(std::pair<char, Tilecheck>(Entry.Rawtile, Entry));
+
+            } // if Line.find
+
+        } // while File.good
+
+        File.close();
+        #ifdef DEBUG
+        Log("(" << ErrorLog.ALLOK << ") <" << Filename.c_str() << "> closed.")
+        #endif // DEBUG
+    }
+    else
+    {
+        #ifdef DEBUG
+        Log("(" << ErrorLog.FILE_NOT_FOUND << ") Tiledatafile <" << Filename.c_str() << "> not found.")
+        #endif // DEBUG
+
+        allegro_message("Tiledatafile not found.");
+        //allegro_exit();
+
+    } // if File.open
+
+} // load_Tiles
+
+bool Mapinterface::convert_Bool(std::string &Valuestring)
+{
+
+    int Val;
+    std::stringstream Valstring;
+
+    // convert String to Int
+    Valstring << Valuestring;
+    Valstring >> Val;
+
+    if(Val > 0)
+    {
+        return true;
+
+    }
+    else
+    {
+        return false;
+
+    } // if Val
+
+} // convertBool
 
 #endif // MAPINTERFACE_CPP

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <allegro/gfx.h>
+#include <map>
 
 #include "Battlemap.h"
 #include "Worldmap.h"
@@ -16,13 +17,27 @@ class Mapinterface
 {
     public:
 
+        struct Tilecheck
+        {
+            std::string Keyname;
+            char Rawtile;
+            bool walkable;                          // walkable, rideable etc. etc.
+            bool shipable;                          // only walkable, if you are on a Ship
+            bool flyable;                           // is the Tile landingable?
+            bool poison;                            // can Tile contaminate you
+            bool danger;                            // Special-Action Tile
+            bool secret;                            // is Tile a secret Door?
+        };
+
         struct Tiledata
         {
             BITMAP *Sheet;
             int Index;
+            /*
             bool walkable;
             bool shipable;
             bool flyable;
+            */
         };
 
         enum Tiletyp
@@ -67,7 +82,6 @@ class Mapinterface
         calls convert_Tile.
     */
     void get_BattlemapTile(Tiledata &Tile, const int Column, const int Row);
-
     void get_WorldmapTile(Tiledata &Tile, const int Column, const int Row);
 
     /*
@@ -79,8 +93,12 @@ class Mapinterface
     */
 
     void get_TownTile(Tiledata &Tile, const int Column, const int Row);
-
     void convert_Tile(Tiledata &Tile, const char TChar);
+
+    void load_Tiles(std::string Filname);
+    bool convert_Bool(std::string &Valuestring);
+
+    std::map<char, Tilecheck> Tiles;
 
     Allegro_Datafile *currDatafile;
     Battlemap *currBattlemapclass;

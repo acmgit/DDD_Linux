@@ -160,10 +160,11 @@ class Hero
     void draw_Hero(int Pos_x, int Pos_y);
     std::string find_Treasure();
 
+    bool get_Blocked(const int &Pos_x, const int &Pos_y);
+
     private:
 
     int get_Const(const std::string &Ini);
-
     void enter_Object();
 
     Allegro_Datafile *DDD_Data;
