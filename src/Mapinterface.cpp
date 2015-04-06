@@ -424,4 +424,67 @@ bool Mapinterface::convert_Bool(std::string &Valuestring)
 
 } // convertBool
 
+Mapinterface::Tilecheck Mapinterface::get_Tilecheck(Tiletyp Map, const int &Pos_x, const int &Pos_y)
+{
+    Tilecheck currTile;
+
+    currTile.Keyname = "[WTI_Fog]";
+    currTile.walkable = false;
+    currTile.shipable = false;
+    currTile.flyable = false;
+    currTile.danger = false;
+    currTile.poison = false;
+    currTile.secret = false;
+
+    int curr_Pos_x = Pos_x;
+    int curr_Pos_y = Pos_y;
+    char Chartile;
+    std::map<char, Tilecheck>::iterator Entry;
+
+    switch(Map)
+    {
+        case(Worldmaptile):
+        {
+            convert_WorldmapCoords(curr_Pos_x, curr_Pos_y);
+            Chartile = currWorldmapclass->get_Tile(curr_Pos_x, curr_Pos_y);
+            Entry = Tiles.find(Chartile);
+            if(Entry != Tiles.end())
+            {
+                currTile.Keyname = (*Entry).second.Keyname;
+                currTile.Rawtile = (*Entry).second.Rawtile;
+                currTile.walkable = (*Entry).second.walkable;
+                currTile.shipable = (*Entry).second.shipable;
+                currTile.flyable = (*Entry).second.flyable;
+                currTile.poison = (*Entry).second.poison;
+                currTile.danger = (*Entry).second.danger;
+                currTile.secret = (*Entry).second.secret;
+
+            } // if(Entry != end)
+
+            break;
+
+        } // case Worldmaptile
+
+        case(Battlemaptile):
+        {
+            break;
+
+        } // case Battlemaptile
+
+        case(Townmaptile):
+        {
+            break;
+
+        } // case Townmaptile
+
+        default:
+        {
+            break;
+        } // case default
+
+    } // switch(Map)
+
+    return currTile;
+
+} // get_Tilecheck
 #endif // MAPINTERFACE_CPP

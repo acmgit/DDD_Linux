@@ -769,6 +769,12 @@ void Hero::execute_Command(Order &Command)
             DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[North]"), true);
             --current_Postion.Global_y;
             DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            if(!get_Blocked(current_Postion.Global_x, current_Postion.Global_y))
+            {
+                ++current_Postion.Global_y;
+                DDD_Output->write_OnConsole(DDD_Data->get_Color("red"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[Blocked]"), true);
+            }
+
             DDD_Output->play_Sound("Step");
 
             break;
@@ -781,6 +787,12 @@ void Hero::execute_Command(Order &Command)
             DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[South]"), true);
             ++current_Postion.Global_y;
             DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            if(!get_Blocked(current_Postion.Global_x, current_Postion.Global_y))
+            {
+                --current_Postion.Global_y;
+                DDD_Output->write_OnConsole(DDD_Data->get_Color("red"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[Blocked]"), true);
+            }
+
             DDD_Output->play_Sound("Step");
 
             break;
@@ -793,6 +805,12 @@ void Hero::execute_Command(Order &Command)
             DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[West]"), true);
             --current_Postion.Global_x;
             DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            if(!get_Blocked(current_Postion.Global_x, current_Postion.Global_y))
+            {
+                ++current_Postion.Global_x;
+                DDD_Output->write_OnConsole(DDD_Data->get_Color("red"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[Blocked]"), true);
+            }
+
             DDD_Output->play_Sound("Step");
 
             break;
@@ -805,6 +823,12 @@ void Hero::execute_Command(Order &Command)
             DDD_Output->write_OnConsole(DDD_Data->get_Color("gold"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[East]"), true);
             ++current_Postion.Global_x;
             DDD_Map->convert_WorldmapCoords(current_Postion.Global_x, current_Postion.Global_y);
+            if(!get_Blocked(current_Postion.Global_x, current_Postion.Global_y))
+            {
+                --current_Postion.Global_x;
+                DDD_Output->write_OnConsole(DDD_Data->get_Color("red"), DDD_Data->get_Color("transparent"), DDD_Translator->Print("[Blocked]"), true);
+            }
+
             DDD_Output->play_Sound("Step");
 
             break;
@@ -818,6 +842,90 @@ void Hero::execute_Command(Order &Command)
             break;
 
         } // case F12
+
+        // F5
+        case 51:
+        {
+            if(Status.is_Cheating)
+            {
+                if(Status.on_Vehicle == Hero_use_Ship)
+                {
+                    Status.on_Vehicle = Hero_use_Nothing;
+
+                }
+                else
+                {
+                    Status.on_Vehicle = Hero_use_Ship;
+
+                } // if on_Vehicle = Ship
+
+            } // if is_Cheating
+            break;
+
+        } // case F5
+
+        // F6
+        case 52:
+        {
+            if(Status.is_Cheating)
+            {
+                if(Status.on_Vehicle == Hero_use_Horse)
+                {
+                    Status.on_Vehicle = Hero_use_Nothing;
+
+                }
+                else
+                {
+                    Status.on_Vehicle = Hero_use_Horse;
+
+                } // if on_Vehicle = Horse
+
+            } // if is_Cheating
+            break;
+
+        } // case F6
+
+        // case F7
+        case 53:
+        {
+            if(Status.is_Cheating)
+            {
+                if(Status.on_Vehicle == Hero_use_Unicorn)
+                {
+                    Status.on_Vehicle = Hero_use_Nothing;
+
+                }
+                else
+                {
+                    Status.on_Vehicle = Hero_use_Unicorn;
+
+                } // if on_Vehicle = Horse
+
+            } // if is_Cheating
+            break;
+
+        } // case F7
+
+        // F8
+        case 54:
+        {
+            if(Status.is_Cheating)
+            {
+                if(Status.on_Vehicle == Hero_use_Lizard)
+                {
+                    Status.on_Vehicle = Hero_use_Nothing;
+
+                }
+                else
+                {
+                    Status.on_Vehicle = Hero_use_Lizard;
+
+                } // if on_Vehicle = Horse
+
+            } // if is_Cheating
+            break;
+
+        } // case F8
 
         // e (enter)
         case 5:
@@ -1025,14 +1133,74 @@ std::string Hero::find_Treasure()
 bool Hero::get_Blocked(const int &Pos_x, const int &Pos_y)
 {
     bool blocked = false;
-    Mapinterface::Tiledata checkTile;
+    Mapinterface::Tilecheck checkTile;
 
     switch(Status.on_Map)
     {
         case Hero_on_Worldmap:
         {
-            checkTile = DDD_Map->get_Tile(Mapinterface::Worldmaptile, Pos_x, Pos_y);
+            checkTile = DDD_Map->get_Tilecheck(Mapinterface::Worldmaptile, Pos_x, Pos_y);
+            if(!Status.is_Cheating)
+            {
+                switch(Status.on_Vehicle)
+                {
+                    case(Hero_use_Ship):
+                    {
+                        if(checkTile.shipable)
+                        {
+                            return true;
 
+                        } // if shipable
+
+                        break;
+
+                    } // Hero on Ship
+
+                    case(Hero_use_Nothing):
+                    case(Hero_use_Horse):
+                    case(Hero_use_Unicorn):
+                    {
+                        if(checkTile.walkable)
+                        {
+                            return true;
+
+                        } // if walkable
+
+                        break;
+
+                    } // Hero on Nothing, Horse or Unicorn
+
+                    case(Hero_use_Lizard):
+                    {
+                        if(Status.is_Flying)
+                        {
+                            if(checkTile.flyable)
+                            {
+                                return true;
+
+                            } // if flyable (Hero want landing on Tile)
+                        }
+                        else
+                        {
+                            if(checkTile.walkable)
+                            {
+                                return true;
+
+                            } // if walkable (Hero is only going with the Dragon)
+
+                        } // if is_Flying
+                        break;
+
+                    } // Hero use Lizard
+
+                } // switch(on_Vehicle)
+
+            } // if is_Cheating
+            else
+            {
+                return true;
+
+            } // if is_Cheating
 
             break;
 

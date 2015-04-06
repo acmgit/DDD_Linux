@@ -52,6 +52,7 @@ class Mapinterface
         ~Mapinterface();
 
         Tiledata get_Tile(Tiletyp Map, const int Column, const int Row);
+        Tilecheck get_Tilecheck(Tiletyp Map, const int &Column, const int &Row);
 
         bool get_Battlemapstatus();                                         // is a Battlemap valid?
 
