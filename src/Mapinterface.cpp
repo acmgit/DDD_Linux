@@ -364,6 +364,11 @@ void Mapinterface::load_Tiles(std::string Filename)
                 std::getline(File, Line);
                 Entry.secret = convert_Bool(Line);
 
+                // get eclipse
+                std::getline(File, Line);
+                Entry.eclipse = convert_Bool(Line);
+
+
                 #ifdef DEBUG
                 Log("(" << ErrorLog.ALLOK << ") Tileentry loaded:")
                 Log("Keyname: " << Entry.Keyname.c_str())
@@ -374,6 +379,7 @@ void Mapinterface::load_Tiles(std::string Filename)
                 Log("poison: " << Entry.poison)
                 Log("danger: " << Entry.danger)
                 Log("secret: " << Entry.secret)
+                Log("eclipse: " << Entry.eclipse)
                 #endif // DEBUG
 
                 // Stores the Entry
@@ -487,4 +493,33 @@ Mapinterface::Tilecheck Mapinterface::get_Tilecheck(Tiletyp Map, const int &Pos_
     return currTile;
 
 } // get_Tilecheck
+
+Mapinterface::Tilecheck Mapinterface::convert_Rawtile(const char &Tile)
+{
+    Tilecheck currTile;
+
+    currTile.Keyname = "[WTI_Fog]";
+    currTile.walkable = false;
+    currTile.shipable = false;
+    currTile.flyable = false;
+    currTile.danger = false;
+    currTile.poison = false;
+    currTile.secret = false;
+
+    std::map<char, Tilecheck>::iterator Entry;
+    Entry = Tiles.find(Tile);
+
+    if(Entry != Tiles.end())
+    {
+        return (*Entry).second;
+
+    }
+    else
+    {
+        return currTile;
+
+    } // if(Entry)
+
+} // convert_Rawtile
+
 #endif // MAPINTERFACE_CPP

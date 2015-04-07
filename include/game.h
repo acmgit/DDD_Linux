@@ -66,11 +66,11 @@ class game
                                      const std::string &Text);
 
         void switch_Mode(const int Gamemode);
-
         Hero::Order get_Command(int Len, int Seconds);
         void parse_Command(Hero::Order &Command);
-
         void execute_Command(Hero::Order &Command);
+        void check_Line(std::vector<std::string> &Map, int start_x, int start_y, int end_x, int end_y);
+        void draw_World_Fog();
 
         Allegro_Output *DDD_Output;
         Allegro_Input *DDD_Input;
@@ -97,8 +97,6 @@ class game
         bool running;
 
         int game_Mode;
-
-        //Hero::Hero_Position Hero_Pos;
 
 }; // game
 

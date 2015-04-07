@@ -27,6 +27,7 @@ class Mapinterface
             bool poison;                            // can Tile contaminate you
             bool danger;                            // Special-Action Tile
             bool secret;                            // is Tile a secret Door?
+            bool eclipse;                           // is Tile shadowing
         };
 
         struct Tiledata
@@ -53,6 +54,8 @@ class Mapinterface
 
         Tiledata get_Tile(Tiletyp Map, const int Column, const int Row);
         Tilecheck get_Tilecheck(Tiletyp Map, const int &Column, const int &Row);
+
+        Tilecheck convert_Rawtile(const char &Tile);
 
         bool get_Battlemapstatus();                                         // is a Battlemap valid?
 

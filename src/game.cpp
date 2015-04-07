@@ -220,6 +220,17 @@ void game::run()
     {
 
         write_Status();
+        draw_Worldmap(DDD_Hero->get_Position());
+
+        DDD_Hero->draw_Hero(DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2,
+                            DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2);
+
+        if(!DDD_Hero->get_Status(Hero::Hero_is_Cheating))
+        {
+            draw_World_Fog();
+        }
+
+        draw_Frame();
 
         switch(game_Mode)
         {
@@ -237,14 +248,6 @@ void game::run()
                 #ifdef DEBUG
                 Log("(" << ErrorLog.ALLOK << ") Gamemode Worldmap")
                 #endif // DEBUG
-
-
-                draw_Worldmap(DDD_Hero->get_Position());
-                DDD_Hero->draw_Hero(DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2,
-                                    DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2);
-
-                //DDD_Output->render_Tile(Hero);
-                draw_Frame();
 
                 Command = get_Command(1, 10);                   // 1 Char and 10 Seconds to wait ...
                 parse_Command(Command);
@@ -312,12 +315,12 @@ void game::run()
 
     } // while running
 
-    DDD_Map->destroy_Battlemap();
-
 } // run
 
 void game::clean_game()
 {
+
+    DDD_Map->destroy_Battlemap();
 
     if(DDD_Map)
     {
@@ -393,21 +396,8 @@ Hero::Order game::get_Command(int Len, int Seconds)
             currKey.Strg = false;
         } // if readKey
 
-        /*
-        if(command_Count >= Len)
-        {
-            DDD_Output->write_OnConsole(get_Color("yellow"), get_Color("transparent"), "", true);
-
-        } // if command_Count
-        */
-        //render_game();
     } // while command_Count
 
-    /*
-    #ifdef DEBUG
-    Log("Command: " << Command.c_str())
-    #endif // DEBUG
-    */
     Hero::Order currCommand;
     currCommand.Command = Command;
     currCommand.Key = currKey;
@@ -714,10 +704,6 @@ void game::execute_Command(Hero::Order &Command)
 
     } // switch(Command)
 
-    //DDD_Hero->set_Position(Hero_Pos.Global_x, Hero_Pos.Global_y);
-
-    //render_game();
-
 } // execute_Worldcommand
 
 void game::write_Status()
@@ -832,5 +818,203 @@ void game::build_Cheaterline(   const int &Line, const int &Pixeltab,
     DDD_Output->add_StatusLine(Line, Pixeltab, DDD_Datafile->get_Color(Forgroundcolor), DDD_Datafile->get_Color(Backgroundcolor), StatusLine);
 
 } // build_Statusline
+
+void game::draw_World_Fog()
+{
+    std::vector<std::string> Playline;
+
+    // copy the Map to a local Map
+    int Play_x = DDD_Hero->get_Position().Global_x;
+    int Play_y = DDD_Hero->get_Position().Global_y;
+
+    int start_x = Play_x - (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2);
+    int start_y = Play_y - (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2);
+    int end_x = start_x + (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number);
+    int end_y = start_y + (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number);
+
+    for(int y = 0; y <= end_y; ++y)
+    {
+        std::string Line;
+
+        for(int x = 0; x <= end_x; ++x)
+        {
+            Line += DDD_Map->get_Tilecheck(Mapinterface::Worldmaptile, start_x + x, start_y + y).Rawtile;
+
+        } // for int x
+
+        Playline.push_back(Line);
+        Line.clear();
+
+    } // for int y
+
+    // ok, now draw the Fog-Lines
+    start_x = DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2;
+    start_y = DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2;
+
+    end_x = DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number;
+    end_y = DDD_Datafile->find_Index("[INI_Playfieldrows]").Number;
+
+    for(int x = 0; x <= end_x; ++x)
+    {
+        check_Line(Playline, start_x, start_y, x, 0);
+        check_Line(Playline, start_x, start_y, x, end_y);
+
+    }
+
+    for(int y = 0; y <= end_y; ++y)
+    {
+        check_Line(Playline, start_x, start_y, 0, y);
+        check_Line(Playline, start_x, start_y, end_x, y);
+    }
+
+} // draw_Fog()
+
+
+void game::check_Line(std::vector<std::string> &Map, int start_x, int start_y, int end_x, int end_y)
+{
+    Allegro_Output::tileData Fogtile;
+
+    Fogtile.Sheet = DDD_Datafile->get_Bitmap("[SHE_Worldtile]");
+    Fogtile.Sheetpos_x = DDD_Datafile->find_Index("[WTI_Fog]").Number;
+    Fogtile.Sheetpos_y = 0;
+    Fogtile.transparency = false;
+
+    bool draw = false;
+
+    int x = start_x;
+    int xe = end_x;
+
+    int y = start_y;
+    int ye = end_y;
+
+    int dx = end_x - start_x;
+    int dy = end_y - start_y;
+
+    int xstep = 1;
+    int ystep = 1;
+
+    if(dx < 0)
+    {
+        dx = -dx;
+        xstep = -1;
+
+    }
+
+    if(dy < 0)
+    {
+        dy = -dy;
+        ystep = -1;
+
+    }
+
+    int a = 2*dx;
+    int b = 2*dy;
+
+    if(dy <= dx)
+    {
+        int f = -dx;
+
+        while(x != xe)
+        {
+            // plot(x, y)
+            if(!draw)
+            {
+                bool shadow = DDD_Map->convert_Rawtile(Map.at(y).at(x)).eclipse;
+                if(shadow)
+                {
+                    draw = true;
+
+                } // if (shadow)
+
+            }
+            else
+            {
+                Fogtile.Column = x;
+                Fogtile.Row = y;
+                if( (Fogtile.Column >= 0) && (Fogtile.Column <= (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number-1)) &&
+                    (Fogtile.Row >= 0) && (Fogtile.Row <= (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number-1))
+                  )
+                {
+                    DDD_Output->render_Tile(Fogtile);
+
+                }
+
+            } // if(draw == false);
+
+            f = f + b;
+            if(f > 0)
+            {
+                y = y + ystep;
+                f = f - a;
+
+            } // if f > 0
+
+            x = x + xstep;
+
+        } // while x<xe
+
+    } // if dy <= dx
+    else
+    {
+        int f = -dy;
+
+        while(y != ye)
+        {
+            // plot(x,y)
+            if(!draw)
+            {
+                bool shadow = DDD_Map->convert_Rawtile(Map.at(y).at(x)).eclipse;
+                if(shadow)
+                {
+                    draw = true;
+
+                } // if (shadow)
+
+            }
+            else
+            {
+                Fogtile.Column = x;
+                Fogtile.Row = y;
+                if( (Fogtile.Column >= 0) && (Fogtile.Column <= (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number-1)) &&
+                    (Fogtile.Row >= 0) && (Fogtile.Row <= (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number-1))
+                  )
+                {
+                    DDD_Output->render_Tile(Fogtile);
+
+                }
+
+            } // if(draw == false);
+
+            f = f + a;
+            if(f > 0)
+            {
+                x = x + xstep;
+                f = f - b;
+
+            } // if f > 0
+
+            y = y + ystep;
+
+        } // while y < ye
+
+    } // if dy <= dx
+
+    // plot(x, y)
+
+    if(draw)
+    {
+        Fogtile.Column = x;
+        Fogtile.Row = y;
+        if( (Fogtile.Column >= 0) && (Fogtile.Column <= (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number-1)) &&
+            (Fogtile.Row >= 0) && (Fogtile.Row <= (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number-1))
+          )
+        {
+            DDD_Output->render_Tile(Fogtile);
+
+        }
+
+    } // if(draw == false);
+
+} // check_line
 
 #endif // GAME_CPP
