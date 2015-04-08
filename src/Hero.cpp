@@ -243,7 +243,7 @@ void Hero::set_Value(const int &Typ, const int &Value, const bool &change)
             }
             else
             {
-                Status.Charisma = Value;
+                Status.Attack = Value;
 
             }// if change
 
