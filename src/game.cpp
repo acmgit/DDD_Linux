@@ -228,7 +228,8 @@ void game::run()
         if(!DDD_Hero->get_Status(Hero::Hero_is_Cheating))
         {
             draw_World_Fog();
-        }
+
+        } // if(is_Cheating)
 
         draw_Frame();
 
@@ -829,14 +830,17 @@ void game::draw_World_Fog()
 
     int start_x = Play_x - (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2);
     int start_y = Play_y - (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2);
+    DDD_Map->convert_WorldmapCoords(start_x, start_y);
+
     int end_x = start_x + (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number);
     int end_y = start_y + (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number);
+    DDD_Map->convert_WorldmapCoords(end_x, end_y);
 
-    for(int y = 0; y <= end_y; ++y)
+    for(int y = 0; y <= DDD_Datafile->find_Index("[INI_Playfieldrows]").Number; ++y)
     {
         std::string Line;
 
-        for(int x = 0; x <= end_x; ++x)
+        for(int x = 0; x <= DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number; ++x)
         {
             Line += DDD_Map->get_Tilecheck(Mapinterface::Worldmaptile, start_x + x, start_y + y).Rawtile;
 
@@ -881,139 +885,62 @@ void game::check_Line(std::vector<std::string> &Map, int start_x, int start_y, i
 
     bool draw = false;
 
-    int x = start_x;
-    int xe = end_x;
+    //void line(int x0, int y0, int x1, int y1)
 
-    int y = start_y;
-    int ye = end_y;
+    int dx =  abs(end_x - start_x), sx = start_x < end_x ? 1 : -1;
+    int dy = -abs(end_y - start_y), sy = start_y < end_y ? 1 : -1;
+    int err = dx + dy, e2; /* error value e_xy */
 
-    int dx = end_x - start_x;
-    int dy = end_y - start_y;
+    while(true)
+    {  /* loop */
+        //setPixel( start_x, start_y );
 
-    int xstep = 1;
-    int ystep = 1;
-
-    if(dx < 0)
-    {
-        dx = -dx;
-        xstep = -1;
-
-    }
-
-    if(dy < 0)
-    {
-        dy = -dy;
-        ystep = -1;
-
-    }
-
-    int a = 2*dx;
-    int b = 2*dy;
-
-    if(dy <= dx)
-    {
-        int f = -dx;
-
-        while(x != xe)
+        if(!draw)
         {
-            // plot(x, y)
-            if(!draw)
+            bool shadow = DDD_Map->convert_Rawtile(Map.at(start_y).at(start_x)).eclipse;
+            if(shadow)
             {
-                bool shadow = DDD_Map->convert_Rawtile(Map.at(y).at(x)).eclipse;
-                if(shadow)
-                {
-                    draw = true;
+                draw = true;
 
-                } // if (shadow)
+            } // if (shadow)
 
-            }
-            else
-            {
-                Fogtile.Column = x;
-                Fogtile.Row = y;
-                if( (Fogtile.Column >= 0) && (Fogtile.Column <= (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number-1)) &&
-                    (Fogtile.Row >= 0) && (Fogtile.Row <= (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number-1))
-                  )
-                {
-                    DDD_Output->render_Tile(Fogtile);
-
-                }
-
-            } // if(draw == false);
-
-            f = f + b;
-            if(f > 0)
-            {
-                y = y + ystep;
-                f = f - a;
-
-            } // if f > 0
-
-            x = x + xstep;
-
-        } // while x<xe
-
-    } // if dy <= dx
-    else
-    {
-        int f = -dy;
-
-        while(y != ye)
+        }
+        else
         {
-            // plot(x,y)
-            if(!draw)
+            Fogtile.Column = start_x;
+            Fogtile.Row = start_y;
+            if( (Fogtile.Column >= 0) && (Fogtile.Column <= (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number-1)) &&
+                (Fogtile.Row >= 0) && (Fogtile.Row <= (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number-1))
+              )
             {
-                bool shadow = DDD_Map->convert_Rawtile(Map.at(y).at(x)).eclipse;
-                if(shadow)
-                {
-                    draw = true;
+                DDD_Output->render_Tile(Fogtile);
 
-                } // if (shadow)
+            } // if(Fogtile)
 
-            }
-            else
-            {
-                Fogtile.Column = x;
-                Fogtile.Row = y;
-                if( (Fogtile.Column >= 0) && (Fogtile.Column <= (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number-1)) &&
-                    (Fogtile.Row >= 0) && (Fogtile.Row <= (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number-1))
-                  )
-                {
-                    DDD_Output->render_Tile(Fogtile);
+        } // if(!draw)
 
-                }
-
-            } // if(draw == false);
-
-            f = f + a;
-            if(f > 0)
-            {
-                x = x + xstep;
-                f = f - b;
-
-            } // if f > 0
-
-            y = y + ystep;
-
-        } // while y < ye
-
-    } // if dy <= dx
-
-    // plot(x, y)
-
-    if(draw)
-    {
-        Fogtile.Column = x;
-        Fogtile.Row = y;
-        if( (Fogtile.Column >= 0) && (Fogtile.Column <= (DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number-1)) &&
-            (Fogtile.Row >= 0) && (Fogtile.Row <= (DDD_Datafile->find_Index("[INI_Playfieldrows]").Number-1))
-          )
+        if (start_x == end_x && start_y == end_y)
         {
-            DDD_Output->render_Tile(Fogtile);
+            break;
 
         }
 
-    } // if(draw == false);
+        e2 = 2*err;
+        if (e2 > dy)
+        {
+            err += dy;
+            start_x += sx;
+
+        } /* e_xy+e_x > 0 */
+
+        if (e2 < dx)
+        {
+            err += dx;
+            start_y += sy;
+
+        } /* e_xy+e_y < 0 */
+
+    } // while(true)
 
 } // check_line
 

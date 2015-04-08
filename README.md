@@ -41,3 +41,9 @@ http://wiki.allegro.cc
 
 Bass
 http://www.un4seen.com/
+
+## Screenshots:
+
+![Screenshot Alpha 1 German] (gfx/Screenshot_alpha_1.png) ![Screenshot Alpha 1 English] (gfx/Screenshot_alpha_2.png)
+
+![Screenshot Alpha 2 German] (gfx/Screenshot_alpha_3.png) ![Screenshot Alpha 2 English] (gfx/Screenshot_alpha_4.png)
