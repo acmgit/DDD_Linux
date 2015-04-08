@@ -1133,7 +1133,7 @@ std::string Hero::find_Treasure()
 bool Hero::get_Blocked(const int &Pos_x, const int &Pos_y)
 {
     bool blocked = false;
-    Mapinterface::Tilecheck checkTile;
+    Mapinterface::Tile checkTile;
 
     switch(Status.on_Map)
     {

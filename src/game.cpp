@@ -204,26 +204,15 @@ void game::run()
     Command.Key.Shift = 0;
     Command.Key.Strg = 0;
 
-/*
-    Allegro_Output::tileData Hero;
-
-    Hero.Sheet = DDD_Datafile->get_Bitmap("[SHE_Hero]");
-    Hero.Sheetpos_x = DDD_Datafile->find_Index("[HER_Sword]").Number;
-    Hero.Sheetpos_y = 0;
-    Hero.transparency = true;
-    Hero.Column = DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2;
-    Hero.Row = DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2;
-*/
-    //int counting = 0;
-
     while(running)
     {
 
-        write_Status();
         draw_Worldmap(DDD_Hero->get_Position());
 
         DDD_Hero->draw_Hero(DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2,
                             DDD_Datafile->find_Index("[INI_Playfieldrows]").Number / 2);
+
+        write_Status();
 
         if(!DDD_Hero->get_Status(Hero::Hero_is_Cheating))
         {

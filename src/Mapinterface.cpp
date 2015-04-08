@@ -215,9 +215,7 @@ void Mapinterface::get_BattlemapTile(Tiledata &Tile, const int Column, const int
     {
         Tile.Sheet = nullptr;               // No Battlemap generated
         Tile.Index = 0;
-        //Tile.walkable = false;
-        //Tile.shipable = false;
-        //Tile.flyable = false;
+
         #ifdef DEBUG
         Log("(" << ErrorLog.ILLEGAL_ACCESS << ") No Battlemap generated.")
         #endif // DEBUG
@@ -259,28 +257,25 @@ void Mapinterface::get_TownTile(Tiledata &Tile, const int Column, const int Row)
 
     Town = "[TWN_" + Town + "]";
     Tile.Index = currDatafile->find_Index(Town).Number;
-    //Tile.flyable = true;
-    //Tile.shipable = false;
-    //Tile.walkable = true;
 
 } // get_Towntile
 
-void Mapinterface::convert_Tile(Tiledata &Tile, const char TChar)
+void Mapinterface::convert_Tile(Tiledata &curr_Tile, const char TChar)
 {
 
-    std::map<char, Tilecheck>::iterator Entry;
+    std::map<char, Tile>::iterator Entry;
 
     Entry = Tiles.find(TChar);
 
     if(Entry != Tiles.end())
     {
-        Tile.Index = currDatafile->find_Index((*Entry).second.Keyname).Number;
+        curr_Tile.Index = currDatafile->find_Index((*Entry).second.Keyname).Number;
 
     }
     else
     {
         // Unknown Tile
-        Tile.Index = currDatafile->find_Index("[WTI_Fog]").Number;
+        curr_Tile.Index = currDatafile->find_Index("[WTI_Fog]").Number;
 
     } // if(Entry)
 
@@ -322,7 +317,7 @@ void Mapinterface::load_Tiles(std::string Filename)
         Log("(" << ErrorLog.ALLOK << ") <" << Filename.c_str() << "> opened.")
         #endif // DEBUG
 
-        Tilecheck Entry;
+        Tile Entry;
         std::string Line;
 
         while(File.good())
@@ -331,12 +326,15 @@ void Mapinterface::load_Tiles(std::string Filename)
 
             if((Line.find("[") != Line.npos) && (Line.find("]") != Line.npos))
             {
+                // get Sheetname
+                Entry.Sheetname = Line;
+
                 // get Keyname
+                std::getline(File, Line);
                 Entry.Keyname = Line;
 
                 // get Char
                 std::getline(File, Line);
-
                 Entry.Rawtile = (char) Line.at(0);
 
                 // get walkable
@@ -346,7 +344,6 @@ void Mapinterface::load_Tiles(std::string Filename)
                 // get shipable
                 std::getline(File, Line);
                 Entry.shipable = convert_Bool(Line);
-
 
                 // get flyable
                 std::getline(File, Line);
@@ -371,6 +368,7 @@ void Mapinterface::load_Tiles(std::string Filename)
 
                 #ifdef DEBUG
                 Log("(" << ErrorLog.ALLOK << ") Tileentry loaded:")
+                Log("Sheetname: " << Entry.Sheetname.c_str())
                 Log("Keyname: " << Entry.Keyname.c_str())
                 Log("Rawtile: " << Entry.Rawtile)
                 Log("walkable: " << Entry.walkable)
@@ -383,7 +381,7 @@ void Mapinterface::load_Tiles(std::string Filename)
                 #endif // DEBUG
 
                 // Stores the Entry
-                Tiles.insert(std::pair<char, Tilecheck>(Entry.Rawtile, Entry));
+                Tiles.insert(std::pair<char, Tile>(Entry.Rawtile, Entry));
 
             } // if Line.find
 
@@ -430,10 +428,11 @@ bool Mapinterface::convert_Bool(std::string &Valuestring)
 
 } // convertBool
 
-Mapinterface::Tilecheck Mapinterface::get_Tilecheck(Tiletyp Map, const int &Pos_x, const int &Pos_y)
+Mapinterface::Tile Mapinterface::get_Tilecheck(Tiletyp Map, const int &Pos_x, const int &Pos_y)
 {
-    Tilecheck currTile;
+    Tile currTile;
 
+    currTile.Sheetname = "[SHE_Worldtile]";
     currTile.Keyname = "[WTI_Fog]";
     currTile.walkable = false;
     currTile.shipable = false;
@@ -445,7 +444,7 @@ Mapinterface::Tilecheck Mapinterface::get_Tilecheck(Tiletyp Map, const int &Pos_
     int curr_Pos_x = Pos_x;
     int curr_Pos_y = Pos_y;
     char Chartile;
-    std::map<char, Tilecheck>::iterator Entry;
+    std::map<char, Tile>::iterator Entry;
 
     switch(Map)
     {
@@ -494,10 +493,11 @@ Mapinterface::Tilecheck Mapinterface::get_Tilecheck(Tiletyp Map, const int &Pos_
 
 } // get_Tilecheck
 
-Mapinterface::Tilecheck Mapinterface::convert_Rawtile(const char &Tile)
+Mapinterface::Tile Mapinterface::convert_Rawtile(const char &Tilechar)
 {
-    Tilecheck currTile;
+    Tile currTile;
 
+    currTile.Sheetname = "[SHE_Worldtile]";
     currTile.Keyname = "[WTI_Fog]";
     currTile.walkable = false;
     currTile.shipable = false;
@@ -506,8 +506,8 @@ Mapinterface::Tilecheck Mapinterface::convert_Rawtile(const char &Tile)
     currTile.poison = false;
     currTile.secret = false;
 
-    std::map<char, Tilecheck>::iterator Entry;
-    Entry = Tiles.find(Tile);
+    std::map<char, Tile>::iterator Entry;
+    Entry = Tiles.find(Tilechar);
 
     if(Entry != Tiles.end())
     {

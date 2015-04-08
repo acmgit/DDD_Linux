@@ -17,8 +17,9 @@ class Mapinterface
 {
     public:
 
-        struct Tilecheck
+        struct Tile
         {
+            std::string Sheetname;
             std::string Keyname;
             char Rawtile;
             bool walkable;                          // walkable, rideable etc. etc.
@@ -34,11 +35,6 @@ class Mapinterface
         {
             BITMAP *Sheet;
             int Index;
-            /*
-            bool walkable;
-            bool shipable;
-            bool flyable;
-            */
         };
 
         enum Tiletyp
@@ -53,9 +49,9 @@ class Mapinterface
         ~Mapinterface();
 
         Tiledata get_Tile(Tiletyp Map, const int Column, const int Row);
-        Tilecheck get_Tilecheck(Tiletyp Map, const int &Column, const int &Row);
+        Tile get_Tilecheck(Tiletyp Map, const int &Column, const int &Row);
 
-        Tilecheck convert_Rawtile(const char &Tile);
+        Tile convert_Rawtile(const char &Tilechar);
 
         bool get_Battlemapstatus();                                         // is a Battlemap valid?
 
@@ -97,12 +93,12 @@ class Mapinterface
     */
 
     void get_TownTile(Tiledata &Tile, const int Column, const int Row);
-    void convert_Tile(Tiledata &Tile, const char TChar);
+    void convert_Tile(Tiledata &curr_Tile, const char TChar);
 
     void load_Tiles(std::string Filname);
     bool convert_Bool(std::string &Valuestring);
 
-    std::map<char, Tilecheck> Tiles;
+    std::map<char, Tile> Tiles;
 
     Allegro_Datafile *currDatafile;
     Battlemap *currBattlemapclass;
