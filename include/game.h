@@ -14,6 +14,18 @@
 
 class game
 {
+    private:
+
+    struct Savefile
+    {
+        int Round;
+        int Mode;
+
+        Hero::Hero_Status Status;
+        Hero::Hero_Position Position;
+
+    };
+
     public:
 
 
@@ -71,6 +83,8 @@ class game
         void execute_Command(Hero::Order &Command);
         void check_Line(std::vector<std::string> &Map, int start_x, int start_y, int end_x, int end_y);
         void draw_World_Fog();
+        void save_Game(std::string &Filename);
+        void load_Game(std::string &Filename);
 
         Allegro_Output *DDD_Output;
         Allegro_Input *DDD_Input;
@@ -97,6 +111,8 @@ class game
         bool running;
 
         int game_Mode;
+        int Round;
+
 
 }; // game
 

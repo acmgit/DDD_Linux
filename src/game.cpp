@@ -2,6 +2,7 @@
 #define GAME_CPP
 
 #include "game.h"
+#include <fstream>
 
 #ifdef DEBUG
 #include "Logfile.h"
@@ -101,6 +102,7 @@ game::game()
     running = false;
 
     game_Mode = Menu;
+    Round = 0;
 
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") Gameclass opened.")
@@ -177,6 +179,7 @@ void game::init()
 
     //DDD_Hero = get_Position(Hero_Pos);
 
+    Round = 0;
     #ifdef DEBUG
     Log("(" << ErrorLog.ALLOK << ") ---===< Game started. >===--- ")
     #endif // DEBUG
@@ -206,7 +209,7 @@ void game::run()
 
     while(running)
     {
-
+        ++Round;
         draw_Worldmap(DDD_Hero->get_Position());
 
         DDD_Hero->draw_Hero(DDD_Datafile->find_Index("[INI_Playfieldcolumns]").Number / 2,
@@ -671,6 +674,31 @@ void game::execute_Command(Hero::Order &Command)
             break;
 
         }
+
+        // case F10
+        case 56:
+        {
+            std::string Rounds = DDD_Translator->Print("[Savefile]");
+            DDD_Translator->Replace(Rounds, "%s", Round);
+            DDD_Output->write_OnConsole(DDD_Datafile->get_Color("silver"), DDD_Datafile->get_Color("transparent"), Rounds, true);
+            DDD_Output->write_OnConsole(DDD_Datafile->get_Color("silver"), DDD_Datafile->get_Color("transparent"), DDD_Translator->Print("[Saving]"), true);
+            Rounds = "data/DDD_Save_" + DDD_Hero->get_Name() + ".dat";
+            save_Game(Rounds);
+
+            break;
+
+        }
+
+        // case F9
+        case 55:
+        {
+            std::string Text = DDD_Translator->Print("[Loading]");
+            DDD_Output->write_OnConsole(DDD_Datafile->get_Color("silver"), DDD_Datafile->get_Color("transparent"), Text, true);
+            Text = "data/DDD_Save_" + DDD_Hero->get_Name() + ".dat";
+            load_Game(Text);
+            break;
+
+        }
         // no Key, only wait
         case 0:
         {
@@ -933,4 +961,57 @@ void game::check_Line(std::vector<std::string> &Map, int start_x, int start_y, i
 
 } // check_line
 
+void game::save_Game(std::string &Filename)
+{
+
+    Savefile Savedata;
+
+    Savedata.Mode = game_Mode;
+    Savedata.Round = Round;
+    Savedata.Position = DDD_Hero->get_Position();
+    Savedata.Status = DDD_Hero->get_Herostatus();
+    std::string Name = DDD_Hero->get_Name();
+
+    std::fstream Save(Filename.c_str(), std::ios::binary | std::ios::out | std::ios::trunc);
+
+    char Len = (char) sizeof(Name);
+
+    Save.write((char *) &Len, 1);
+    Save.write((char *) Name.c_str(), sizeof(Name));
+    Save.write((char *) &Savedata, sizeof(Savedata));
+
+    Save.close();
+
+} // save_Game
+
+void game::load_Game(std::string &Filename)
+{
+    Savefile Loaddata;
+
+    std::fstream Load(Filename.c_str(), std::ios::binary | std::ios::in);
+
+    char Len;
+
+    Load.read((char *) &Len, 1);
+
+    std::string Name;
+    char Char = ' ';
+
+    for(int i = 0; i < Len; ++i)
+    {
+        Load.read((char *) &Char, 1);
+        Name.push_back(Char);
+        Char = ' ';
+
+    }
+
+    Load.read((char *) &Loaddata, sizeof(Loaddata));
+    Load.close();
+
+    game_Mode = Loaddata.Mode;
+    DDD_Hero->set_Name(Name);
+    Round = Loaddata.Round;
+    DDD_Hero->set_Herostatus(Loaddata.Status, Loaddata.Position);
+
+}
 #endif // GAME_CPP

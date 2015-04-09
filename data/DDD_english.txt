@@ -124,6 +124,12 @@ You find
 [Nothing]
 nothing.
 
+[Savefile]
+You've played so far %s turns.
+
+[Saving]
+Saving File ...
+
 # --------- Special Charakters
 [Male]
 *

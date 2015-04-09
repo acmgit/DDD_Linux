@@ -1230,4 +1230,17 @@ bool Hero::get_Blocked(const int &Pos_x, const int &Pos_y)
 
 } // get_Blocked
 
+Hero::Hero_Status Hero::get_Herostatus()
+{
+    return Status;
+
+} // get_Herostatus
+
+void Hero::set_Herostatus(Hero_Status &HStatus, Hero_Position &HPosition)
+{
+    Status = HStatus;
+    current_Postion = HPosition;
+
+} // set_Herostatus
+
 #endif // HERO_CPP

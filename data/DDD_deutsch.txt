@@ -124,6 +124,12 @@ Du findest
 [Nothing]
 nichts.
 
+[Savefile]
+Du hast bis jetzt %s Züge gespielt.
+
+[Saving]
+Speichere Datei ...
+
 # --------- Spezielle Zeichen
 [Male]
 *

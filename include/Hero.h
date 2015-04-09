@@ -11,7 +11,8 @@
 
 class Hero
 {
-        private:
+
+        public:
 
         struct Hero_Status
         {
@@ -52,7 +53,6 @@ class Hero
 
         }; // Hero_Status
 
-    public:
         enum Stats
         {
             Hero_Live,
@@ -152,6 +152,9 @@ class Hero
     void set_Value(const int &Typ, const int &Value, const bool &change);
     void set_Status(const int &Typ, const bool &Value, const bool &change);
     void set_Position(const int &Pos_x, const int &Pos_y);
+
+    Hero_Status get_Herostatus();
+    void set_Herostatus(Hero_Status &HStatus, Hero_Position &HPosition);
 
     int get_Value(const int &Typ);
     bool get_Status(const int &Typ);
