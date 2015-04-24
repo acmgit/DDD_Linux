@@ -34,7 +34,7 @@ The Cursor-Keys for the Direction to go.
  s = Searching .... (Treasures)<br>
  e = Enter ... (Towns ..)<br>
 
-F9 = Loads a game (data/DDD_Save_....dat)
+F9 = Loads a game (data/DDD_Save_....dat)<br>
 F10 = Saves a game (data/DDD_Save_....dat)
 
 ## *Depends on:*

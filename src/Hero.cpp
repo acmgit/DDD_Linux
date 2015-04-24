@@ -843,6 +843,19 @@ void Hero::execute_Command(Order &Command)
 
         } // case F12
 
+        // F4
+        case 50:
+        {
+            if(Status.is_Cheating)
+            {
+                Status.is_Female = !Status.is_Female;
+
+            } // if is_Cheating
+
+            break;
+
+        } // case F4
+
         // F5
         case 51:
         {
@@ -1010,7 +1023,17 @@ void Hero::draw_Hero(int Pos_x, int Pos_y)
                     {
                         case Hero_use_no_Shield:
                         {
-                            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword]").Number;
+                            if(!get_Status(Hero_is_Female))
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword]").Number;
+
+                            }
+                            else
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword_female]").Number;
+
+                            } // if Hero_is_Female
+
                             break;
 
                         } // no Shield and healty
@@ -1018,7 +1041,17 @@ void Hero::draw_Hero(int Pos_x, int Pos_y)
                         case Hero_use_big_Shield:
                         case Hero_use_small_Shield:
                         {
-                            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield]").Number;
+                            if(!get_Status(Hero_is_Female))
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield]").Number;
+
+                            }
+                            else
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield_female]").Number;
+
+                            } // if Hero_is_Female
+
                             break;
 
                         } // with Shield and healty
@@ -1033,7 +1066,17 @@ void Hero::draw_Hero(int Pos_x, int Pos_y)
                     {
                         case Hero_use_no_Shield:
                         {
-                            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword_poisoned]").Number;
+                            if(!get_Status(Hero_is_Female))
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword_poisoned]").Number;
+
+                            }
+                            else
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Sword_poisoned_female]").Number;
+
+                            } // if Hero_is_Female
+
                             break;
 
                         } // no Shield and poisoned
@@ -1041,7 +1084,17 @@ void Hero::draw_Hero(int Pos_x, int Pos_y)
                         case Hero_use_big_Shield:
                         case Hero_use_small_Shield:
                         {
-                            Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield_poisoned]").Number;
+                            if(!get_Status(Hero_is_Female))
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield_poisoned]").Number;
+
+                            }
+                            else
+                            {
+                                Hero.Sheetpos_x = DDD_Data->find_Index("[HER_Shield_poisoned_female]").Number;
+
+                            } // if Hero_is_Female
+
                             break;
 
                         } // with Shield and poisoned

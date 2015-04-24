@@ -164,6 +164,14 @@
 224
 [HER_dead]
 256
+[HER_Sword_female]
+288
+[HER_Shield_female]
+320
+[HER_Sword_poisoned_female]
+352
+[HER_Shield_poisoned_female]
+384
 
 #Towntiles (TWN)
 [TWN_Secretcave]
